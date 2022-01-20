@@ -1,11 +1,5 @@
 -- Free Script
 repeat wait() until game:IsLoaded()
--- Config
-_G.Team = "Pirate"
-_G.AutoDarkDagger = false
-_G.SafeModeAutoFarm = true
---Config
-
 if _G.Team == "Pirate" then
 	for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
 		v.Function()
