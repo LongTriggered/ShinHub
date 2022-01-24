@@ -1,3 +1,78 @@
+spawn(function()
+wait(18000)
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport()
+end)
+
 -- Free Script
 repeat wait() until game:IsLoaded()
 if _G.Team == "Pirate" then
@@ -13,7 +88,11 @@ else
 		v.Function()
     end
 end
-
+-- Config
+_G.Team = "Pirates"
+_G.AutoDarkDagger = false
+_G.SafeModeAutoFarm = 
+--Config
 wait(1)
 game:GetService('ReplicatedStorage').Assets.GUI.DamageCounter.Enabled = false
 
@@ -5392,6 +5471,9 @@ spawn(function()
 							if v.Name == Ms and v:FindFirstChild("Humanoid") then
 								if v.Humanoid.Health > 0 then
 									repeat game:GetService("RunService").Heartbeat:wait()
+									    if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character then
+									        if game:GetService("Players").LocalPlayer.Character.Humanoid and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
+									            if game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 then
 										if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
 											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
 												EquipWeapon(SelectToolWeapon)
@@ -5403,26 +5485,6 @@ spawn(function()
 												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 												PosMon = v.HumanoidRootPart.CFrame
 												MagnetActive = true
-												game:GetService("VirtualInputManager"):SendKeyEvent(true,"W",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(false,"W",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,"Space",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(false,"Space",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,"A",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(false,"A",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,"S",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(false,"S",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,"D",false,game)
-wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(false,"D",false,game)
-
 											else
 												MagnetActive = false    
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
@@ -5432,9 +5494,12 @@ game:GetService("VirtualInputManager"):SendKeyEvent(false,"D",false,game)
 											CheckLevel()
 											TP(CFrameMon)
 										end
+									            end
+									        end
+								end
 									until not v.Parent or v.Humanoid.Health <= 0 or Auto_Farm == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
 								end
-							end
+									    end
 						end
 					else
 						MagnetActive = false
