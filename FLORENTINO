@@ -600,25 +600,6 @@ function DiscordLib:Window(text,mainclr,cls)
 		ChannelTitleFrameCorner.Name = "ChannelTitleFrameCorner"
 		ChannelTitleFrameCorner.Parent = ChannelTitleFrame
 
-		TimeGlobal.Name = "TimeGlobal"
-		TimeGlobal.Parent = ChannelTitleFrame
-		TimeGlobal.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		TimeGlobal.Position = UDim2.new(0.7062470865, 0, 0, 0)
-		TimeGlobal.Size = UDim2.new(0, 95, 0, 39)
-		TimeGlobal.BackgroundTransparency = 1
-		TimeGlobal.ZIndex = 3
-		TimeGlobal.Font = Enum.Font.GothamSemibold
-		TimeGlobal.Text = "TIME | N/A"
-		TimeGlobal.TextColor3 = PresetColor
-		TimeGlobal.TextSize = 15.000
-		TimeGlobal.TextXAlignment = Enum.TextXAlignment.Left
-
-		spawn(function()
-			while wait() do
-				TimeGlobal.Text = "TIME | "..os.date("%H")..":"..os.date("%M")..":"..os.date("%S")
-			end
-		end)
-
 		ChannelTitle.Name = "ChannelTitle"
 		ChannelTitle.Parent = ChannelTitleFrame
 		ChannelTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2282,23 +2263,7 @@ for i,v in pairs(game.workspace.Enemies:GetChildren()) do
 	end
 end
 
-spawn(function()
-    pcall(function()
-        while wait() do
-			if _G.LightMode then
-				if not game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:FindFirstChild("PointLight") then
-					local a = Instance.new("PointLight")
-					a.Parent = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-					a.Range = 16
-					a.Color = Color3.fromRGB(255, 167, 31)
-				end
-			end
-        end
-    end)
-end)
-
 function BeautifulMode()
-	_G.LightMode = true
 	if game:GetService("Lighting"):FindFirstChild("BloomEffect") then
 		game:GetService("Lighting"):FindFirstChild("BloomEffect"):Destroy()
 	end
@@ -2398,20 +2363,6 @@ spawn(function()
     end
 end)
 
-Client = AutoFarm:Label("Client")
-
-function UpdateClient()
-    local Ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-    local Fps = workspace:GetRealPhysicsFPS()
-    Client:Refresh("Fps : "..Fps.." Ping : "..Ping)
-end
-
-spawn(function()
-    while true do wait(.1)
-        UpdateClient()
-    end
-end)
-
 AutoFarm:Line()
 
 Old_World = false
@@ -2473,7 +2424,7 @@ if Three_World then
 		while true do
 			local TotalElite = tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter","Progress"))
 			CheckElite:Refresh("Total EliteHunter Progress : "..TotalElite)
-			game:GetService("RunService").Heartbeat:wait()
+			wait(10)
 		end
 	end)
 
@@ -2995,7 +2946,7 @@ end)
 local ObservationLevel = AutoFarm:Label("")
 
 spawn(function()
-	while game:GetService("RunService").Heartbeat:wait() do
+	while wait(10) do
 		if game.Players.LocalPlayer.VisionRadius.Value == 3000 then
 			Value = "Max"
 		else
@@ -4311,13 +4262,12 @@ Setting:Toggle("Press Home Button Stop Tween", true, function(vu)
 	PressHomeStopTween = vu
 end)
 
-if _G.SafeModeAutoFarm == true then
-    wait(10)
-    Teleport()
-end
-
 Setting:Toggle("Safe Mode Auto Farm", false, function(vu)
     _G.SafeModeAutoFarm = vu
+end)
+
+Setting:Toggle("Fast Attack (Lag)", true ,function(vu)
+    _G.FastAttack = vu
 end)
 
 Setting:Toggle("Auto Haki", true, function(vu)
@@ -4639,14 +4589,6 @@ end
 Misc:Button("Beautiful Mode", function()
 	BeautifulMode()
 end)
-
-Misc:Toggle("Body Light", false, function(vu)
-	_G.LightMode = vu
-end)
-
-if _G.BeautifulMode then
-	BeautifulMode()
-end
 
 Fly = false  
 function activatefly()
