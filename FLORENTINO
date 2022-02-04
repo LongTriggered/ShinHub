@@ -1,79 +1,9 @@
-spawn(function()
-wait(18000)
-local PlaceID = game.PlaceId
-local AllIDs = {}
-local foundAnything = ""
-local actualHour = os.date("!*t").hour
-local Deleted = false
-local File = pcall(function()
-    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
-end)
-if not File then
-    table.insert(AllIDs, actualHour)
-    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-end
-function TPReturner()
-    local Site;
-    if foundAnything == "" then
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-    else
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-    end
-    local ID = ""
-    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-        foundAnything = Site.nextPageCursor
-    end
-    local num = 0;
-    for i,v in pairs(Site.data) do
-        local Possible = true
-        ID = tostring(v.id)
-        if tonumber(v.maxPlayers) > tonumber(v.playing) then
-            for _,Existing in pairs(AllIDs) do
-                if num ~= 0 then
-                    if ID == tostring(Existing) then
-                        Possible = false
-                    end
-                else
-                    if tonumber(actualHour) ~= tonumber(Existing) then
-                        local delFile = pcall(function()
-                            delfile("NotSameServers.json")
-                            AllIDs = {}
-                            table.insert(AllIDs, actualHour)
-                        end)
-                    end
-                end
-                num = num + 1
-            end
-            if Possible == true then
-                table.insert(AllIDs, ID)
-                wait()
-                pcall(function()
-                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                    wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-                end)
-                wait(4)
-            end
-        end
-    end
-end
+-- Config
+_G.Team = "Pirates"
+_G.AutoDarkDagger = false
+_G.SafeModeAutoFarm = false
+--Config
 
-function Teleport()
-    while wait() do
-        pcall(function()
-            TPReturner()
-            if foundAnything ~= "" then
-                TPReturner()
-            end
-        end)
-    end
-end
-
--- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport()
-end)
-
--- Free Script
 repeat wait() until game:IsLoaded()
 if _G.Team == "Pirate" then
 	for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
@@ -84,15 +14,11 @@ elseif _G.Team == "Marine" then
 		v.Function()
 	end
 else
-    for i,v in pairs(getconnect.ions(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
+    for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
 		v.Function()
     end
 end
--- Config
-_G.Team = "Pirates"
-_G.AutoDarkDagger = false
-_G.SafeModeAutoFarm = 
---Config
+
 wait(1)
 game:GetService('ReplicatedStorage').Assets.GUI.DamageCounter.Enabled = false
 
@@ -3117,7 +3043,7 @@ local StatGun = Stats:Label("")
 local StatFruit = Stats:Label("")
 
 spawn(function()
-	while game:GetService("RunService").Heartbeat:wait() do
+	while wait(5) do
 		Level:Refresh("Point : "..tostring(game:GetService("Players").LocalPlayer.Data.Points.Value))
 		Point:Refresh("Level : "..tostring(game:GetService("Players").LocalPlayer.Data.Level.Value))
 		StatMelee:Refresh("Melee : "..tostring(game:GetService("Players").LocalPlayer.Data.Stats.Melee.Level.Value))
@@ -3984,6 +3910,7 @@ Devil:Dropdown("AutoBuy DevilFruit",
 	"Shadow-Shadow",
 	"Venom-Venom",
     "Control-Control",
+    "Soul-Soul",
     "Dragon-Dragon"
     }
     ,function(ply)
@@ -4111,6 +4038,9 @@ spawn(function()
 				if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Control Fruit") or game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Control Fruit") then
 					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit","Control-Control")
                 end
+				if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Soul Fruit") or game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Soul Fruit") then
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit","Soul-Soul")
+				end
 				if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Dragon Fruit") or game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Dragon Fruit") then
 					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit","Dragon-Dragon")
 				end
@@ -4189,7 +4119,7 @@ Devil:Toggle("Auto Buy Random Devil Fruit", false, function(v)
 end)
 
 spawn(function()
-    while wait(.1) do
+    while wait() do
         if DevilAutoBuy then
             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
         end
@@ -4213,7 +4143,7 @@ BuyItem:Button("Ken Haki", function()
 end)
 
 BuyItem:Toggle("Auto Buy Abilities", false, function(t)
-    Abilities = t
+      Abilities = t
     while Abilities do wait(.1)
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Geppo")
 		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Buso")
@@ -4396,8 +4326,8 @@ end)
 
 Setting:Label("Auto Farm Setting")
 
-Y = 60
-Setting:Slider("Distance [Max 30]", 0,60,Y, function(vu)
+Y = 25
+Setting:Slider("Distance [Max 30]", 0,30,Y, function(vu)
 	Y = vu
 end)
 
@@ -4496,7 +4426,7 @@ Misc:Button("Hop Lower Server", function()
 end)
 
 Misc:Button("Server Hop", function()
-	DiscordLib:Notification("Hop Server", "Wait For Teleport", "Ok")
+	DiscordLib:Notification("Hop Server", "Wait For Teleport")
 	Teleport()
 end)
 
@@ -4677,8 +4607,7 @@ end)
 
 game:GetService("RunService").Heartbeat:Connect(function()
     if AutoClick then
-        game:GetService'VirtualUser':Button1Down(Vector2.new(0.9,0.9))
-        game:GetService'VirtualUser':Button1Up(Vector2.new(0.9,0.9))
+        Click()
     end
 end)
 
@@ -5446,9 +5375,8 @@ end)
 spawn(function()
 	while wait() do
 		if Auto_Farm then
-		    wait(0.3)
+		    wait()
 		    pcall(function()
-		    if game.Players.LocalPlayer.Character:FindFirstChild('Humanoid').Health > 0 then
 			if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
 				MagnetActive = false
 				CheckLevel()
@@ -5469,21 +5397,15 @@ spawn(function()
 					if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 							if v.Name == Ms and v:FindFirstChild("Humanoid") then
-								if v.Humanoid.Health > 0 then
 									repeat game:GetService("RunService").Heartbeat:wait()
-									    if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character then
-									        if game:GetService("Players").LocalPlayer.Character.Humanoid and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
-									            if game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 then
 										if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
 											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
 												EquipWeapon(SelectToolWeapon)
+												Click()
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 												v.HumanoidRootPart.CanCollide = false
 												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-												v.Humanoid.WalkSpeed = 1
-												require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
-												game:GetService("VirtualUser"):CaptureController()
-												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+												v.Humanoid.WalkSpeed = 0
 												PosMon = v.HumanoidRootPart.CFrame
 												MagnetActive = true
 											else
@@ -5494,31 +5416,31 @@ spawn(function()
 											MagnetActive = false
 											CheckLevel()
 											TP(CFrameMon)
-										end
-									            end
-									        end
-								end
+									    end   
 									until not v.Parent or v.Humanoid.Health <= 0 or Auto_Farm == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
-								end
-									    end
-						end
-					else
+				else
 						MagnetActive = false
 						CheckLevel()
 						TP(CFrameMon)
+							end
+						end
 					end
 				end)
 			end
-			 else repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild('Humanoid')
-		end
-		    end)
+		end)
+		    end
 end
-	end
 end)
 
 function Click()
-    game:GetService'VirtualUser':CaptureController()
-    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character then
+									        if game:GetService("Players").LocalPlayer.Character.Humanoid and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
+									            if game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 then
+                                                game:GetService("VirtualUser"):CaptureController()
+												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+end
+end
+end
 end
 
 if SelectToolWeapon then
@@ -7152,12 +7074,12 @@ spawn(function()
                 local air = Instance.new('Part')
    local air = Instance.new('Part')
    air.Parent = workspace
-        air.Size = Vector3.new(30,-0.5,30)
+        air.Size = Vector3.new(30,1,30)
         air.Transparency = 1
         air.Anchored = true
         air.Name = "Airwalk"
             elseif game:GetService("Workspace"):FindFirstChild("Airwalk") then
-                game.Workspace["Airwalk"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3.6, 0)
+                game.Workspace["Airwalk"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -4.6, 0)
             end
         else
             if game:GetService("Workspace"):FindFirstChild("Airwalk") then
@@ -7346,26 +7268,26 @@ spawn(function()
 	while wait(.1) do
 		if _G.AutoStat then
 			for i,v in pairs(_G.AutoStat) do
-				if v == "Melee" and game.Players.LocalPlayer.Data.Stats.Melee.Level.Value ~= 2100 then
+				if v == "Melee" and game.Players.LocalPlayer.Data.Stats.Melee.Level.Value ~= 2200 then
 					repeat game:GetService("RunService").Heartbeat:wait()
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", "Melee", 1)
-					until game.Players.LocalPlayer.Data.Stats.Melee.Level.Value == 2100
-				elseif v == "Defense" and game.Players.LocalPlayer.Data.Stats.Defense.Level.Value ~= 2100 then
+					until game.Players.LocalPlayer.Data.Stats.Melee.Level.Value == 2200
+				elseif v == "Defense" and game.Players.LocalPlayer.Data.Stats.Defense.Level.Value ~= 2200 then
 					repeat game:GetService("RunService").Heartbeat:wait()
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", "Defense", 1)
-					until game.Players.LocalPlayer.Data.Stats.Defense.Level.Value == 2100
-				elseif v == "Sword" and game.Players.LocalPlayer.Data.Stats.Sword.Level.Value ~= 2100 then
+					until game.Players.LocalPlayer.Data.Stats.Defense.Level.Value == 2200
+				elseif v == "Sword" and game.Players.LocalPlayer.Data.Stats.Sword.Level.Value ~= 2200 then
 					repeat game:GetService("RunService").Heartbeat:wait()
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", "Sword", 1)
-					until game.Players.LocalPlayer.Data.Stats.Sword.Level.Value == 2100
-				elseif v == "Gun" and game.Players.LocalPlayer.Data.Stats.Gun.Level.Value ~= 2100 then
+					until game.Players.LocalPlayer.Data.Stats.Sword.Level.Value == 2200
+				elseif v == "Gun" and game.Players.LocalPlayer.Data.Stats.Gun.Level.Value ~= 2200 then
 					repeat game:GetService("RunService").Heartbeat:wait()
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", "Gun", 1)
-					until game.Players.LocalPlayer.Data.Stats.Gun.Level.Value == 2100
-				elseif v == "DevilFruit" and game.Players.LocalPlayer.Data.Stats["Demon Fruit"].Level.Value ~= 2100 then
+					until game.Players.LocalPlayer.Data.Stats.Gun.Level.Value == 2200
+				elseif v == "DevilFruit" and game.Players.LocalPlayer.Data.Stats["Demon Fruit"].Level.Value ~= 2200 then
 					repeat game:GetService("RunService").Heartbeat:wait()
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", "Demon Fruit", 1)
-					until game.Players.LocalPlayer.Data.Stats.Gun.Level.Value == 2100
+					until game.Players.LocalPlayer.Data.Stats.Gun.Level.Value == 2200
 				end
 			end
 		end
