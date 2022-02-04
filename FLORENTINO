@@ -3057,6 +3057,7 @@ end)
 local Tp = serv:Channel("Teleport","http://www.roblox.com/asset/?id=7044226690")
 
 function TP(P1)
+    if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
     if Distance < 250 then
         Speed = 600
@@ -3073,8 +3074,10 @@ function TP(P1)
         {CFrame = P1}
     ):Play()
 end
+end
 
 function TP2(P1)
+    if Safe() then
 	Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 	if Distance < 1000 then
 		Speed = 400
@@ -3089,6 +3092,7 @@ function TP2(P1)
     Clip = true
     wait(Distance/Speed)
     Clip = false
+end
 end
 
 Tp:Toggle("Ctrl + Click to TP", false, function(vu)
@@ -5400,6 +5404,7 @@ spawn(function()
 									repeat game:GetService("RunService").Heartbeat:wait()
 										if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
 											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+											    if Safe() then
 												EquipWeapon(SelectToolWeapon)
 												Click()
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
@@ -5408,6 +5413,7 @@ spawn(function()
 												v.Humanoid.WalkSpeed = 0
 												PosMon = v.HumanoidRootPart.CFrame
 												MagnetActive = true
+												end
 											else
 												MagnetActive = false    
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
@@ -5416,7 +5422,7 @@ spawn(function()
 											MagnetActive = false
 											CheckLevel()
 											TP(CFrameMon)
-									    end   
+											end   
 									until not v.Parent or v.Humanoid.Health <= 0 or Auto_Farm == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
 				else
 						MagnetActive = false
@@ -5432,15 +5438,19 @@ spawn(function()
 end
 end)
 
-function Click()
+function Safe()
     if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character then
 									        if game:GetService("Players").LocalPlayer.Character.Humanoid and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
 									            if game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 then
+									                return true
+									            end
+									        end
+                                       end
+    return false
+						                end
+function Click()
                                                 game:GetService("VirtualUser"):CaptureController()
 												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-end
-end
-end
 end
 
 if SelectToolWeapon then
