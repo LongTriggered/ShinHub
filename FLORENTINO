@@ -2367,11 +2367,8 @@ function UpdateTime()
     Time:Refresh("Hour : "..Hour.." Minute : "..Minute.." Second : "..Second)
 end
 
-spawn(function()
-    while true do
+AutoFarm:Button("Update Server Time", function()
         UpdateTime()
-        wait()
-    end
 end)
 
 AutoFarm:Line()
@@ -3274,17 +3271,56 @@ elseif Three_World then
 		TP2(CFrame.new(5541.2685546875, 668.30456542969, 195.48069763184))
 	end)
 	
+	Tp:Button("Hydra Island (Insta TP)", function()
+	game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("GetUnlockables")
+wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(5745.310546875, 610.44982910156, -265.98986816406)
+local A_1 = "requestEntrance"
+local A_2 = Vector3.new(5745.310546875, 610.44982910156, -265.98986816406)
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2)
+	end)
+	
 	Tp:Button("Great Tree", function()
 		TP2(CFrame.new(2276.0859375, 25.87850189209, -6493.03125))
 	end)
 	
 	Tp:Button("Mansion", function()
-		TP2(CFrame.new(-12548.998046875, 332.40396118164, -7603.1865234375))
+	 --	TP2(CFrame.new(-12548.998046875, 332.40396118164, -7603.1865234375))
+	-- game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Map.Turtle.TradeTable.P1.CFrame
+    -- wait(.01)
+    -- game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Running)
+    -- wait(0.1)
+     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-12551.534179688, 337.1940612793, -7554.548828125)
 	end)
 
 	Tp:Button("Castle on the Sea", function()
-		TP2(CFrame.new(-5498.0458984375, 313.79473876953, -2860.6022949219))
+	 	TP2(CFrame.new(-5498.0458984375, 313.79473876953, -2860.6022949219))
 	end)
+	
+ 	Tp:Button("Castle on the Sea (Insta TP)", function()
+	 game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("GetUnlockables")
+wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-5075.544921875, 314.5412902832, -3149.4169921875)
+local A_1 = "requestEntrance"
+local A_2 = Vector3.new(-5075.544921875, 314.5412902832, -3149.4169921875)
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2)
+	end)
+	
+	Tp:Button("Beautiful Pirate Domain", function()
+      TP2(CFrame.new(-5312.391, 22.562, -103.4664))
+	end)
+  
+     Tp:Button("Beautiful Pirate Domain (Insta TP)", function()
+game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("GetUnlockables")
+wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(5314.58203125, 25.419387817383, -125.94227600098)
+local A_1 = "requestEntrance"
+local A_2 = Vector3.new(5314.58203125, 25.419387817383, -125.94227600098)
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2)
+end)
 
     Tp:Button("Haunted Castle", function()
         TP2(CFrame.new(-9515.07324, 142.130615, 5537.58398))
@@ -6939,6 +6975,13 @@ function CheckBossQuest()
 		elseif SelectBoss == "rip_indra True Form [Lv. 5000] [Raid Boss]" then
 			BossMon = "rip_indra True Form [Lv. 5000] [Raid Boss]"
 			CFrameBoss = CFrame.new(-5415.3920898438, 505.74133300781, -2814.0166015625)
+		elseif SelectBoss == "Cake Queen [Lv. 2175] [Boss]" then
+		    BossMon = "Cake Queen [Lv. 2175] [Boss]"
+		    NameQuestBoss = "IceCreamIslandQuest"
+            QuestLvBoss = 3
+            RewardBoss = "Reward:\n$30,000\n91,000,000 Exp."
+            CFrameQBoss = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938  )
+            CFrameBoss = CFrame.new(-610.87945556641, 179.32225036621, -11146.975585938)
 		end
 	end
 end
