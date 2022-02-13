@@ -7677,18 +7677,6 @@ spawn(function()
 			for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 				if Auto_Farm and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-						if v.Name == "Factory Staff [Lv. 800]" then
-							if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 250 then
-								v.Head.CanCollide = false
-								v.HumanoidRootPart.CanCollide = false
-								v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-								v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-								v.HumanoidRootPart.CFrame = PosMon
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-							end
-						end
-						elseif v.Name == Ms then
 							if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 400 then
 								v.Head.CanCollide = false
 								v.HumanoidRootPart.CanCollide = false
@@ -7698,7 +7686,6 @@ spawn(function()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
-						end
 				elseif FarmMasteryFruit and MasteryBFMagnetActive and MasteryMagnet then
 					if v.Name == "Monkey [Lv. 14]" then
 						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 250 then
@@ -7846,11 +7833,12 @@ spawn(function()
 						v.HumanoidRootPart.CFrame = PosMon
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
+            end
 				end
 				end
-	end
-		end)
-	end
+				        end
+  end)
+	  end
 end)
 
 warn("Anti AFK : Work")
