@@ -2263,6 +2263,17 @@ for i,v in pairs(game.workspace.Enemies:GetChildren()) do
 	end
 end
 
+local FruitTable = {}
+
+local args = {[1] = "GetFruits"}
+for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))) do
+   for i2,v2 in pairs(v) do
+      if i2 == "Name" then
+         table.insert(FruitTable, v2)
+      end
+   end
+end
+
 function BeautifulMode()
 	if game:GetService("Lighting"):FindFirstChild("BloomEffect") then
 		game:GetService("Lighting"):FindFirstChild("BloomEffect"):Destroy()
@@ -3848,43 +3859,7 @@ local Devil = serv:Channel("DevilFruit","http://www.roblox.com/asset/?id=7044284
 
 SelectDevil = ""
 CheckF = false
-Devil:Dropdown("AutoBuy DevilFruit",
-{
-    "Bomb-Bomb",
-    "Spike-Spike",
-    "Chop-Chop",
-    "Spring-Spring",
-	"Kilo-Kilo",
-	"Spin-Spin",
-	"Bird: Falcon",
-    "Smoke-Smoke",
-    "Flame-Flame",
-    "Ice-Ice",
-    "Sand-Sand",
-    "Dark-Dark",
-	"Revive-Revive",
-	"Diamond-Diamond",
-    "Light-Light",
-	"Love-Love",
-    "Rubber-Rubber",
-    "Barrier-Barrier",
-    "Magma-Magma",
-	"Door-Door",
-    "Quake-Quake",
-    "Human-Human: Buddha",
-    "String-String",
-    "Bird-Bird: Phoenix",
-    "Rumble-Rumble",
-    "Paw-Paw",
-    "Gravity-Gravity",
-    "Dough-Dough",
-	"Shadow-Shadow",
-	"Venom-Venom",
-    "Control-Control",
-    "Soul-Soul",
-    "Dragon-Dragon"
-    }
-    ,function(ply)
+Devil:Dropdown("AutoBuy DevilFruit",FruitTable,function(ply)
         SelectDevil = ply
 end)
 Devil:Toggle("Buy Devil Fruit Sinper",false,function(vu)
