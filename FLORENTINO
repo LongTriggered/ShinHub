@@ -3437,12 +3437,20 @@ end)
 
 Raid:Toggle("Auto Next Island", false, function(vu)
     NextIsland = vu
+    if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+		end
 end)
 
 Raid:Line()
 
 Raid:Toggle("Auto Raid", false, function(vu)
     _G.AutoRaid = vu
+    if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+		end
 end)
 
 Raid:Dropdown("Select Raid", {"Flame","Ice","Quake","Light","Dark","String","Rumble","Magma","Human: Buddha"}, function(vu)
@@ -5709,7 +5717,7 @@ spawn(function()
         if AutoCandy then
             pcall(function()
                 if Safe() then
-                    if game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Commander [Lv. 2150]") or not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Chef [Lv. 2125]") then
+                    if game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Commander [Lv. 2150]") or game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Chef [Lv. 2125]") then
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Ice Cream Commander [Lv. 2150]" or v.Name == "Ice Cream Chef [Lv. 2125]" and v:WaitForChild("Humanoid").Health > 0  then
 								repeat game:GetService("RunService").Heartbeat:wait()
@@ -5721,16 +5729,14 @@ spawn(function()
 								    v.HumanoidRootPart.Transparency = 1
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-									PosMon = v.HumanoidRootPart.CFrame
 									CandyMagnet = true
-									Magnet = true
+									PosMon = v.HumanoidRootPart.CFrame
                         until AutoCandy == false or not v.Parent or v.Humanoid.Health <= 0
 							end
 						end
 					end
-				else
+				elseif not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Commander [Lv. 2150]") and not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Chef [Lv. 2125]") then
 					CandyMagnet = false
-					Magnet = false
 					TP(CFrame.new(-744.608,126.896,-11033.109))
 				end
 			    end)
@@ -7677,7 +7683,7 @@ spawn(function()
 			for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 				if Auto_Farm and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-							if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 400 then
+							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
 								v.Head.CanCollide = false
 								v.HumanoidRootPart.CanCollide = false
 								v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7686,9 +7692,9 @@ spawn(function()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
+							end
 				elseif FarmMasteryFruit and MasteryBFMagnetActive and MasteryMagnet then
-					if v.Name == "Monkey [Lv. 14]" then
-						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 250 then
+						if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
 							v.Head.CanCollide = false
 							v.HumanoidRootPart.CanCollide = false
 							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7698,7 +7704,7 @@ spawn(function()
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
 					elseif v.Name == "Factory Staff [Lv. 800]" then
-						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 250 then
+						if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
 							v.Head.CanCollide = false
 							v.HumanoidRootPart.CanCollide = false
 							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7707,30 +7713,8 @@ spawn(function()
 							v.HumanoidRootPart.CFrame = PosMon
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
-					elseif v.Name == Ms then
-						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 400 then
-							v.Head.CanCollide = false
-							v.HumanoidRootPart.CanCollide = false
-							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-							v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-							v.HumanoidRootPart.CFrame = PosMon
-							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-						end
-					end
 				elseif FarmMasteryGun and MasteryGunMagnetActive and MasteryMagnet then
-					if v.Name == "Monkey [Lv. 14]" then
-						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 250 then
-							v.Head.CanCollide = false
-							v.HumanoidRootPart.CanCollide = false
-							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-							v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-							v.HumanoidRootPart.CFrame = PosMonMasteryGun
-							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-						end
-					elseif v.Name == "Factory Staff [Lv. 800]" then
-						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 250 then
+						if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
 							v.Head.CanCollide = false
 							v.HumanoidRootPart.CanCollide = false
 							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7739,17 +7723,6 @@ spawn(function()
 							v.HumanoidRootPart.CFrame = PosMon
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
-					elseif v.Name == Ms then
-						if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 400 then
-							v.Head.CanCollide = false
-							v.HumanoidRootPart.CanCollide = false
-							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-							v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-							v.HumanoidRootPart.CFrame = PosMon
-							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-						end
-					end
 				elseif AutoBartilo and MagnetBatilo and Magnet then
 					if v.Name == "Swan Pirate [Lv. 775]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 						v.Head.CanCollide = false
@@ -7761,7 +7734,7 @@ spawn(function()
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoRengoku and RengokuMagnet and Magnet then
-					if (v.Name == "Snow Lurker [Lv. 1375]" or v.Name == "Arctic Warrior [Lv. 1350]") and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 then
+					if (v.Name == "Snow Lurker [Lv. 1375]" or v.Name == "Arctic Warrior [Lv. 1350]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 350 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7771,19 +7744,17 @@ spawn(function()
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoCandy and CandyMagnet and Magnet then
-				    if (v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]") and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 400 then
+				    if (v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
 								v.Head.CanCollide = false
 								v.HumanoidRootPart.CanCollide = false
 								v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 								v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
 								v.HumanoidRootPart.CFrame = PosMon
-								v.Humanoid.WalkSpeed = 0
-								v.HumanoidRootPart.Transparency = 1
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-						end
+				        end
 				elseif Auto_Bone and BoneMagnet and Magnet then
-					if (v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]") and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 300 then
+					if (v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7794,7 +7765,7 @@ spawn(function()
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoEcto and EctoplasMagnet and Magnet then
-					if string.find(v.Name, "Ship") and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 300 then
+					if string.find(v.Name, "Ship") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7804,7 +7775,7 @@ spawn(function()
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoEvoRace and EvoMagnet and Magnet then
-					if v.Name == "Zombie [Lv. 950]" and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 300 then
+					if v.Name == "Zombie [Lv. 950]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7814,7 +7785,7 @@ spawn(function()
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoCitizen and CitizenMagnet and Magnet then
-					if v.Name == "Forest Pirate [Lv. 1825]" and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 300 then
+					if v.Name == "Forest Pirate [Lv. 1825]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7824,7 +7795,7 @@ spawn(function()
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoFarmSelectMonster and AutoFarmSelectMonsterMagnet and Magnet then
-					if v.Name == Ms and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 400 then
+					if v.Name == Ms and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7836,7 +7807,6 @@ spawn(function()
             end
 				end
 				end
-				        end
   end)
 	  end
 end)
