@@ -7219,21 +7219,7 @@ spawn(function()
    while wait() do
         if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or Clip or HolyTorch or AutoFarmSelectMonster or AutoLowRaid or AutoCandy then
             pcall(function()
-                if Safe() then
-            if not game:GetService("Workspace"):FindFirstChild("Airwalk") then
-                local air = Instance.new('Part')
-   local air = Instance.new('Part')
-   air.Parent = workspace
-        air.Size = Vector3.new(30,2,30)
-        air.Transparency = 1
-        air.Anchored = true
-        air.Name = "Airwalk"
-            elseif game:GetService("Workspace"):FindFirstChild("Airwalk") then
-                game.Workspace["Airwalk"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -4, 0)
-            end
-        elseif game:GetService("Workspace"):FindFirstChild("Airwalk") then
-                game:GetService("Workspace"):FindFirstChild("Airwalk"):Destroy()
-            end
+           game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X,1.3,game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)
             end)
     end
         end
