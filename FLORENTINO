@@ -5355,10 +5355,10 @@ spawn(function()
 				MagnetActive = false
 				CheckLevel()
 				TP(CFrameQ)
-				if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
-					wait(0.5)
+				if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
+					wait(0.7)
 					CheckLevel()
-					if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
+					if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
 					else
@@ -5367,7 +5367,7 @@ spawn(function()
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 				pcall(function()
-				    if Safe() then
+				    
 					CheckLevel()
 					if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
@@ -5407,7 +5407,7 @@ spawn(function()
 							            end
 						            end
 				end
-					end
+					
 				end)
 			end
 		end
@@ -5599,7 +5599,7 @@ spawn(function()
                 else
 					TP2(CFrame.new(-456.28952, 73.0200958, 299.895966))
 					if (Vector3.new(-456.28952, 73.0200958, 299.895966) - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 30 then
-						wait(1.1)
+						wait(0.7)
                     	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","BartiloQuest",1)
 					end
                 end
@@ -5899,7 +5899,7 @@ spawn(function()
 				if not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible then
 					CheckLevel()
 					if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
-						wait(1.1)
+						wait(0.7)
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
 					else
 						TP(CFrameQ)
@@ -6415,7 +6415,7 @@ spawn(function()
 				CheckLevel()
 				TP(CFrameQ)
 				if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 30 then
-					wait(1.1)
+					wait(0.7)
 					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
@@ -6476,7 +6476,7 @@ spawn(function()
 				CheckLevel()
 				TP(CFrameQ)
 				if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 30 then
-					wait(1.1)
+					wait(0.7)
 					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
@@ -7023,7 +7023,7 @@ spawn(function()
 						if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
 							TP(CFrameQBoss)
 							if (CFrameQBoss.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
-								wait(1.1)
+								wait(0.7)
 								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuestBoss, QuestLvBoss)
 							end
 						elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
