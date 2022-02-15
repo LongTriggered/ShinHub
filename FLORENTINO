@@ -5378,9 +5378,10 @@ spawn(function()
 												EquipWeapon(SelectToolWeapon)
 												Click()
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-												v.HumanoidRootPart.CanCollide = false
-												v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-												v.Humanoid.WalkSpeed = 0
+												v.Head.CanCollide = false
+							                 	v.HumanoidRootPart.CanCollide = false
+							                  	v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+								                v.Humanoid.WalkSpeed = 0
 								                v.HumanoidRootPart.Transparency = 1
 												PosMon = v.HumanoidRootPart.CFrame
 												MagnetActive = true
@@ -7695,11 +7696,7 @@ spawn(function()
 				if Auto_Farm and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
-								v.Head.CanCollide = false
-								v.HumanoidRootPart.CanCollide = false
-								v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-								v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+								
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
