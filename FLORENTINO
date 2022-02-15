@@ -3500,7 +3500,7 @@ Raid:Toggle("Auto Raid", false, function(vu)
 		end
 end)
 
-Raid:Dropdown("Select Raid", {"Flame","Ice","Quake","Light","Dark","String","Rumble","Magma","Human: Buddha"}, function(vu)
+Raid:Dropdown("Select Raid", {"Flame","Ice","Quake","Light","Dark","String","Rumble","Magma","Human: Buddha","Sand"}, function(vu)
     _G.SelectRaid = vu
 end)
 
