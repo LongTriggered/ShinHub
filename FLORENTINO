@@ -5400,7 +5400,8 @@ spawn(function()
 						TP(CFrameMon)
 							end
 						end
-						elseif not game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
+					elseif not game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
+					    TP(CFrameMon)
 					    for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
 							        if v.Name == Ms then
 							            v.Parent = game:GetService("Workspace").Enemies
