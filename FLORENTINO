@@ -2429,6 +2429,7 @@ if New_World then
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
     end)
 end
@@ -2683,18 +2684,6 @@ elseif Three_World then
 	tableMon = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]"}
 end
 
-AutoFarm:Dropdown("Select Monster", tableMon, function(vu)
-	SelectMonster = vu
-end)
-
-AutoFarm:Toggle("Auto Farm Select Monster", false, function(vu)
-	AutoFarmSelectMonster = vu
-	if vu == false then
-		wait(1)
-		TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-	end
-end)
-
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventoryWeapons")
 
 if New_World then
@@ -2826,15 +2815,17 @@ if Three_World then
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
     end)
 
     AutoFarm:Toggle("Auto Farm Candy", false, function(vu)
 	    AutoCandy = vu 
 	    if vu == false then
-	        wait(1)
-	        TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-	        end
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
     end)
     
     local SelectWeaponEvent = AutoFarm:Dropdown("Select Weapon",Wapon,function(value)
@@ -5310,13 +5301,8 @@ spawn(function()
 												EquipWeapon(SelectToolWeapon)
 												Click()
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-												v.Head.CanCollide = false
-							                 	v.HumanoidRootPart.CanCollide = false
-							                  	v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-								                v.Humanoid.WalkSpeed = 0
-								                v.HumanoidRootPart.Transparency = 1
 												PosMon = v.HumanoidRootPart.CFrame
-												require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 60
+												require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 150
 												MagnetActive = true
 											else
 												MagnetActive = false    
@@ -5340,7 +5326,6 @@ spawn(function()
 							            end
 						            end
 				end
-					
 				end)
 			end
 		end
@@ -5662,23 +5647,19 @@ spawn(function()
                 if Safe() then
                     if game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Commander [Lv. 2150]") or game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Chef [Lv. 2125]") then
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Ice Cream Commander [Lv. 2150]" or v.Name == "Ice Cream Chef [Lv. 2125]" and v:WaitForChild("Humanoid").Health > 0  then
+                        if v.Name == "Ice Cream Commander [Lv. 2150]" or v.Name == "Ice Cream Chef [Lv. 2125]" and v:WaitForChild("Humanoid").Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
                                     EquipWeapon(EventWeapon)
 									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-									v.HumanoidRootPart.CanCollide = false
-									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-									v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 									CandyMagnet = true
 									PosMon = v.HumanoidRootPart.CFrame
                         until AutoCandy == false or not v.Parent or v.Humanoid.Health <= 0
 							end
-						end
+                    end
+					elseif not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Commander [Lv. 2150]") and not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Chef [Lv. 2125]") then
 					end
-				elseif not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Commander [Lv. 2150]") and not game:GetService("Workspace").Enemies:FindFirstChild("Ice Cream Chef [Lv. 2125]") then
 					CandyMagnet = false
 					TP(CFrame.new(-744.608,126.896,-11033.109))
 				end
@@ -5698,21 +5679,17 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(EventWeapon)
 									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-									v.HumanoidRootPart.CanCollide = false
-									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-									v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 									PosMon = v.HumanoidRootPart.CFrame
 									BoneMagnet = true
 								until Auto_Bone == false or not v.Parent or v.Humanoid.Health <= 0
 							end
-						end
 					end
-				else
+					else
 					BoneMagnet = false
 					TP(CFrame.new(-9501.64453, 582.052612, 6034.20117))
+					end
 				end
 			    end)
 	end
@@ -5788,10 +5765,6 @@ spawn(function()
 										repeat game:GetService("RunService").Heartbeat:wait()
 											EquipWeapon(SelectToolWeapon)
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-											v.HumanoidRootPart.CanCollide = false
-											v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-											v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
 											game:GetService("VirtualUser"):CaptureController()
 											game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 											PosMon = v.HumanoidRootPart.CFrame
@@ -5814,61 +5787,6 @@ spawn(function()
 	        end
 	end)
 	end
-end)
-
-spawn(function()
-	pcall(function()
-		while wait() do
-			if AutoFarmSelectMonster then
-			    pcall(function() 
-			        if Safe() then
-				if not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible then
-					CheckLevel()
-					if (CFrameQ.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
-						wait(0.7)
-						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
-					else
-						TP(CFrameQ)
-					end
-				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible then
-					CheckLevel()
-					pcall(function()
-						if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
-							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-								if v.Name == Ms and v:FindFirstChild("Humanoid") then
-									if v.Humanoid.Health > 0 then
-										repeat game:GetService("RunService").Heartbeat:wait()
-											if string.find(game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
-												EquipWeapon(SelectToolWeapon)
-												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-												v.HumanoidRootPart.CanCollide = false
-												v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-												v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-												game:GetService("VirtualUser"):CaptureController()
-												game:GetService("VirtualUser"):CaptureController()
-												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
-												PosMon = v.HumanoidRootPart.CFrame
-												AutoFarmSelectMonsterMagnet = true
-											else
-												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-											end
-										until not AutoFarmSelectMonster or not v.Parent or v.Humanoid.Health <= 0 or not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible
-									end
-								end
-							end
-						else
-							CheckLevel()
-							AutoFarmSelectMonster = false
-							TP(CFrameMon)
-						end
-					end)
-				end
-			    end
-		end)
-			end
-	end
-	end)
 end)
 
 spawn(function()
@@ -6114,10 +6032,6 @@ spawn(function()
 									pcall(function()
 										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-										v.HumanoidRootPart.CanCollide = false
-										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-										v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
 										game:GetService'VirtualUser':CaptureController()
 										game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 										PosMon = v.HumanoidRootPart.CFrame
@@ -6147,10 +6061,11 @@ spawn(function()
 									pcall(function()
 										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-										v.HumanoidRootPart.CanCollide = false
-										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-										v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+										v.Head.CanCollide = false
+						                v.HumanoidRootPart.CanCollide = false
+						                v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+						                v.Humanoid.WalkSpeed = 0
+								        v.HumanoidRootPart.Transparency = 1
 										game:GetService("VirtualUser"):CaptureController()
 										game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 									end)
@@ -6354,10 +6269,6 @@ spawn(function()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
 										HealthMin = v.Humanoid.MaxHealth * HealthPersen/100
 										if v.Humanoid.Health <= HealthMin then
-											EquipWeapon(game.Players.LocalPlayer.Data.DevilFruit.Value)
-											v.Head.CanCollide = false
-											v.HumanoidRootPart.CanCollide = false
-											v.HumanoidRootPart.Size = Vector3.new(2,2,1)
 											TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 											USEBF = true
 										else
@@ -6366,9 +6277,6 @@ spawn(function()
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 											game:GetService("VirtualUser"):CaptureController()
 											game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-											v.Head.CanCollide = false
-											v.HumanoidRootPart.CanCollide = false
-											v.HumanoidRootPart.Size = Vector3.new(40,40,40)
 										end
 										MasteryBFMagnetActive = true
                                         PosMon = v.HumanoidRootPart.CFrame
@@ -6930,6 +6838,7 @@ spawn(function()
 									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 									v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
+								    require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
@@ -6957,7 +6866,8 @@ spawn(function()
 												v.HumanoidRootPart.CanCollide = false
 												v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 												v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+								                v.HumanoidRootPart.Transparency = 1
+								                require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
 												game:GetService("VirtualUser"):CaptureController()
 												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 											else
@@ -6980,7 +6890,8 @@ spawn(function()
 										v.HumanoidRootPart.CanCollide = false
 										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 										v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+								        v.HumanoidRootPart.Transparency = 1
+								        require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
 										game:GetService("VirtualUser"):CaptureController()
 										game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 									until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
@@ -7138,7 +7049,7 @@ end)
             
 spawn(function()
    while wait() do
-        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or Clip or HolyTorch or AutoFarmSelectMonster or AutoLowRaid or AutoCandy then
+        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7155,7 +7066,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoFarmSelectMonster or AutoLowRaid or AutoCandy then
+        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
@@ -7310,7 +7221,7 @@ spawn(function()
             require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.active = false
             require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.timeToNextAttack = 0
             require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 60
+            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 150
         end
     end)
     end
@@ -7614,42 +7525,37 @@ spawn(function()
 	while wait() do
 		pcall(function()
 			CheckLevel()
-				        if Safe() then
+		if Safe() then
 			for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 				if Auto_Farm and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
+							    v.Head.CanCollide = false
+							    v.HumanoidRootPart.CanCollide = false
+							    v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+								v.Humanoid.WalkSpeed = 0
+								v.HumanoidRootPart.Transparency = 1
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
 							end
 				elseif FarmMasteryFruit and MasteryBFMagnetActive and MasteryMagnet then
-						if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
-							v.Head.CanCollide = false
-							v.HumanoidRootPart.CanCollide = false
+						if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
+						    v.HumanoidRootPart.CanCollide = false
 							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 							v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-							v.HumanoidRootPart.CFrame = PosMon
-							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-						end
-					elseif v.Name == "Factory Staff [Lv. 800]" then
-						if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
+							v.HumanoidRootPart.Transparency = 1
 							v.Head.CanCollide = false
-							v.HumanoidRootPart.CanCollide = false
-							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-							v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
 							v.HumanoidRootPart.CFrame = PosMon
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
 				elseif FarmMasteryGun and MasteryGunMagnetActive and MasteryMagnet then
-						if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
+						if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
 							v.Head.CanCollide = false
 							v.HumanoidRootPart.CanCollide = false
 							v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 							v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+							 v.HumanoidRootPart.Transparency = 1
 							v.HumanoidRootPart.CFrame = PosMon
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
@@ -7659,7 +7565,7 @@ spawn(function()
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 						v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.Transparency = 1
 						v.HumanoidRootPart.CFrame = PosMon
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
@@ -7679,7 +7585,7 @@ spawn(function()
 								v.HumanoidRootPart.CanCollide = false
 								v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 								v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+							    v.HumanoidRootPart.Transparency = 1
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 				        end
@@ -7689,7 +7595,7 @@ spawn(function()
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 						v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.Transparency = 1
 						v.HumanoidRootPart.CFrame = PosMon
 						v.Humanoid.WalkSpeed = 0
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
@@ -7700,7 +7606,7 @@ spawn(function()
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 						v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.Transparency = 1
 						v.HumanoidRootPart.CFrame = PosMon
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
@@ -7710,7 +7616,7 @@ spawn(function()
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 						v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.Transparency = 1
 						v.HumanoidRootPart.CFrame = PosMon
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
@@ -7720,17 +7626,7 @@ spawn(function()
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 						v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
-						v.HumanoidRootPart.CFrame = PosMon
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-					end
-				elseif AutoFarmSelectMonster and AutoFarmSelectMonsterMagnet and Magnet then
-					if v.Name == Ms and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
-						v.Head.CanCollide = false
-						v.HumanoidRootPart.CanCollide = false
-						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
-						v.Humanoid.WalkSpeed = 0
-								    v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.Transparency = 1
 						v.HumanoidRootPart.CFrame = PosMon
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
@@ -7743,11 +7639,9 @@ end)
 
 warn("Anti AFK : Work")
 local vu = game:GetService("VirtualUser")
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-   wait(1)
-   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-end)
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+      v:Disable()
+   end
 
 if _G.HideUi then
 	game:GetService("VirtualInputManager"):SendKeyEvent(true,"RightControl",false,game)
