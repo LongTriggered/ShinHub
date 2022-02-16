@@ -4164,6 +4164,16 @@ BuyItem:Button("Soul Cane", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Soul Cane")
 end)
 
+BuyItem:Button("Midnight Blade", function()
+     local args = {
+      [1] = "Ectoplasm",
+      [2] = "Buy",
+      [3] = 3
+   }
+   
+   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
 BuyItem:Line()
 
 BuyItem:Label("Gun")
@@ -4193,6 +4203,15 @@ BuyItem:Button("Kabucha", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Slingshot","2")
 end)
 
+BuyItem:Button("Bizarre Rifle", function()
+    local args = {
+      [1] = "Ectoplasm",
+      [2] = "Buy",
+      [3] = 1
+   }
+   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
 BuyItem:Line()
 
 BuyItem:Label("Accessory")
@@ -4207,6 +4226,16 @@ end)
 
 BuyItem:Button("Swordsman Hat", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Swordsman Hat")
+end)
+
+BuyItem:Button("Ghoul Mask", function()
+    local args = {
+      [1] = "Ectoplasm",
+      [2] = "Buy",
+      [3] = 2
+   }
+   
+   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end)
 
 local Setting = serv:Channel("Setting","http://www.roblox.com/asset/?id=7040347038")
@@ -4381,7 +4410,7 @@ end)
 
 Misc:Line()
 
-Misc:Button("Devil Shop", function()
+Misc:Button("Devil Shop UI", function()
     local args = {
         [1] = "GetFruits"
     }
@@ -4389,12 +4418,12 @@ Misc:Button("Devil Shop", function()
     game.Players.localPlayer.PlayerGui.Main.FruitShop.Visible = true
 end)
 
-Misc:Button("Inventory", function()
+Misc:Button("Inventory UI", function()
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventoryWeapons")
     game.Players.localPlayer.PlayerGui.Main.Inventory.Visible = true
 end)
 
-Misc:Button("Fruit Inventory", function()
+Misc:Button("Fruit Inventory UI", function()
 	local args = {
 		[1] = "getInventoryFruits"
 	}
@@ -4403,16 +4432,20 @@ Misc:Button("Fruit Inventory", function()
 	game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitInventory.Visible = true
 end)
 
-Misc:Button("Color Haki", function()
+Misc:Button("Color Haki UI", function()
     game.Players.localPlayer.PlayerGui.Main.Colors.Visible = true
 end)
 
-Misc:Button("Title Name", function()
+Misc:Button("Title Name UI", function()
     local args = {
         [1] = "getTitles"
     }
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
     game.Players.localPlayer.PlayerGui.Main.Titles.Visible = true
+end)
+
+Misc:Button("Awakening UI", function()
+    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.AwakeningToggler.Visible = true
 end)
 
 Misc:Line()
@@ -5652,6 +5685,7 @@ spawn(function()
 					end
 					CandyMagnet = false
 					TP(CFrame.new(-744.608,126.896,-11033.109))
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
 				end
 			    end)
 	end
@@ -5679,6 +5713,7 @@ spawn(function()
 					else
 					BoneMagnet = false
 					TP(CFrame.new(-9501.64453, 582.052612, 6034.20117))
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
 					end
 				end
 			    end)
