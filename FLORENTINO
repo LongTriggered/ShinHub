@@ -2364,7 +2364,8 @@ function UpdateTime()
     local Hour = math.floor(GameTime/(60^2))%24
     local Minute = math.floor(GameTime/(60^1))%60
     local Second = math.floor(GameTime/(60^0))%60
-    Time:Refresh("Hour : "..Hour.." Minute : "..Minute.." Second : "..Second)
+   -- Time:Refresh("Hour : "..Hour.." Minute : "..Minute.." Second : "..Second)
+    Time:Refresh( Hour.." Hour " ..Minute.. " Minute " ..Second.. " Second")
 end
 
 AutoFarm:Button("Update Server Time", function()
@@ -2385,6 +2386,24 @@ elseif placeId == 7449423635 then
 	Three_World = true
 end
 
+local SelectWeapon = AutoFarm:Dropdown("Select Weapon",Wapon,function(Value)
+    SelectToolWeapon = Value
+end)
+
+AutoFarm:Button("Refresh Weapon", function()
+    SelectWeapon:Clear()
+    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if v:IsA("Tool") then
+            SelectWeapon:Add(v.Name)
+        end
+    end
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("Tool") then
+            SelectWeapon:Add(v.Name)
+        end
+    end
+end)
+
 AutoFarm:Toggle("Auto Farm Level", _G.AutoFarmLevel, function(vu)
     _G.AutoFarm = vu
 	if _G.AutoFarm and SelectToolWeapon == "" then
@@ -2395,6 +2414,7 @@ AutoFarm:Toggle("Auto Farm Level", _G.AutoFarmLevel, function(vu)
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 	end
 end)
@@ -2423,6 +2443,7 @@ if Three_World then
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 	end)
 
@@ -2435,6 +2456,7 @@ if Three_World then
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 	end)
 end
@@ -2467,10 +2489,20 @@ end
 
 AutoFarm:Toggle("Auto Superhuman", _G.AutoSuperhuman, function(vu)
     Superhuman = vu
+    if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 end)
 
 AutoFarm:Toggle("Auto Fully Superhuman", _G.FullyAutoSuperhuman, function(vu)
     AutoFullySuperhuman = vu
+    if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 end)
 
 AutoFarm:Toggle("Auto Electric Claw", false, function(vu)
@@ -2478,10 +2510,20 @@ AutoFarm:Toggle("Auto Electric Claw", false, function(vu)
 	if AutoElectricClaw then
 		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectro")
 	end
+	if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 end)
 
 AutoFarm:Toggle("Auto Dark Dagger Hop", false, function(vu)
     _G.AutoDarkDagger = vu
+    if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 end)
 
 spawn(function()
@@ -2522,25 +2564,6 @@ AutoFarm:Toggle("Auto Accessories", _G.AutoAccessory, function(Value)
 	AutoAccessories = Value 
 end)
 
-local SelectWeapon = AutoFarm:Dropdown("Select Weapon",Wapon,function(Value)
-    SelectToolWeapon = Value
-    SelectToolWeaponOld = Value
-end)
-
-AutoFarm:Button("Refresh Weapon", function()
-    SelectWeapon:Clear()
-    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-        if v:IsA("Tool") then
-            SelectWeapon:Add(v.Name)
-        end
-    end
-    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-        if v:IsA("Tool") then
-            SelectWeapon:Add(v.Name)
-        end
-    end
-end)
-
 if not Old_World then
     AutoFarm:Line()
 end
@@ -2576,26 +2599,28 @@ AutoFarm:Line()
 
 AutoFarm:Toggle("Auto Farm Mastery Devil Fruit", false, function(vu)
 	AutoFarmMasteryFruit = vu
-	if AutoFarmMasteryFruit and WeaponMastery == "" then
+	if AutoFarmMasteryFruit and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Farm Mastery","SelectWeapon First","Okay")
 	else
 		FarmMasteryFruit = vu
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 	end
 end)
 
 AutoFarm:Toggle("Auto Farm Mastery Gun", false, function(vu)
 	AutoarmMasteryGun = vu
-	if AutoarmMasteryGun and WeaponMastery == "" then
+	if AutoarmMasteryGun and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Farm Mastery","SelectWeapon First","Okay")
 	else
 		FarmMasteryGun = vu
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 	end
 end)
@@ -2605,35 +2630,18 @@ AutoFarm:Slider("Health %", 1,100,HealthPersen, function(Value)
 	HealthPersen = Value
 end)
 
-AutoFarm:Toggle("Auto Farm Mastery ", false, function(vu)
+AutoFarm:Toggle("Auto Farm Mastery Magnet", false, function(vu)
 	MasteryMagnet = vu
-end)
-
-local SelectWeapon = AutoFarm:Dropdown("Select Weapon",Wapon,function(Value)
-    WeaponMastery = Value
-end)
-
-AutoFarm:Button("Refresh Weapon", function()
-    SelectWeapon:Clear()
-    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do  
-        if v:IsA("Tool") then
-            SelectWeapon:Add(v.Name)
-        end
-    end
-    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
-        if v:IsA("Tool") then
-            SelectWeapon:Add(v.Name)
-        end
-    end
 end)
 
 AutoFarm:Line()
 
 AutoFarm:Toggle("Auto Farm Boss", false, function(vu)
 	AutoFarmBoss = vu
-	if vu == false then
-		wait(1)
-		TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+		if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 	end
 end)
 
@@ -2643,10 +2651,6 @@ end)
 
 local BossName = AutoFarm:Dropdown("Select Boss", Boss, function(Value)
     SelectBoss = Value
-end)
-
-local SelectWeapon = AutoFarm:Dropdown("Select Weapon",Wapon,function(Value)
-    SelectWeaponBoss = Value
 end)
 
 AutoFarm:Button("Refresh Boss", function()
@@ -2669,23 +2673,8 @@ AutoFarm:Button("Refresh Boss", function()
     end
 end)
 
-AutoFarm:Button("Refresh Weapon",function()
-    SelectWeapon:Clear()
-    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do  
-        if v:IsA("Tool") then
-            SelectWeapon:Add(v.Name)
-        end
-    end
-    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-        if v:IsA("Tool") then
-            SelectWeapon:Add(v.Name)
-        end
-    end
-end)
-
 AutoFarm:Line()
 
-MiscFarmWeapon = ""
 if Old_World then
 	tableMon = {"Bandit [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","Pirate [Lv. 35]","Brute [Lv. 45]","Desert Bandit [Lv. 60]","Desert Officer [Lv. 70]","Snow Bandit [Lv. 90]","Snowman [Lv. 100]","Chief Petty Officer [Lv. 120]","Sky Bandit [Lv. 150]","Dark Master [Lv. 175]","Toga Warrior [Lv. 225]","Gladiator [Lv. 275]","Military Soldier [Lv. 300]","Military Spy [Lv. 330]","Fishman Warrior [Lv. 375]","Fishman Commando [Lv. 400]","God's Guard [Lv. 450]","Shanda [Lv. 475]","Royal Squad [Lv. 525]","Royal Soldier [Lv. 550]","Galley Pirate [Lv. 625]","Galley Captain [Lv. 650]"}
 elseif New_World then
@@ -2718,7 +2707,7 @@ if New_World then
 		end
 		if Success and CheckBarto == true then
 			DiscordLib:Notification("Auto Quest Bartilo","Successfully","Ok")
-		elseif CheckBarto == true and MiscFarmWeapon == "" then
+		elseif CheckBarto == true and SelectToolWeapon == "" then
 			DiscordLib:Notification("Auto Quest Bartilo","SelectWeapon First","Okay")
 		elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress","Bartilo") == 3 and CheckBarto == true then
 			DiscordLib:Notification("Auto Quest Bartilo","Successfully","Ok")
@@ -2735,7 +2724,7 @@ if New_World then
 		CheckEvo = vu
 		if not game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress","Bartilo") == 3 and CheckEvo then
 			DiscordLib:Notification("Auto Evo Race","You Have To Success Bartilo Quest","Okay")
-		elseif CheckEvo == true and MiscFarmWeapon == "" then
+		elseif CheckEvo == true and SelectToolWeapon == "" then
 			DiscordLib:Notification("Auto Evo Race","SelectWeapon First","Okay")
 		elseif game:GetService("Players").LocalPlayer.Data.Race:FindFirstChild("Evolved") and CheckEvo then
 			DiscordLib:Notification("Auto Evo Race","Successfully","Ok")
@@ -2776,7 +2765,7 @@ if Three_World then
 		end
 		if CTCH and CheckCitizen then
 			DiscordLib:Notification("Auto Quest Citizen","Successfully","Ok")
-		elseif CheckCitizen and MiscFarmWeapon == "" then
+		elseif CheckCitizen and SelectToolWeapon == "" then
 			DiscordLib:Notification("Auto Quest Citizen","SelectWeapon First","Okay")
 		elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CitizenQuestProgress","Citizen") == 3 and CheckCitizen then
 			DiscordLib:Notification("Auto Quest Citizen","Successfully","Ok")
@@ -2789,24 +2778,6 @@ if Three_World then
 		end
 	end)
 end
-
-local SelectWeapon = AutoFarm:Dropdown("Select Weapon",Wapon,function(value)
-   	MiscFarmWeapon = value
-end)
-
-AutoFarm:Button("Refresh Weapon",function()
-    SelectWeapon:Clear()
-	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-		if v:IsA("Tool") then
-			SelectWeapon:Add(v.Name)
-		end
-	end
-	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-		if v:IsA("Tool") then
-			SelectWeapon:Add(v.Name)
-		end
-	end
-end)
 
 AutoFarm:Line()
 
@@ -2923,11 +2894,6 @@ spawn(function()
 end)
 
 AutoFarm:Line()
-
-Sec = 40
-AutoFarm:Slider("Time", 1,600,Sec, function(Value)
-	Sec = Value
-end)
 
 if _G.AutoFarm_Ken then
 	AutoFarmKen = true
@@ -5371,6 +5337,7 @@ spawn(function()
 								                v.Humanoid.WalkSpeed = 0
 								                v.HumanoidRootPart.Transparency = 1
 												PosMon = v.HumanoidRootPart.CFrame
+												require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 60
 												MagnetActive = true
 											else
 												MagnetActive = false    
@@ -5426,13 +5393,6 @@ if SelectToolWeapon then
 else
     SelectToolWeapon = ""
 end
-
-if SelectWeaponBoss then
-else
-    SelectWeaponBoss = ""
-end
-
-WeaponMastery = ""
 
 function AutoHaki()
     pcall(function()  
@@ -5567,7 +5527,7 @@ spawn(function()
                             if v.Name == "Swan Pirate [Lv. 775]" then
                                 pcall(function()
                                     repeat wait(.1)
-                                        EquipWeapon(MiscFarmWeapon)
+                                        EquipWeapon(SelectToolWeapon)
 										game:GetService'VirtualUser':CaptureController()
 										game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,0))
@@ -5605,7 +5565,7 @@ spawn(function()
 							repeat wait(.1)
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 								require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
-								EquipWeapon(MiscFarmWeapon)
+								EquipWeapon(SelectToolWeapon)
 								TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,6))
 								game:GetService'VirtualUser':CaptureController()
 								game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
@@ -5654,7 +5614,7 @@ spawn(function()
 					for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
 						if (v.Name == "Snow Lurker [Lv. 1375]" or v.Name == "Arctic Warrior [Lv. 1350]") and v.Humanoid.Health > 0 then
 							repeat game:GetService("RunService").Heartbeat:wait()
-								EquipWeapon(MiscFarmWeapon)
+								EquipWeapon(SelectToolWeapon)
 								PosMon = v.HumanoidRootPart.CFrame
 								require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
 								TP(v.HumanoidRootPart.CFrame * Farm_Mode)
@@ -5686,7 +5646,7 @@ spawn(function()
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if string.find(v.Name, "Ship") then
                             repeat game:GetService("RunService").Heartbeat:wait()
-								EquipWeapon(MiscFarmWeapon)
+								EquipWeapon(SelectToolWeapon)
                                 if string.find(v.Name, "Ship") then
                                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,15))
 									game:GetService'VirtualUser':CaptureController()
@@ -5847,7 +5807,7 @@ spawn(function()
 								for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 									if v.Name == "Zombie [Lv. 950]" then
 										repeat game:GetService("RunService").Heartbeat:wait()
-											EquipWeapon(MiscFarmWeapon)
+											EquipWeapon(SelectToolWeapon)
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 											v.HumanoidRootPart.CanCollide = false
 											v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -5900,7 +5860,7 @@ spawn(function()
 									if v.Humanoid.Health > 0 then
 										repeat game:GetService("RunService").Heartbeat:wait()
 											if string.find(game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
-												EquipWeapon(MiscFarmWeapon)
+												EquipWeapon(SelectToolWeapon)
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 												v.HumanoidRootPart.CanCollide = false
 												v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -6135,6 +6095,8 @@ spawn(function()
 					end
 				else
 					Elite = false
+					--DiscordLib:Notification("Auto Elite Hunter","No Elite Hunter","Ok")
+					--wait(50)
 				end
 				if _G.AutoFarm and Elite == false then
 					Auto_Farm = true
@@ -6173,7 +6135,7 @@ spawn(function()
 							if v.Name == "Forest Pirate [Lv. 1825]" then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									pcall(function()
-										EquipWeapon(MiscFarmWeapon)
+										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 										v.HumanoidRootPart.CanCollide = false
 										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -6206,7 +6168,7 @@ spawn(function()
 							if v.Name == "Captain Elephant [Lv. 1875] [Boss]" then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									pcall(function()
-										EquipWeapon(MiscFarmWeapon)
+										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 										v.HumanoidRootPart.CanCollide = false
 										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -6423,7 +6385,7 @@ spawn(function()
 											USEBF = true
 										else
 											USEBF = false
-											EquipWeapon(WeaponMastery)
+											EquipWeapon(SelectToolWeapon)
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 											game:GetService("VirtualUser"):CaptureController()
 											game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
@@ -6484,7 +6446,7 @@ spawn(function()
 											}
 											game:GetService("Players").LocalPlayer.Character[SelectToolWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
 										else
-											EquipWeapon(WeaponMastery)
+											EquipWeapon(SelectToolWeapon)
 											require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 											game:GetService'VirtualUser':CaptureController()
@@ -6655,27 +6617,21 @@ spawn(function()
 				if game.Players.LocalPlayer.Character:FindFirstChild("Combat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Combat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Black Leg") or game.Players.LocalPlayer.Character:FindFirstChild("Black Leg") or game.Players.LocalPlayer.Backpack:FindFirstChild("Electro") or game.Players.LocalPlayer.Character:FindFirstChild("Electro") or game.Players.LocalPlayer.Backpack:FindFirstChild("Fishman Karate") or game.Players.LocalPlayer.Character:FindFirstChild("Fishman Karate") or game.Players.LocalPlayer.Backpack:FindFirstChild("Dragon Claw") or game.Players.LocalPlayer.Character:FindFirstChild("Dragon Claw") or game.Players.LocalPlayer.Backpack:FindFirstChild("Superhuman") or game.Players.LocalPlayer.Character:FindFirstChild("Superhuman") then
 					if game.Players.LocalPlayer.Backpack:FindFirstChild("Combat") or game.Players.LocalPlayer.Character:FindFirstChild("Combat") then
 						SelectToolWeapon = "Combat"
-						SelectToolWeaponOld = "Combat"
 					end
 					if game.Players.LocalPlayer.Backpack:FindFirstChild("Black Leg") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Black Leg") then
 						SelectToolWeapon = "Black Leg"
-						SelectToolWeaponOld = "Black Leg"
 					end
 					if game.Players.LocalPlayer.Backpack:FindFirstChild("Electro") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Electro") then
 						SelectToolWeapon = "Electro"
-						SelectToolWeaponOld = "Electro"
 					end
 					if game.Players.LocalPlayer.Backpack:FindFirstChild("Fishman Karate") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Fishman Karate") then
 						SelectToolWeapon = "Fishman Karate"
-						SelectToolWeaponOld = "Fishman Karate"
 					end
 					if game.Players.LocalPlayer.Backpack:FindFirstChild("Dragon Claw") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Dragon Claw") then
 						SelectToolWeapon = "Dragon Claw"
-						SelectToolWeaponOld = "Dragon Claw"
 					end
 					if game.Players.LocalPlayer.Backpack:FindFirstChild("Superhuman") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Superhuman") then
 						SelectToolWeapon = "Superhuman"
-						SelectToolWeaponOld = "Superhuman"
 					end
 					if (game.Players.LocalPlayer.Character:FindFirstChild("Black Leg") and game.Players.LocalPlayer.Character:FindFirstChild("Black Leg").Level.Value >= 300) or (game.Players.LocalPlayer.Backpack:FindFirstChild("Black Leg") and game.Players.LocalPlayer.Backpack:FindFirstChild("Black Leg").Level.Value >= 300) then
 						local args = {
@@ -6991,7 +6947,7 @@ spawn(function()
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 							if v.Name == BossMon then
 								repeat game:GetService("RunService").Heartbeat:wait()
-									EquipWeapon(SelectWeaponBoss)
+									EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 									v.HumanoidRootPart.CanCollide = false
 									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7019,7 +6975,7 @@ spawn(function()
 									if v.Name == BossMon then
 										repeat game:GetService("RunService").Heartbeat:wait()
 											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestReward.Title.Text, RewardBoss) then
-												EquipWeapon(SelectWeaponBoss)
+												EquipWeapon(SelectToolWeapon)
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 												v.HumanoidRootPart.CanCollide = false
 												v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7042,7 +6998,7 @@ spawn(function()
 							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 								if v.Name == BossMon then
 									repeat game:GetService("RunService").Heartbeat:wait()
-										EquipWeapon(SelectWeaponBoss)
+										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 										v.HumanoidRootPart.CanCollide = false
 										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
@@ -7207,7 +7163,12 @@ spawn(function()
    while wait() do
         if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or Clip or HolyTorch or AutoFarmSelectMonster or AutoLowRaid or AutoCandy then
             pcall(function()
-           game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X,1.3,game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)
+           if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
+               local BV = Instance.new('BodyVelocity')
+		BV.Parent = game.Players.LocalPlayer.Character.UpperTorso
+		BV.velocity = Vector3.new(0, 0, 0)
+		BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+		end
             end)
     end
         end
@@ -7319,7 +7280,7 @@ spawn(function()
 end)
 
 spawn(function()
-	while wait() do wait(Sec)
+	while wait() do wait(40)
 		pcall(function()
 			if AutoFarmObservation and not game.Players.LocalPlayer.PlayerGui.ScreenGui:FindFirstChild("ImageLabel") then
 				game:GetService('VirtualUser'):CaptureController()
@@ -7681,7 +7642,6 @@ spawn(function()
 				if Auto_Farm and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
-								
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
