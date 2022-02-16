@@ -2527,6 +2527,98 @@ AutoFarm:Toggle("Auto Dark Dagger Hop", false, function(vu)
 		end
 end)
 
+if Old_World then
+	tableMon = {"Bandit [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","Pirate [Lv. 35]","Brute [Lv. 45]","Desert Bandit [Lv. 60]","Desert Officer [Lv. 70]","Snow Bandit [Lv. 90]","Snowman [Lv. 100]","Chief Petty Officer [Lv. 120]","Sky Bandit [Lv. 150]","Dark Master [Lv. 175]","Toga Warrior [Lv. 225]","Gladiator [Lv. 275]","Military Soldier [Lv. 300]","Military Spy [Lv. 330]","Fishman Warrior [Lv. 375]","Fishman Commando [Lv. 400]","God's Guard [Lv. 450]","Shanda [Lv. 475]","Royal Squad [Lv. 525]","Royal Soldier [Lv. 550]","Galley Pirate [Lv. 625]","Galley Captain [Lv. 650]"}
+elseif New_World then
+	tableMon = {"Raider [Lv. 700]","Mercenary [Lv. 725]","Swan Pirate [Lv. 775]","Factory Staff [Lv. 800]","Marine Lieutenant [Lv. 875]","Marine Captain [Lv. 900]","Zombie [Lv. 950]","Vampire [Lv. 975]","Snow Trooper [Lv. 1000]","Winter Warrior [Lv. 1050]","Lab Subordinate [Lv. 1100]","Horned Warrior [Lv. 1125]","Magma Ninja [Lv. 1175]","Lava Pirate [Lv. 1200]","Ship Deckhand [Lv. 1250]","Ship Engineer [Lv. 1275]","Ship Steward [Lv. 1300]","Ship Officer [Lv. 1325]","Arctic Warrior [Lv. 1350]","Snow Lurker [Lv. 1375]","Sea Soldier [Lv. 1425]","Water Fighter [Lv. 1450]"}
+elseif Three_World then
+	tableMon = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]"}
+end
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventoryWeapons")
+
+if New_World then
+	AutoFarm:Toggle("Auto Quest Bartilo", false, function(vu)
+		CheckBarto = vu
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("Warrior Helmet") then
+			Success = true
+		elseif game.Players.LocalPlayer.Character:FindFirstChild("Warrior Helmet") then
+			Success = true
+		end
+		if Success and CheckBarto == true then
+			DiscordLib:Notification("Auto Quest Bartilo","Successfully","Ok")
+		elseif CheckBarto == true and SelectToolWeapon == "" then
+			DiscordLib:Notification("Auto Quest Bartilo","SelectWeapon First","Okay")
+		elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress","Bartilo") == 3 and CheckBarto == true then
+			DiscordLib:Notification("Auto Quest Bartilo","Successfully","Ok")
+		else
+			AutoBartilo = vu
+			if vu == false then
+				wait(1)
+				TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			end
+		end
+	end)
+
+	AutoFarm:Toggle("Auto Evo Race", false, function(vu)
+		CheckEvo = vu
+		if not game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress","Bartilo") == 3 and CheckEvo then
+			DiscordLib:Notification("Auto Evo Race","You Have To Success Bartilo Quest","Okay")
+		elseif CheckEvo == true and SelectToolWeapon == "" then
+			DiscordLib:Notification("Auto Evo Race","SelectWeapon First","Okay")
+		elseif game:GetService("Players").LocalPlayer.Data.Race:FindFirstChild("Evolved") and CheckEvo then
+			DiscordLib:Notification("Auto Evo Race","Successfully","Ok")
+		else
+			AutoEvoRace = vu
+			if vu == false then
+				wait(1)
+				TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			end
+		end
+	end)
+
+	AutoFarm:Toggle("Auto Rengoku", false, function(vu)
+		AutoRengoku = vu
+		if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+		end
+	end)
+
+	AutoFarm:Toggle("Auto Ectoplasm", false, function(vu)
+		AutoEcto = vu
+		if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+		end
+	end)
+end
+
+if Three_World then
+	AutoFarm:Toggle("Auto Citizen Quest", false, function(vu)
+		CheckCitizen = vu
+		TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("Musketeer Hat") then
+			CTCH = true
+		elseif game.Players.LocalPlayer.Character:FindFirstChild("Musketeer Hat") then
+			CTCH = true
+		end
+		if CTCH and CheckCitizen then
+			DiscordLib:Notification("Auto Quest Citizen","Successfully","Ok")
+		elseif CheckCitizen and SelectToolWeapon == "" then
+			DiscordLib:Notification("Auto Quest Citizen","SelectWeapon First","Okay")
+		elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CitizenQuestProgress","Citizen") == 3 and CheckCitizen then
+			DiscordLib:Notification("Auto Quest Citizen","Successfully","Ok")
+		else
+			AutoCitizen = vu
+			if vu == false then
+				wait(1)
+				TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			end
+		end
+	end)
+end
+
 spawn(function()
 	while wait() do
 		if AutoElectricClaw then
@@ -2676,120 +2768,14 @@ end)
 
 AutoFarm:Line()
 
-if Old_World then
-	tableMon = {"Bandit [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","Pirate [Lv. 35]","Brute [Lv. 45]","Desert Bandit [Lv. 60]","Desert Officer [Lv. 70]","Snow Bandit [Lv. 90]","Snowman [Lv. 100]","Chief Petty Officer [Lv. 120]","Sky Bandit [Lv. 150]","Dark Master [Lv. 175]","Toga Warrior [Lv. 225]","Gladiator [Lv. 275]","Military Soldier [Lv. 300]","Military Spy [Lv. 330]","Fishman Warrior [Lv. 375]","Fishman Commando [Lv. 400]","God's Guard [Lv. 450]","Shanda [Lv. 475]","Royal Squad [Lv. 525]","Royal Soldier [Lv. 550]","Galley Pirate [Lv. 625]","Galley Captain [Lv. 650]"}
-elseif New_World then
-	tableMon = {"Raider [Lv. 700]","Mercenary [Lv. 725]","Swan Pirate [Lv. 775]","Factory Staff [Lv. 800]","Marine Lieutenant [Lv. 875]","Marine Captain [Lv. 900]","Zombie [Lv. 950]","Vampire [Lv. 975]","Snow Trooper [Lv. 1000]","Winter Warrior [Lv. 1050]","Lab Subordinate [Lv. 1100]","Horned Warrior [Lv. 1125]","Magma Ninja [Lv. 1175]","Lava Pirate [Lv. 1200]","Ship Deckhand [Lv. 1250]","Ship Engineer [Lv. 1275]","Ship Steward [Lv. 1300]","Ship Officer [Lv. 1325]","Arctic Warrior [Lv. 1350]","Snow Lurker [Lv. 1375]","Sea Soldier [Lv. 1425]","Water Fighter [Lv. 1450]"}
-elseif Three_World then
-	tableMon = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]"}
-end
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventoryWeapons")
-
-if New_World then
-	AutoFarm:Toggle("Auto Quest Bartilo", false, function(vu)
-		CheckBarto = vu
-		if game.Players.LocalPlayer.Backpack:FindFirstChild("Warrior Helmet") then
-			Success = true
-		elseif game.Players.LocalPlayer.Character:FindFirstChild("Warrior Helmet") then
-			Success = true
-		end
-		if Success and CheckBarto == true then
-			DiscordLib:Notification("Auto Quest Bartilo","Successfully","Ok")
-		elseif CheckBarto == true and SelectToolWeapon == "" then
-			DiscordLib:Notification("Auto Quest Bartilo","SelectWeapon First","Okay")
-		elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress","Bartilo") == 3 and CheckBarto == true then
-			DiscordLib:Notification("Auto Quest Bartilo","Successfully","Ok")
-		else
-			AutoBartilo = vu
-			if vu == false then
-				wait(1)
-				TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-			end
-		end
-	end)
-
-	AutoFarm:Toggle("Auto Evo Race", false, function(vu)
-		CheckEvo = vu
-		if not game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress","Bartilo") == 3 and CheckEvo then
-			DiscordLib:Notification("Auto Evo Race","You Have To Success Bartilo Quest","Okay")
-		elseif CheckEvo == true and SelectToolWeapon == "" then
-			DiscordLib:Notification("Auto Evo Race","SelectWeapon First","Okay")
-		elseif game:GetService("Players").LocalPlayer.Data.Race:FindFirstChild("Evolved") and CheckEvo then
-			DiscordLib:Notification("Auto Evo Race","Successfully","Ok")
-		else
-			AutoEvoRace = vu
-			if vu == false then
-				wait(1)
-				TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-			end
-		end
-	end)
-
-	AutoFarm:Toggle("Auto Rengoku", false, function(vu)
-		AutoRengoku = vu
-		if vu == false then
-			wait(1)
-			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-		end
-	end)
-
-	AutoFarm:Toggle("Auto Ectoplasm", false, function(vu)
-		AutoEcto = vu
-		if vu == false then
-			wait(1)
-			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-		end
-	end)
-end
-
-if Three_World then
-	AutoFarm:Toggle("Auto Citizen Quest", false, function(vu)
-		CheckCitizen = vu
-		TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-		if game.Players.LocalPlayer.Backpack:FindFirstChild("Musketeer Hat") then
-			CTCH = true
-		elseif game.Players.LocalPlayer.Character:FindFirstChild("Musketeer Hat") then
-			CTCH = true
-		end
-		if CTCH and CheckCitizen then
-			DiscordLib:Notification("Auto Quest Citizen","Successfully","Ok")
-		elseif CheckCitizen and SelectToolWeapon == "" then
-			DiscordLib:Notification("Auto Quest Citizen","SelectWeapon First","Okay")
-		elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CitizenQuestProgress","Citizen") == 3 and CheckCitizen then
-			DiscordLib:Notification("Auto Quest Citizen","Successfully","Ok")
-		else
-			AutoCitizen = vu
-			if vu == false then
-				wait(1)
-				TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-			end
-		end
-	end)
-end
-
-AutoFarm:Line()
-
-AutoFarm:Label(""):Refresh("Halloween's Event & Bone Shop")
+AutoFarm:Label(""):Refresh("Halloween and Christmas")
 
 local Bone = AutoFarm:Label("")
 
---spawn(function()
---	while game:GetService("RunService").Heartbeat:wait() do
-	--	Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
---	end
---end)
-
-AutoFarm:Button("Buy Reroll Race", function()
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,3)
-end)
-
-AutoFarm:Button("Buy Refund Stats", function()
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,2)
-end)
-
-AutoFarm:Button("Buy Random Surprise", function()
-	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
+spawn(function()
+	while wait(2) do
+		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
+	end
 end)
 
 AutoFarm:Toggle("Auto Buy Random Surprise", false, function(vu)
@@ -2894,7 +2880,11 @@ end
 
 AutoFarm:Toggle("Auto Farm Observation Haki", AutoFarmKen, function(vu)
 	AutoFarmObservation = vu
-	TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+	if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 	if AutoFarmObservation then
 	   game:GetService("VirtualUser"):CaptureController()
 	   game:GetService("VirtualUser"):SetKeyDown('0x65')
