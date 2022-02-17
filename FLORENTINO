@@ -3006,7 +3006,8 @@ end)
 
 Tp:Button("Stop Tween", function()
     Clip = false
-    TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 end)
 
 if Old_World then
