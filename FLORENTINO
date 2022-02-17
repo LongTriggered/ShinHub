@@ -7651,7 +7651,7 @@ spawn(function()
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 				        end
 				elseif Auto_Bone and BoneMagnet and Magnet then
-					if (v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
+					if (v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
 						v.Head.CanCollide = false
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(10,2,10)
