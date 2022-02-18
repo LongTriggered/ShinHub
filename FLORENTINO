@@ -1,7 +1,15 @@
 -- Config
-_G.Team = "Pirates"
+_G.Team = "Marines"
+SelectToolWeapon = "" -- Electric Claw ; Superhuman ; Dragon Talon,...
 _G.AutoDarkDagger = false
 _G.SafeModeAutoFarm = false
+_G.AutoFarm = false
+_G.Auto_Elite_Hop = false
+_G.AutoYama = false
+_G.FullyAutoSuperhuman = false
+_G.AutoFarmMasFruit = false
+_G.AutoFarmMasGun = false
+_G.AutoBuyEXP = false
 --Config
 
 repeat wait() until game:IsLoaded()
@@ -2404,12 +2412,12 @@ AutoFarm:Button("Refresh Weapon", function()
     end
 end)
 
-AutoFarm:Toggle("Auto Farm Level", _G.AutoFarmLevel, function(vu)
+AutoFarm:Toggle("Auto Farm Level", _G.AutoFarm, function(vu)
     _G.AutoFarm = vu
 	if _G.AutoFarm and SelectToolWeapon == "" then
 		DiscordLib:Notification("AutoFarm","SelectWeapon First","Okay")
 	else
-		Auto_Farm = vu
+		Auto_FarmLvl = vu
 		SelectMonster = ""
 		if vu == false then
 			wait(1)
@@ -2638,7 +2646,7 @@ spawn(function()
 				if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw") == "..." and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw","Start") == 4 then
 					TP(CFrame.new(-12548.998046875, 332.40396118164, -7603.1865234375))
 				elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw",true) == 4 then
-					Auto_Farm = false
+					Auto_FarmLvl = false
 					if (CFrame.new(-10369.7725, 331.654175, -10130.3047, 0.879783928, -1.15147909e-08, 0.475373745, -1.70712194e-10, 1, 2.45385472e-08, -0.475373745, -2.16697718e-08, 0.879783928).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
 						wait(1.1)
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw","Start")
@@ -2646,7 +2654,7 @@ spawn(function()
 						TP(CFrame.new(-10369.7725, 331.654175, -10130.3047, 0.879783928, -1.15147909e-08, 0.475373745, -1.70712194e-10, 1, 2.45385472e-08, -0.475373745, -2.16697718e-08, 0.879783928))
 					end
 				elseif _G.AutoFarm then
-					Auto_Farm = true
+					Auto_FarmLvl = true
 				end
 			end
 		end
@@ -2690,7 +2698,7 @@ end
 
 AutoFarm:Line()
 
-AutoFarm:Toggle("Auto Farm Mastery Devil Fruit", false, function(vu)
+AutoFarm:Toggle("Auto Farm Mastery Devil Fruit", _G.AutoFarmMasFruit, function(vu)
 	AutoFarmMasteryFruit = vu
 	if AutoFarmMasteryFruit and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Farm Mastery","SelectWeapon First","Okay")
@@ -2704,7 +2712,7 @@ AutoFarm:Toggle("Auto Farm Mastery Devil Fruit", false, function(vu)
 	end
 end)
 
-AutoFarm:Toggle("Auto Farm Mastery Gun", false, function(vu)
+AutoFarm:Toggle("Auto Farm Mastery Gun", _G.AutoFarmMasGun, function(vu)
 	AutoarmMasteryGun = vu
 	if AutoarmMasteryGun and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Farm Mastery","SelectWeapon First","Okay")
@@ -2782,7 +2790,7 @@ AutoFarm:Toggle("Auto Buy Random Surprise", false, function(vu)
 	AutoBuySurprise = vu
 end)
 
-AutoFarm:Toggle("Auto Buy EXP x2 [ Candy and Bone ]", false, function(vu)
+AutoFarm:Toggle("Auto Buy EXP x2 [ Candy and Bone ]", _G.AutoBuyEXP, function(vu)
     AutoBuyEXP = vu
 end)
 
@@ -4884,7 +4892,7 @@ function CheckLevel()
             NameMon = "Fishman Warrior"
             CFrameQ = CFrame.new(61122.65234375, 18.497442245483, 1569.3997802734)
             CFrameMon = CFrame.new(60844.10546875, 98.462875366211, 1298.3985595703)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
 			end
         elseif Lv == 400 or Lv <= 449 or SelectMonster == "Fishman Commando [Lv. 400]" then -- Fishman Commando
@@ -4894,7 +4902,7 @@ function CheckLevel()
             NameMon = "Fishman Commando"
             CFrameQ = CFrame.new(61122.65234375, 18.497442245483, 1569.3997802734)
             CFrameMon = CFrame.new(61738.3984375, 64.207321166992, 1433.8375244141)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
 			end
         elseif Lv == 450 or Lv <= 474 or SelectMonster == "God's Guard [Lv. 450]" then -- God's Guard
@@ -4904,7 +4912,7 @@ function CheckLevel()
             NameMon = "God's Guard"
             CFrameQ = CFrame.new(-4721.8603515625, 845.30297851563, -1953.8489990234)
             CFrameMon = CFrame.new(-4628.0498046875, 866.92877197266, -1931.2352294922)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-4607.82275, 872.54248, -1667.55688))
 			end
         elseif Lv == 475 or Lv <= 524 or SelectMonster == "Shanda [Lv. 475]" then -- Shanda
@@ -4914,7 +4922,7 @@ function CheckLevel()
             NameMon = "Shanda"
             CFrameQ = CFrame.new(-7863.1596679688, 5545.5190429688, -378.42266845703)
             CFrameMon = CFrame.new(-7685.1474609375, 5601.0751953125, -441.38876342773)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-7894.6176757813, 5547.1416015625, -380.29119873047))
 			end
         elseif Lv == 525 or Lv <= 549 or SelectMonster == "Royal Squad [Lv. 525]" then -- Royal Squad
@@ -5053,7 +5061,7 @@ function CheckLevel()
             NameMon = "Ship Deckhand"
             CFrameQ = CFrame.new(1040.2927246094, 125.08293151855, 32911.0390625)
             CFrameMon = CFrame.new(921.12365722656, 125.9839553833, 33088.328125)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
         elseif Lv == 1275 or Lv <= 1299 or SelectMonster == "Ship Engineer [Lv. 1275]" then -- Ship Engineer
@@ -5063,7 +5071,7 @@ function CheckLevel()
             NameMon = "Ship Engineer"
             CFrameQ = CFrame.new(1040.2927246094, 125.08293151855, 32911.0390625)
             CFrameMon = CFrame.new(886.28179931641, 40.47790145874, 32800.83203125)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
         elseif Lv == 1300 or Lv <= 1324 or SelectMonster == "Ship Steward [Lv. 1300]" then -- Ship Steward
@@ -5073,7 +5081,7 @@ function CheckLevel()
             NameMon = "Ship Steward"
             CFrameQ = CFrame.new(971.42065429688, 125.08293151855, 33245.54296875)
             CFrameMon = CFrame.new(943.85504150391, 129.58183288574, 33444.3671875)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
         elseif Lv == 1325 or Lv <= 1349 or SelectMonster == "Ship Officer [Lv. 1325]" then -- Ship Officer
@@ -5083,7 +5091,7 @@ function CheckLevel()
             NameMon = "Ship Officer"
             CFrameQ = CFrame.new(971.42065429688, 125.08293151855, 33245.54296875)
             CFrameMon = CFrame.new(955.38458251953, 181.08335876465, 33331.890625)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
         elseif Lv == 1350 or Lv <= 1374 or SelectMonster == "Arctic Warrior [Lv. 1350]" then -- Arctic Warrior
@@ -5093,7 +5101,7 @@ function CheckLevel()
             NameMon = "Arctic Warrior"
             CFrameQ = CFrame.new(5668.1372070313, 28.202531814575, -6484.6005859375)
             CFrameMon = CFrame.new(5935.4541015625, 77.26016998291, -6472.7568359375)
-			if Auto_Farm and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
+			if Auto_FarmLvl and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-6508.5581054688, 89.034996032715, -132.83953857422))
 			end
         elseif Lv == 1375 or Lv <= 1424 or SelectMonster == "Snow Lurker [Lv. 1375]" then -- Snow Lurker
@@ -5279,10 +5287,12 @@ function CheckLevel()
 end
 
 function EquipWeapon(ToolSe)
+    if Safe() then
     if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
         local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
         wait(.4)
         game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+    end
     end
 end
 
@@ -5316,7 +5326,7 @@ end)
 
 spawn(function()
 	while wait() do
-		if Auto_Farm then
+		if Auto_FarmLvl then
 		    wait()
 		    pcall(function()  
 		        if Safe() then
@@ -5353,7 +5363,7 @@ spawn(function()
 										else
 											MagnetActive = false
 											end
-									until not v.Parent or v.Humanoid.Health <= 0 or Auto_Farm == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
+									until not v.Parent or v.Humanoid.Health <= 0 or Auto_FarmLvl == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
 							else
 						MagnetActive = false
 						CheckLevel()
@@ -5449,7 +5459,7 @@ spawn(function()
 		        if Safe() then
 			if game.Workspace.Enemies:FindFirstChild("Core") then
 				Core = true
-				Auto_Farm = false
+				Auto_FarmLvl = false
 				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
 					if Core and v.Name == "Core" and v.Humanoid.Health > 0 then
 						repeat game:GetService("RunService").Heartbeat:wait()
@@ -5463,10 +5473,10 @@ spawn(function()
 				end
 			elseif game.ReplicatedStorage:FindFirstChild("Core") then
 				Core = true
-				Auto_Farm = false
+				Auto_FarmLvl = false
 				TP(CFrame.new(402.404296875, 182.53373718262, -414.73394775391))
 			elseif _G.AutoFarm and SelectToolWeapon ~= "" then
-				Auto_Farm = true
+				Auto_FarmLvl = true
 				Core = false
 			end
 		end
@@ -5482,7 +5492,7 @@ spawn(function()
                 if Safe() then
             local Lv = game.Players.LocalPlayer.Data.Level.Value
             if Lv >= 700 and Old_World then
-                Auto_Farm = false
+                Auto_FarmLvl = false
                 if game.Workspace.Map.Ice.Door.CanCollide == true and game.Workspace.Map.Ice.Door.Transparency == 0 then
                     TP2(CFrame.new(4851.8720703125, 5.6514348983765, 718.47094726563))
                     wait(.5)
@@ -5747,7 +5757,7 @@ spawn(function()
                 pcall(function() 
                     if Safe() then
                 if game:GetService("Players").LocalPlayer.Data.Level.Value >= 1500 and New_World then
-                    Auto_Farm = false
+                    Auto_FarmLvl = false
                     if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ZQuestProgress","Check") == 0 then
                         TP2(CFrame.new(-1926.3221435547, 12.819851875305, 1738.3092041016))
                         if (CFrame.new(-1926.3221435547, 12.819851875305, 1738.3092041016).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 10 then
@@ -6002,7 +6012,7 @@ spawn(function()
 				local Enemies = game:GetService("Workspace").Enemies
 				if ReplicatedStorage:FindFirstChild("Diablo [Lv. 1750]") or Enemies:FindFirstChild("Diablo [Lv. 1750]") or ReplicatedStorage:FindFirstChild("Urban [Lv. 1750]") or Enemies:FindFirstChild("Urban [Lv. 1750]") or ReplicatedStorage:FindFirstChild("Deandre [Lv. 1750]") or Enemies:FindFirstChild("Deadre [Lv. 1750]") then
 					Elite = true
-					Auto_Farm = false
+					Auto_FarmLvl = false
 					if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
 						TP(CFrame.new(-5418.392578125, 313.74130249023, -2824.9157714844))
 						if (Vector3.new(-5418.392578125, 313.74130249023, -2824.9157714844) - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 30 then
@@ -6038,7 +6048,7 @@ spawn(function()
 					Elite = false
 				end
 				if _G.AutoFarm and Elite == false then
-					Auto_Farm = true
+					Auto_FarmLvl = true
 				end
 				if _G.Auto_Elite_Hop and Three_World and Elite == false then
 					if game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible == false then
@@ -6581,11 +6591,11 @@ spawn(function()
                                 if game.Players.LocalPlayer.Data.Fragments.Value <= 1499 then
                                     RaidSuperhuman = true
                                     _G.SelectRaid = "Flame"
-                                    Auto_Farm = false
+                                    Auto_FarmLvl = false
                                 elseif game.Players.LocalPlayer.Data.Fragments.Value >= 1500 then
                                     RaidSuperhuman = false
                                     if _G.AutoFarm and RaidSuperhuman == false then
-                                        Auto_Farm = true
+                                        Auto_FarmLvl = true
                                     end
                                     local args = {
                                         [1] = "BlackbeardReward",
@@ -7094,7 +7104,7 @@ end)
             
 spawn(function()
    while wait() do
-        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy then
+        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7111,7 +7121,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_Farm or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy then
+        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
@@ -7589,7 +7599,7 @@ spawn(function()
 			CheckLevel()
 		if Safe() then
 			for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-				if Auto_Farm and MagnetActive and Magnet then
+				if Auto_FarmLvl and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 400 then
 							    v.Head.CanCollide = false
