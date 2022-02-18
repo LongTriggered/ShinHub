@@ -6315,6 +6315,7 @@ spawn(function()
 										if v.Humanoid.Health <= HealthMin then
 											TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 											USEBF = true
+											EquipWeapon(game.Players.LocalPlayer.Data.DevilFruit.Value)
 										else
 											USEBF = false
 											EquipWeapon(SelectToolWeapon)
