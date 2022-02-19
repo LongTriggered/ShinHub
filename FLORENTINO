@@ -2795,21 +2795,31 @@ if Three_World then
     end)
 
     AutoFarm:Toggle("Auto Farm Bone", false, function(vu)
+        CheckBoneWeapon = vu
+        if CheckBoneWeapon and EventWeapon == "" then
+			DiscordLib:Notification("Auto Farm Bone","Select Weapon First","Okay")
+			else
 		Auto_Bone = vu
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
+		end
     end)
 
     AutoFarm:Toggle("Auto Farm Candy", false, function(vu)
+        CheckCandyWeapon = vu
+        if CheckCandyWeapon and EventWeapon == "" then
+			DiscordLib:Notification("Auto Farm Candy","Select Weapon First","Okay")
+			else
 	    AutoCandy = vu 
 	    if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
-		end
+	    end
+	end
     end)
     
     local SelectWeaponEvent = AutoFarm:Dropdown("Select Weapon",Wapon,function(value)
@@ -5399,6 +5409,10 @@ if SelectToolWeapon then
 else
     SelectToolWeapon = ""
 end
+if EventWeapon then
+    else
+        EventWeapon = ""
+        end
 
 function AutoHaki()
     pcall(function()  
