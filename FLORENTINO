@@ -2965,9 +2965,9 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance < 400 then
+    if Distance < 350 then
         Speed = math.huge
-    elseif Distance < 500 and Distance > 400 then
+    elseif Distance < 500 and Distance > 350 then
         Speed = 400
     elseif Distance < 1000 then
         Speed = 350
