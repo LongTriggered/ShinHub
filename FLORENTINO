@@ -2438,11 +2438,18 @@ end
 
 if Three_World then
 	AutoFarm:Toggle("Auto Elite Hunter", _G.AutoElite, function(vu)
+	    CheckElite = vu
+	    local ReplicatedStorage = game:GetService("ReplicatedStorage");
+				local Enemies = game:GetService("Workspace").Enemies
+        if CheckElite and not ReplicatedStorage:FindFirstChild("Diablo [Lv. 1750]") or Enemies:FindFirstChild("Diablo [Lv. 1750]") or ReplicatedStorage:FindFirstChild("Urban [Lv. 1750]") or Enemies:FindFirstChild("Urban [Lv. 1750]") or ReplicatedStorage:FindFirstChild("Deandre [Lv. 1750]") or Enemies:FindFirstChild("Deadre [Lv. 1750]") then
+			DiscordLib:Notification("Auto Farm Elite","No Elite Right Now","Okay")
+			else
 		EliteHunter = vu
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 		end
 	end)
 
