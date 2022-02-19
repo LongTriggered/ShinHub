@@ -1,15 +1,5 @@
 -- Config
-_G.Team = "Marines"
-SelectToolWeapon = "" -- Electric Claw ; Superhuman ; Dragon Talon,...
-_G.AutoDarkDagger = false
-_G.SafeModeAutoFarm = false
-_G.AutoFarm = false
-_G.Auto_Elite_Hop = false
-_G.AutoYama = false
-_G.FullyAutoSuperhuman = false
-_G.AutoFarmMasFruit = false
-_G.AutoFarmMasGun = false
-_G.AutoBuyEXP = false
+
 --Config
 
 repeat wait() until game:IsLoaded()
