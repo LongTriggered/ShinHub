@@ -2121,72 +2121,77 @@ function DiscordLib:Window(text,mainclr,cls)
 	return ServerHold
 end
 
-local PlaceID = game.PlaceId
+function Teleport()
+    local PlaceID = game.PlaceId
 local AllIDs = {}
 local foundAnything = ""
 local actualHour = os.date("!*t").hour
 local Deleted = false
 local File = pcall(function()
-	AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
 end)
 if not File then
-	table.insert(AllIDs, actualHour)
-	writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
 end
 function TPReturner()
-	local Site;
-	if foundAnything == "" then
-		Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-	else
-		Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-	end
-	local ID = ""
-	if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-		foundAnything = Site.nextPageCursor
-	end
-	local num = 0;
-	for i,v in pairs(Site.data) do
-		local Possible = true
-		ID = tostring(v.id)
-		if tonumber(v.maxPlayers) > tonumber(v.playing) then
-			for _,Existing in pairs(AllIDs) do
-				if num ~= 0 then
-					if ID == tostring(Existing) then
-						Possible = false
-					end
-				else
-				if tonumber(actualHour) ~= tonumber(Existing) then
-					local delFile = pcall(function()
-						--delfile("NotSameServers.json")
-						AllIDs = {}
-						table.insert(AllIDs, actualHour)
-					end)
-				end
-			end
-			num = num + 1
-		end
-		if Possible == true then
-			table.insert(AllIDs, ID)
-			wait()
-			pcall(function()
-				--writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-				wait()
-				game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-			end)
-			end
-		end
-	end
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
 end
 
-function Teleport()
-	while wait() do
-		pcall(function()
-			TPReturner()
-			if foundAnything ~= "" then
-				TPReturner()
-			end
-		end)
-	end
+function Teleport1()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+Teleport1()
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
 end
 
 function HopLowerServer()
@@ -2438,18 +2443,11 @@ end
 
 if Three_World then
 	AutoFarm:Toggle("Auto Elite Hunter", _G.AutoElite, function(vu)
-	    CheckElite = vu
-	    local ReplicatedStorage = game:GetService("ReplicatedStorage");
-				local Enemies = game:GetService("Workspace").Enemies
-        if CheckElite and not ReplicatedStorage:FindFirstChild("Diablo [Lv. 1750]") or Enemies:FindFirstChild("Diablo [Lv. 1750]") or ReplicatedStorage:FindFirstChild("Urban [Lv. 1750]") or Enemies:FindFirstChild("Urban [Lv. 1750]") or ReplicatedStorage:FindFirstChild("Deandre [Lv. 1750]") or Enemies:FindFirstChild("Deadre [Lv. 1750]") then
-			DiscordLib:Notification("Auto Farm Elite","No Elite Right Now","Okay")
-			else
 		EliteHunter = vu
 		if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
-		end
 		end
 	end)
 
@@ -2747,6 +2745,24 @@ AutoFarm:Toggle("Auto Farm Boss Quest", true, function(vu)
 	BossQuest = vu
 end)
 
+AutoFarm:Toggle("Auto Farm All Boss", false, function(vu)
+	AutoFarmAllBoss = vu
+	if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+			end
+end)
+
+AutoFarm:Toggle("Auto Farm All Boss [ HOP ]", false, function(vu)
+	AutoFarmAllBossHOP = vu
+	if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+			end
+end)
+
 local BossName = AutoFarm:Dropdown("Select Boss", Boss, function(Value)
     SelectBoss = Value
 end)
@@ -2787,8 +2803,8 @@ AutoFarm:Toggle("Auto Buy Random Surprise", false, function(vu)
 	AutoBuySurprise = vu
 end)
 
-AutoFarm:Toggle("Auto Buy EXP x2 [ Candy and Bone ]", _G.AutoBuyEXP, function(vu)
-    AutoBuyEXP = vu
+AutoFarm:Toggle("Auto Buy EXP x2 [ Candy and Bone ]", false, function(vu)
+    _G.AutoBuyEXP = vu
 end)
 
 if Three_World then
@@ -2850,20 +2866,80 @@ if Three_World then
 end
 
 spawn(function()
+    while wait() do
+        if AutoFarmAllBoss then
+            pcall(function()
+            if Safe() then
+                for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
+                 if string.find(v.Name, "Boss") then
+                     v.Parent = game:GetService("Workspace").Enemies
+                for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if string.find(v.Name, "Boss") and v.Humanoid.Health > 0 then
+								   repeat game:GetService("RunService").Heartbeat:wait()
+									EquipWeapon(SelectToolWeapon)
+									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+									v.HumanoidRootPart.CanCollide = false
+									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+									v.Humanoid.WalkSpeed = 0
+								    v.HumanoidRootPart.Transparency = 1
+								    require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
+									game:GetService("VirtualUser"):CaptureController()
+									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
+								   until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
+                end
+						end
+            end
+                end
+                end
+end)
+        end
+end
+end)
+
+spawn(function()
+    while wait() do
+        if AutoFarmAllBossHOP then
+            pcall(function()
+            if Safe() then
+                for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
+                 if string.find(v.Name, "Boss") then
+                     v.Parent = game:GetService("Workspace").Enemies
+                for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if string.find(v.Name, "Boss") and v.Humanoid.Health > 0 then
+								   repeat game:GetService("RunService").Heartbeat:wait()
+									EquipWeapon(SelectToolWeapon)
+									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+									v.HumanoidRootPart.CanCollide = false
+									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+									v.Humanoid.WalkSpeed = 0
+								    v.HumanoidRootPart.Transparency = 1
+								    require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
+									game:GetService("VirtualUser"):CaptureController()
+									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
+								   until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
+                end
+						end
+            end
+                end
+                end
+end)
+        end
+end
+end)
+
+spawn(function()
     pcall(function()
         while wait() do
-            if AutoBuyEXP and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") >= 50 then
-                if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
+            if _G.AutoBuyEXP == true and not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
+            if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") >= 50 then
                     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
                 end
                 else
-      if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 50 then
-          if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
+      if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 50 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") < 50 then
          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Buy",1,1)
           end
       end
     end
-        end
     end)
 end)
 
@@ -7115,7 +7191,7 @@ end)
             
 spawn(function()
    while wait() do
-        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy then
+        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7132,7 +7208,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy then
+        if SafeMode or PlayerHunt or KillPlayer or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
