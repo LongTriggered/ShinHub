@@ -2746,7 +2746,7 @@ AutoFarm:Toggle("Auto Farm Boss Quest", true, function(vu)
 end)
 
 AutoFarm:Toggle("Auto Farm All Boss", false, function(vu)
-	AutoFarmAllBoss = vu
+	_G.AutoFarmAllBoss = vu
 	if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
