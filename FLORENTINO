@@ -2931,16 +2931,16 @@ spawn(function()
     pcall(function()
         while _G.AutoBuyEXP == true do
             wait()
-            if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
             if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") >= 50 then
+            if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
                     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
-                end
+                    end
                 else
                     if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
       if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 50 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") < 50 then
          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Buy",1,1)
-          end
-      end
+                    end
+  end
             end
 end
     end)
