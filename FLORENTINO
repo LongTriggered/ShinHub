@@ -4196,6 +4196,19 @@ BuyItem:Button("Reroll Race [100 Candy]", function()
    end
 end)
 
+BuyItem:Button("Buy 300 Fragments [50 Candy]", function()
+   if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 50 then
+   game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Candies", "Buy", 2, 2)
+
+   end
+end)
+
+BuyItem:Button("Buy 700 Fragments [100 Candy]", function()
+   if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 100 then
+      game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Candies", "Buy", 2, 1)
+   end
+end)
+
 BuyItem:Line()
 
 BuyItem:Label("Fighting Style")
