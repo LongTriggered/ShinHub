@@ -4494,6 +4494,25 @@ function NoDodgeCool()
     end
 end
 
+nosorucool = false
+function NoSoruCool()
+    if nosorucool then
+        for i,v in next, getgc() do
+      if game.Players.LocalPlayer.Character.Soru then
+         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Soru then
+            for i2,v2 in next, getupvalues(v) do
+               if typeof(v2) == "table"  then
+                  repeat wait(.1)
+                     v2.LastUse = 0
+                            until not nosorucool
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 Misc:Line()
 
 Misc:Button("Hop Lower Server", function()
@@ -4593,6 +4612,11 @@ Misc:Toggle("No Dodge Cooldown", false, function(Value)
     nododgecool = Value
     NoDodgeCool()
 end)
+
+Misc:Toggle("No Soru Cooldown", false, function(Value)
+    nosorucool = Value
+    NoSoruCool()
+    end)
 
 Misc:Toggle("Inf Energy",false,function(value)
     InfinitsEnergy = value
