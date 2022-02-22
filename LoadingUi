@@ -3526,6 +3526,7 @@ Raid:Toggle("Auto Next Island", false, function(vu)
     if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 end)
 
