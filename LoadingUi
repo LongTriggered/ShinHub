@@ -2792,10 +2792,12 @@ AutoFarm:Line()
 AutoFarm:Label(""):Refresh("Halloween and Christmas")
 
 local Bone = AutoFarm:Label("")
+local Candy = AutoFarm:Label("")
 
 spawn(function()
 	while wait(2) do
 		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
+        Candy:Refresh("Total Candy : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check")))
 	end
 end)
 
@@ -3411,10 +3413,6 @@ Players:Toggle("Spectate Player", false, function(vu)
         game.Workspace.Camera.CameraSubject = game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid
     until Spectate == false
     game.Workspace.Camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
-end)
-
-Players:Toggle("Kill All Player + Hop [Defense 1 only]", _G.AutoBounty, function()
-	_G.AutoBounty = vu
 end)
 
 Players:Toggle("Safe Mode", false, function(vu)
@@ -4365,95 +4363,6 @@ BuyItem:Button("Ghoul Mask", function()
    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end)
 
-local Setting = serv:Channel("Setting","http://www.roblox.com/asset/?id=7040347038")
-
-Setting:Button("Destroy UI", function()
-	if game:GetService("CoreGui"):FindFirstChild("Gui") then
-		game:GetService("CoreGui"):FindFirstChild("Gui"):Destroy()
-	end
-end)
-
-Setting:Button("Copy Link Discord : HUB", function()
-	setclipboard("https://discord.gg/tgDeYtEm")
-end)
-
-Setting:Line()
-
-Setting:Toggle("Press Home Button Stop Tween", true, function(vu)
-	PressHomeStopTween = vu
-end)
-
-Setting:Toggle("Safe Mode Auto Farm", false, function(vu)
-    _G.SafeModeAutoFarm = vu
-end)
-
-Setting:Toggle("Fast Attack (Lag)", true ,function(vu)
-    _G.FastAttack = vu
-end)
-
-Setting:Toggle("Auto Haki", true, function(vu)
-    Auto_Haki = vu
-end)
-
-Setting:Toggle("Auto Observation Haki", false, function(vu)
-	AutoObservation = vu
-end)
-
-Setting:Label("Auto Farm Setting")
-
-Y = 30
-Setting:Slider("Distance [Max 30]", 0,30,Y, function(vu)
-	Y = vu
-end)
-
-if _G.LevelMax then
-else
-	_G.LevelMax = 2200
-end
-Setting:Slider("Level Lock", 1,2200,_G.LevelMax, function(value)
-	LevelLock = value
-end)
-
-Setting:Toggle("LevelLock Kick", false, function(vu)
-	LevelLockKick = vu
-end)
-
-Setting:Toggle("LevelLock CloseGame", _G.LevelLock, function(vu)
-	LevelLockClose = vu
-end)
-
---[[Setting:Toggle("Hide HitBox", true, function(t)
-    HideHit = t
-end)]]
-
-Setting:Toggle("BringMob/Magnet", true, function(vu)
-    Magnet = vu
-end)
-
-Setting:Toggle("Ghost Mob", true, function(vu)
-    HiddenMon = vu
-end)
-
-Setting:Line()
-
-Setting:Label("Auto Farm Mastery Setting")
-
-Setting:Toggle("Skill Z", true, function(vu)
-    SkillZ = vu
-end)
-
-Setting:Toggle("Skill X", true, function(vu)
-    SkillX = vu
-end)
-
-Setting:Toggle("Skill C", true, function(vu)
-    SkillC = vu
-end)
-
-Setting:Toggle("Skill V", true, function(vu)
-    SkillV = vu
-end)
-
 local Misc = serv:Channel("Misc","http://www.roblox.com/asset/?id=7044233235")
 
 local LocalPlayer = game:GetService'Players'.LocalPlayer
@@ -4520,12 +4429,11 @@ Misc:Button("Hop Lower Server", function()
 end)
 
 Misc:Button("Server Hop", function()
-	DiscordLib:Notification("Hop Server", "Wait For Teleport")
 	Teleport()
 end)
 
 Misc:Button("Rejoin Server", function()
-	game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").localPlayer)
+	game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
 end)
 
 Misc:Line()
@@ -4892,6 +4800,91 @@ Misc:Button("FPS Boost", function()
             e.Enabled = false
         end
     end
+end)
+
+local Setting = serv:Channel("Setting","http://www.roblox.com/asset/?id=7040347038")
+
+Setting:Button("Destroy UI", function()
+	if game:GetService("CoreGui"):FindFirstChild("Gui") then
+		game:GetService("CoreGui"):FindFirstChild("Gui"):Destroy()
+	end
+end)
+
+Setting:Button("Copy Link Discord : HUB", function()
+	setclipboard("https://discord.gg/tgDeYtEm")
+end)
+
+Setting:Line()
+
+Setting:Toggle("Press Home Button Stop Tween", true, function(vu)
+	PressHomeStopTween = vu
+end)
+
+Setting:Toggle("Safe Mode Auto Farm", false, function(vu)
+    _G.SafeModeAutoFarm = vu
+end)
+
+Setting:Toggle("Fast Attack (Lag)", true ,function(vu)
+    _G.FastAttack = vu
+end)
+
+Setting:Toggle("Auto Haki", true, function(vu)
+    Auto_Haki = vu
+end)
+
+Setting:Toggle("Auto Observation Haki", false, function(vu)
+	AutoObservation = vu
+end)
+
+Setting:Label("Auto Farm Setting")
+
+Y = 30
+Setting:Slider("Distance [Max 30]", 0,30,Y, function(vu)
+	Y = vu
+end)
+
+if _G.LevelMax then
+else
+	_G.LevelMax = 2200
+end
+Setting:Slider("Level Lock", 1,2200,_G.LevelMax, function(value)
+	LevelLock = value
+end)
+
+Setting:Toggle("LevelLock Kick", false, function(vu)
+	LevelLockKick = vu
+end)
+
+Setting:Toggle("LevelLock CloseGame", _G.LevelLock, function(vu)
+	LevelLockClose = vu
+end)
+
+--[[Setting:Toggle("Hide HitBox", true, function(t)
+    HideHit = t
+end)]]
+
+Setting:Toggle("BringMob/Magnet", true, function(vu)
+    Magnet = vu
+end)
+
+Setting:Line()
+
+Setting:Label("Auto Farm Mastery Setting")
+
+Setting:Toggle("Skill Z", true, function(vu)
+    SkillZ = vu
+end)
+
+Setting:Toggle("Skill X", true, function(vu)
+    SkillX = vu
+end)
+
+Setting:Toggle("Skill C", true, function(vu)
+    SkillC = vu
+end)
+
+Setting:Toggle("Skill V", true, function(vu)
+    SkillV = vu
 end)
 
 function CheckLevel()
