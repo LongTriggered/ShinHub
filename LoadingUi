@@ -19,6 +19,7 @@ end
 
 wait(1)
 game:GetService('ReplicatedStorage').Assets.GUI.DamageCounter.Enabled = false
+require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 
 if game:GetService("CoreGui"):FindFirstChild("Gui") then
 	game:GetService("CoreGui"):FindFirstChild("Gui"):Destroy()
@@ -3064,10 +3065,8 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance < 340 then
+    if Distance <= 300 then
         Speed = math.huge
-    elseif Distance < 500 and Distance > 340 then
-        Speed = 400
     elseif Distance < 1000 then
         Speed = 350
     elseif Distance >= 1000 then
@@ -4435,7 +4434,7 @@ Misc:Button("Server Hop", function()
 end)
 
 Misc:Button("Rejoin Current Server", function()
-	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, JobId, game.Players.LocalPlayer)
+	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, tostring(game.JobId), game.Players.LocalPlayer)
 end)
 
 Misc:Line()
@@ -4840,8 +4839,8 @@ end)
 
 Setting:Label("Auto Farm Setting")
 
-Y = 50
-Setting:Slider("Distance [Max 50]", 0,50,Y, function(vu)
+Y = 30
+Setting:Slider("Distance [Max 40]", 0,40,Y, function(vu)
 	Y = vu
 end)
 
@@ -5473,7 +5472,7 @@ spawn(function()
 												Click()
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 												PosMon = v.HumanoidRootPart.CFrame
-												require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 150
+												require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
 												MagnetActive = true
 											else
 												MagnetActive = false    
@@ -5832,24 +5831,28 @@ spawn(function()
            pcall(function()
                 if Safe() then
                     if FarmTime1 < 7 then
-                        TP(CFrame.new(-807.8082275390625, 95.84532928466797, -10962.3271484375))
+                        TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-807.8082275390625, 95.84532928466797, -10962.3271484375))
+							    TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
+							    v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
+							    BringCandyBone()
 								game:GetService("VirtualUser"):CaptureController()
 							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							    until FarmTime1 == 7 or not AutoCandy
                         end
                     end
                     elseif FarmTime1 >= 7 and FarmTime1 < 17  then
-                        TP(CFrame.new(-625.1123046875, 105.8453598022461, -11289.4375))
+                        TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
+                                BringCandyBone()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-625.1123046875, 105.8453598022461, -11289.4375))
+							    TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
+							    v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
 								game:GetService("VirtualUser"):CaptureController()
 							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							    until FarmTime1 == 17 or not AutoCandy
@@ -5860,8 +5863,10 @@ spawn(function()
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
+                                BringCandyBone()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-2147.294677734375, 68.12980270385742, -10121.2841796875))
+							    TP(CFrame.new(-2152.294677734375, 68.12980270385742, -10136.2841796875))
+							    v.HumanoidRootPart.CFrame = CFrame.new(-2147.294677734375, 38.12980270385742, -10121.2841796875)
 								game:GetService("VirtualUser"):CaptureController()
 							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							    until FarmTime1 == 25 or not AutoCandy
@@ -5873,7 +5878,9 @@ spawn(function()
                         if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-2137.37939453125, 100.3045425415039, -10530.1630859375))
+                                BringCandyBone()
+							    TP(CFrame.new(-2142.37939453125, 100.3045425415039, -10545.1630859375))
+							    v.HumanoidRootPart.CFrame = CFrame.new(-2137.37939453125, 70.3045425415039, -10530.1630859375)
 								game:GetService("VirtualUser"):CaptureController()
 							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							    until FarmTime1 == 33 or not AutoCandy
@@ -7442,7 +7449,7 @@ spawn(function()
             require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.active = false
             require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.timeToNextAttack = 0
             require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 150
+            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
         end
     end)
     end
@@ -7743,90 +7750,58 @@ spawn(function()
 end)
 
 spawn(function()
-	while wait() do
+--	while wait(.01) do
+while wait() do
 		pcall(function()
-  	CheckLevel()
+ -- 	CheckLevel()
 		if Safe() then
-		    repeat game:GetService("RunService").Heartbeat:wait()
+		--    repeat game:GetService("RunService").Heartbeat:wait()
 			for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 				if Auto_FarmLvl and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 340 then
-							    v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
+							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
+							--	v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
 					end
 				elseif FarmMasteryFruit and MasteryBFMagnetActive and MasteryMagnet then
 						if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
 						    v.HumanoidRootPart.CanCollide = false
-						    v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
+								v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
 				elseif FarmMasteryGun and MasteryGunMagnetActive and MasteryMagnet then
 						if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
-							v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
+								v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
 				elseif AutoBartilo and MagnetBatilo and Magnet then
 					if v.Name == "Swan Pirate [Lv. 775]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-						v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoRengoku and RengokuMagnet and Magnet then
-					if (v.Name == "Snow Lurker [Lv. 1375]" or v.Name == "Arctic Warrior [Lv. 1350]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 350 then
-						v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
+					if (v.Name == "Snow Lurker [Lv. 1375]" or v.Name == "Arctic Warrior [Lv. 1350]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-				elseif AutoCandy and FarmTime1 < 7 then
-				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
-				                v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
-								end
-				elseif AutoCandy and FarmTime1 >= 7 and FarmTime1 < 17 then
-				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
-				                v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
-								end
-				elseif AutoCandy and FarmTime1 >= 17 and FarmTime1 < 25 then
-				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
-				               v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-2147.294677734375, 38.12980270385742, -10121.2841796875)
-								end
-				elseif AutoCandy  and FarmTime1 > 25 and FarmTime1 <= 33 then
-				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
-				                v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-2137.37939453125, 70.3045425415039, -10530.1630859375)
-								end
+				
 				elseif Auto_Bone and BoneMagnet and Magnet then
 					if (v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
-						v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
@@ -7834,36 +7809,76 @@ spawn(function()
 					end
 				elseif AutoEcto and EctoplasMagnet and Magnet then
 					if string.find(v.Name, "Ship") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
-						v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoEvoRace and EvoMagnet and Magnet then
 					if v.Name == "Zombie [Lv. 950]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
-						v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif AutoCitizen and CitizenMagnet and Magnet then
 					if v.Name == "Forest Pirate [Lv. 1825]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
-						v.HumanoidRootPart.Velocity = Vector3.new(-0.00239623, -1.17421, -0.0448693)
 							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 								end
             end
 			end
-			until game.Players.LocalPlayer.Character.Humanoid.Health <= 0
 				end
   end)
-	  end
+end
 end)
-
+	  
+function BringCandyBone()
+    pcall(function()
+        if Safe() then
+            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if AutoCandy and FarmTime1 < 7 then
+				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
+							    v.HumanoidRootPart.CanCollide = false
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+							    v.Humanoid.PlatformStand = true
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+								v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
+								end
+				elseif AutoCandy and FarmTime1 >= 7 and FarmTime1 < 17 then
+				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then			
+				                v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+								v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
+								end
+				elseif AutoCandy and FarmTime1 >= 17 and FarmTime1 < 25 then
+				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
+								    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+								v.HumanoidRootPart.CFrame = CFrame.new(-2147.294677734375, 38.12980270385742, -10121.2841796875)
+								end
+				elseif AutoCandy  and FarmTime1 > 25 and FarmTime1 <= 33 then
+				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
+								    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+								v.HumanoidRootPart.CFrame = CFrame.new(-2137.37939453125, 70.3045425415039, -10530.1630859375)
+								end
+				end
+            end
+			end
+end)
+end
 warn("Anti AFK : Work")
 local vu = game:GetService("VirtualUser")   
 for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
