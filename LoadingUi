@@ -4840,7 +4840,7 @@ end)
 Setting:Label("Auto Farm Setting")
 
 Y = 30
-Setting:Slider("Distance [Max 40]", 0,40,Y, function(vu)
+Setting:Slider("Distance [Max 30]", 0,30,Y, function(vu)
 	Y = vu
 end)
 
@@ -5414,25 +5414,7 @@ function EquipWeapon(ToolSe)
     end
 end
 
-Type = 1
-spawn(function()
-	while wait() do
-        if Type == 1 then
-		    Farm_Mode = CFrame.new(5, Y, 15)
-        elseif Type == 2 then
-            Farm_Mode = CFrame.new(5, Y, 15)
-        end
-	end
-end)
-
-spawn(function()
-	while wait() do
-		Type = 1
-        wait(5)
-        Type = 2
-        wait(5)
-	end
-end)
+local Farm_Mode = CFrame.new(5, Y, 15)
 
 pcall(function()
 	for i,v in pairs(game:GetService("Workspace").Map.Dressrosa.Tavern:GetDescendants()) do
@@ -5831,12 +5813,12 @@ spawn(function()
            pcall(function()
                 if Safe() then
                     if FarmTime1 < 7 then
-                        TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
+                        TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
+							    TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
 							    v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
 							    BringCandyBone()
 								game:GetService("VirtualUser"):CaptureController()
@@ -5845,13 +5827,13 @@ spawn(function()
                         end
                     end
                     elseif FarmTime1 >= 7 and FarmTime1 < 17  then
-                        TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
+                        TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 BringCandyBone()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
+							    TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
 							    v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
 								game:GetService("VirtualUser"):CaptureController()
 							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
@@ -7440,17 +7422,16 @@ spawn(function()
     end
 end)
 
-spawn(function()
-    while wait() do
-    if _G.FastAttack == true then
+    game:GetService('RunService').Heartbeat:connect(function()
+    if _G.FastAttack == true and Safe() then
+        if AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
         pcall(function() 
-            if Safe() then
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.attacking = false
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.active = false
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.timeToNextAttack = 0
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
-            require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
-        end
+         --   require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.attacking = false
+          --  require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.active = false
+           -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.timeToNextAttack = 0
+           -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
+           -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
+           require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
     end)
     end
     end
@@ -7848,7 +7829,7 @@ function BringCandyBone()
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 							    v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
+								v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
 								end
 				elseif AutoCandy and FarmTime1 >= 7 and FarmTime1 < 17 then
 				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then			
@@ -7856,7 +7837,7 @@ function BringCandyBone()
 							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
+								v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
 								end
 				elseif AutoCandy and FarmTime1 >= 17 and FarmTime1 < 25 then
 				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
