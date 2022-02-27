@@ -3065,8 +3065,12 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance <= 300 then
+    if Distance <= 250 then
         Speed = math.huge
+    elseif Distance <= 300 and Distance > 250 then
+        Speed = 500
+    elseif Distance < 500 and Distance > 300 then
+        Speed = 400
     elseif Distance < 1000 then
         Speed = 350
     elseif Distance >= 1000 then
@@ -5813,58 +5817,47 @@ spawn(function()
            pcall(function()
                 if Safe() then
                     if FarmTime1 < 7 then
-                        TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
+                        TP(CFrame.new(-682,105.5,-11261))
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
+                        if v.Name == "Ice Cream Commander [Lv. 2150]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-630.1123046875, 45.8453598022461, -11304.4375))
-							    v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
+							    TP(CFrame.new(-682,105.5,-11261))
 							    BringCandyBone()
-								game:GetService("VirtualUser"):CaptureController()
-							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							    until FarmTime1 == 7 or not AutoCandy
                         end
                     end
                     elseif FarmTime1 >= 7 and FarmTime1 < 17  then
-                        TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
+                        TP(CFrame.new(-806.2667236328125, 85.84530639648438, -10985.5439453125))
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
+                        if v.Name == "Ice Cream Chef [Lv. 2125]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 BringCandyBone()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-812.8082275390625, 95.84532928466797, -10977.3271484375))
-							    v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
-								game:GetService("VirtualUser"):CaptureController()
-							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+							    TP(CFrame.new(-806.2667236328125, 85.84530639648438, -10955.5439453125))
 							    until FarmTime1 == 17 or not AutoCandy
                         end
                         end
                     elseif FarmTime1 >= 17 and FarmTime1 < 25 then
-                        TP(CFrame.new(-2147.294677734375, 50.12980270385742, -10121.2841796875))
+                        TP(CFrame.new(-2115.850830078125, 58.12941360473633, -10184.060546875))
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
+                        if v.Name == "Peanut Scout [Lv. 2075]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 BringCandyBone()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-2152.294677734375, 68.12980270385742, -10136.2841796875))
-							    v.HumanoidRootPart.CFrame = CFrame.new(-2147.294677734375, 38.12980270385742, -10121.2841796875)
-								game:GetService("VirtualUser"):CaptureController()
-							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    until FarmTime1 == 25 or not AutoCandy
+							    TP(CFrame.new(-2115.850830078125, 58.12941360473633, -10184.060546875))
+						       until FarmTime1 == 25 or not AutoCandy
                         end
                         end
                     elseif FarmTime1 > 25 and FarmTime1 < 33 then
-                        TP(CFrame.new(-2137.37939453125, 100.3045425415039, -10530.1630859375))
+                     --   TP(CFrame.new(-2137.37939453125, 100.3045425415039, -10530.1630859375))
+                        TP(CFrame.new(-2147.01953125, 83.12896728515625, -10572.9169921875))
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
+                        if v.Name == "Peanut President [Lv. 2100]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
                                 BringCandyBone()
-							    TP(CFrame.new(-2142.37939453125, 100.3045425415039, -10545.1630859375))
-							    v.HumanoidRootPart.CFrame = CFrame.new(-2137.37939453125, 70.3045425415039, -10530.1630859375)
-								game:GetService("VirtualUser"):CaptureController()
-							    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+							    TP(CFrame.new(-2132.01953125, 63.12896728515625, -10557.9169921875))
 							    until FarmTime1 == 33 or not AutoCandy
                         end
                         end
@@ -7432,6 +7425,7 @@ end)
            -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
            -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
            require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+           require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
     end)
     end
     end
@@ -7824,36 +7818,37 @@ function BringCandyBone()
         if Safe() then
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if AutoCandy and FarmTime1 < 7 then
-				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then
+				    if v.Name == "Ice Cream Commander [Lv. 2150]" then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 							    v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-625.1123046875, 75.8453598022461, -11289.4375)
+								v.HumanoidRootPart.CFrame = CFrame.new(-652,85.5,-11291)
 								end
 				elseif AutoCandy and FarmTime1 >= 7 and FarmTime1 < 17 then
-				    if v.Name == "Ice Cream Chef [Lv. 2125]" or v.Name == "Ice Cream Commander [Lv. 2150]" then			
+				    if v.Name == "Ice Cream Chef [Lv. 2125]" then			
 				                v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-807.8082275390625, 65.84532928466797, -10962.3271484375)
+								v.HumanoidRootPart.CFrame = CFrame.new(-806.2667236328125, 65.84530639648438, -10955.5439453125)
 								end
 				elseif AutoCandy and FarmTime1 >= 17 and FarmTime1 < 25 then
-				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
+				    if v.Name == "Peanut Scout [Lv. 2075]" then
 								    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-2147.294677734375, 38.12980270385742, -10121.2841796875)
+							--	v.HumanoidRootPart.CFrame = CFrame.new(-2147.294677734375, 38.12980270385742, -10121.2841796875)
+								v.HumanoidRootPart.CFrame = CFrame.new(-2085.850830078125, 38.12941360473633, -10154.060546875)
 								end
 				elseif AutoCandy  and FarmTime1 > 25 and FarmTime1 <= 33 then
-				    if v.Name == "Peanut Scout [Lv. 2075]" or v.Name == "Peanut President [Lv. 2100]" then
+				    if v.Name == "Peanut President [Lv. 2100]" then
 								    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-2137.37939453125, 70.3045425415039, -10530.1630859375)
+								v.HumanoidRootPart.CFrame = CFrame.new(-2132.01953125, 63.12896728515625, -10557.9169921875)
 								end
 				end
             end
