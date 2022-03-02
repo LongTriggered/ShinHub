@@ -3483,9 +3483,8 @@ Players:Toggle("Kill Player", false, function(vu)
             end
          end
       end
-      if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) or game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
+      if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) and game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
       EquipWeapon(CurrentMelee)
-      wait(.01)
       EquipWeapon(GunKill)
       end
     if vu == false then
