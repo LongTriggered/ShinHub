@@ -3483,7 +3483,7 @@ Players:Toggle("Kill Player", false, function(vu)
             end
          end
       end
-      if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) and game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
+      if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) and not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
       EquipWeapon(CurrentMelee)
       EquipWeapon(GunKill)
       end
@@ -7832,7 +7832,7 @@ spawn(function()
                     if Shooting then
                         spawn(function()
                         local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
-game:GetService("Players").LocalPlayer.Character:FindFirstChild('Kabucha').RemoteFunctionShoot:InvokeServer(unpack(args))
+game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
 end)
                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame* CFrame.new(0,63,-30)
                     elseif Skill then
@@ -7857,9 +7857,10 @@ spawn(function()
                        EquipWeapon(CurrentMelee)
                        Skill = true
                        Shooting = false
-                      
+                      spawn(function()
                       require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
                       require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                      end)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
                     
@@ -7867,9 +7868,10 @@ spawn(function()
                     EquipWeapon(CurrentMelee)
                     Skill = true
                     Shooting = false
-                    
+                    spawn(function()
                     require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
                     require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                    end)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
                     
@@ -7878,7 +7880,6 @@ spawn(function()
                     EquipWeapon(GunKill)
                     Skill = true
                     Shooting = false
-                    
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
                     
@@ -7895,18 +7896,21 @@ spawn(function()
                         EquipWeapon(CurrentMelee)
                         Skill = true
                         Shooting = false
-                        
+                        spawn(function()
                         require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
                         require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"C",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"C",false,game)
+                    end)
                     else
-                        wait(1)
+                        wait(0.5)
                         Skill = false
                         Shooting = true
                         EquipWeapon(GunKill)
+                        spawn(function()
                         local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
-game:GetService("Players").LocalPlayer.Character:FindFirstChild('Kabucha').RemoteFunctionShoot:InvokeServer(unpack(args))
+game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
+end)
                 end
 end
 until not KillPlayerV2 or game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid.Health == 0
