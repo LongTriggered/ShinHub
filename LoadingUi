@@ -7899,9 +7899,9 @@ spawn(function()
                         spawn(function()
                         require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
                         require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                        end)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"C",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"C",false,game)
-                    end)
                     else
                         wait(0.5)
                         Skill = false
