@@ -1693,6 +1693,7 @@ function section:addDropdown(title, list, callback)
          SortOrder = Enum.SortOrder.LayoutOrder,
          Padding = UDim.new(0, 4)
       }),
+      , {
          utility:Create("TextBox", {
             Name = "TextBox",
             AnchorPoint = Vector2.new(0, 0.5),
