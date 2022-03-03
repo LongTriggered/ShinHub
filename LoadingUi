@@ -3404,10 +3404,40 @@ end
 local Players = serv:Channel("Players","http://www.roblox.com/asset/?id=7252023075")
 
 SelectKillWeapon = ""
+KillPlayer = Players:Label("Players")
+
+function UpdateKillPlayer()
+    pcall(function()
+    KillPlayer:Refresh( "Current Player :".. SelectedKillPlayer)
+    end)
+end
+
+spawn(function()
+    while wait(1) do
+        if SelectedKillPlayer ~= nil then
+    UpdateKillPlayer()
+    else
+    KillPlayer:Refresh( "Current Player : None ")
+end
+end
+end)
 
 Players:Line()
-
 Player = ""
+Players:Textbox("Player Name", "", true, function(playername)
+local Players = game:GetService("Players")
+
+   local name = playername:lower()
+   local matches = {}
+   for i,v in pairs(Players:GetChildren()) do
+       if v:IsA("Player") then
+           if string.sub(v.Name:lower(), 1, string.len(name)) == name then
+               SelectedKillPlayer = v.Name
+           end
+       end
+   end
+   return matches
+end)
 local SelectPlayer = Players:Dropdown("Selected Player", PlayerName, function(vu)
     SelectedKillPlayer = vu
 end)
@@ -3435,26 +3465,6 @@ end)
 Players:Toggle("Safe Mode", false, function(vu)
     SafeMode = vu
 	TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-end)
-
-Players:Line()
-
-local SelectWeapon = Players:Dropdown("Select Weapon",Wapon,function(Value)
-    SelectKillWeapon = Value
-end)
-
-Players:Button("Refresh Weapon", function()
-    SelectWeapon:Clear()
-	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-		if v:IsA("Tool") then
-			SelectWeapon:Add(v.Name)
-		end
-	end
-	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-		if v:IsA("Tool") then
-			SelectWeapon:Add(v.Name)
-		end
-	end
 end)
 
 Players:Toggle("Kill Player", false, function(vu)
@@ -7823,7 +7833,7 @@ mt.__index = newcclosure(function(t, k)
 end)
 
 spawn(function()
-    while game:GetService("RunService").Heartbeat:wait() do
+    while wait() do
  if KillPlayerV2 then
             pcall(function()
                 if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 350 then
@@ -7833,9 +7843,15 @@ spawn(function()
                         spawn(function()
                         local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
 game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
+game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Material = "SmoothPlastic"
+               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
 end)
                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame* CFrame.new(0,63,-30)
                     elseif Skill then
+                        spawn(function()
+                            game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Material = "SmoothPlastic"
+               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
+               end)
                               require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 200
                                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,4.7,-4.3)
                               end
@@ -7851,7 +7867,7 @@ spawn(function()
                 if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 350 then
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
                 elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 350 then
-                    repeat game:GetService("RunService").Heartbeat:wait()
+                    repeat wait()
                         if KillPlayerV2 and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 350 then
                    if game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
                        EquipWeapon(CurrentMelee)
@@ -7906,7 +7922,6 @@ spawn(function()
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"C",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"C",false,game)
                     else
-                        wait(0.5)
                         Skill = false
                         Shooting = true
                         EquipWeapon(GunKill)
