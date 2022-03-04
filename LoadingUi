@@ -3480,10 +3480,8 @@ Players:Toggle("Kill Player", false, function(vu)
             end
          end
       end
-      if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) and not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
       EquipWeapon(CurrentMelee)
       EquipWeapon(GunKill)
-      end
     if vu == false then
 	TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 	game.Players.LocalPlayer.Character.UpperTorso.BodyVelocity:Destroy()
