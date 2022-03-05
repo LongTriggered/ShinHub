@@ -2371,7 +2371,7 @@ end
 
 local win = DiscordLib:Window("Blox Fruits", _G.Color, _G.Toggle)
 
-local serv = win:Server("PORN HUB (SHIN HUB)","")
+local serv = win:Server("SHIN HUB","")
 
 local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
 
