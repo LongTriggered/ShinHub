@@ -3079,12 +3079,10 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance <= 250 then
+    if Distance <= 300 then
         Speed = math.huge
-    elseif Distance <= 300 and Distance > 250 then
-        Speed = 420
-    elseif Distance < 500 and Distance > 300 then
-        Speed = 400
+   -- elseif Distance < 500 and Distance > 250 then
+       -- Speed = 400
     elseif Distance < 1000 then
         Speed = 350
     elseif Distance >= 1000 then
@@ -7768,7 +7766,7 @@ setreadonly(mt, false)
 mt.__index = newcclosure(function(t, k)
    if t:IsA("Mouse") and (k == "Hit") then
      if KillPlayerV2 or AutoBounty then 
-           if game.Players:FindFirstChild(SelectedKillPlayer).Character and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("Humanoid").Health > 0 and KillPlayerV2 then
+           if game.Players:FindFirstChild(SelectedKillPlayer).Character and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("Humanoid").Health > 0 then
               return (k == "Hit" and game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame or game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart)
            end
         end
@@ -7780,15 +7778,15 @@ spawn(function()
     while wait() do
  if KillPlayerV2 or AutoBounty then
             pcall(function()
-                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 250 then
+                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
-                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 250 then
+                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
                     if Shooting then
                         spawn(function()
                         local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
 game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
 game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Material = "SmoothPlastic"
-               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
 end)
 spawn(function()
     local RandomThing = math.random(1,4)
@@ -7805,10 +7803,10 @@ spawn(function()
                     elseif Skill then
                         spawn(function()
                             game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Material = "SmoothPlastic"
-               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
                end)
                               require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 200
-                                 TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,4.7,-4.3))
+                                 TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-4.3))
                               end
                               end
                               end)
@@ -7819,11 +7817,11 @@ spawn(function()
     while wait() do
         if KillPlayerV2 then
             pcall(function()
-                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 250 then
+                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
-                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 250 then
+                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
                     repeat wait()
-                        if KillPlayerV2 and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 250 then
+                        if KillPlayerV2 and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
                    if game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
                        EquipWeapon(CurrentMelee)
                        Skill = true
@@ -7927,7 +7925,7 @@ if i == PlrNum and v.TeamColor ~= "Neutral" and v.Character then
                 else
                           --  if game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid
                             _G.Farm = true
-                   if game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
+                   if game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
                        EquipWeapon(CurrentMelee)
                        Skill = true
                        Shooting = false
@@ -7938,8 +7936,8 @@ if i == PlrNum and v.TeamColor ~= "Neutral" and v.Character then
                       end)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
-                    
-                   elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[CurrentMelee].X.Cooldown.AbsoluteSize.X == 0 then
+                    wait()
+                   elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].X.Cooldown.AbsoluteSize.X == 0 then
                     EquipWeapon(CurrentMelee)
                     Skill = true
                     Shooting = false
@@ -7950,25 +7948,23 @@ if i == PlrNum and v.TeamColor ~= "Neutral" and v.Character then
                     end)
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
+                    wait()
                     
-                    
-                   elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[GunKill].X.Cooldown.AbsoluteSize.X == 0 then
+                   elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[GunKill].Z.Cooldown.AbsoluteSize.X == 0 then
                     EquipWeapon(GunKill)
                     Skill = true
                     Shooting = false
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
-                    
-                    elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[GunKill].Z.Cooldown.AbsoluteSize.X == 0 then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
+                    wait()
+                    elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[GunKill].X.Cooldown.AbsoluteSize.X == 0 then
                         EquipWeapon(GunKill)
                         Skill = true
                         Shooting = false
-                        
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
-                    
-                    
-                    elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[CurrentMelee].C.Cooldown.AbsoluteSize.X == 0 then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
+                    wait()
+                    elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].C.Cooldown.AbsoluteSize.X == 0 then
                         EquipWeapon(CurrentMelee)
                         Skill = true
                         Shooting = false
@@ -7989,10 +7985,35 @@ game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteF
 end)
 end
 end
+elseif v.TeamColor == "Neutral" and not v.Character then
+    PlrNum = PlrNum + 1
 end
 end
 end)
 end
+end
+end)
+
+spawn(function()
+    while wait() do
+        pcall(function()
+        if AutoBounty then
+            spawn(function()
+                    if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) or not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
+      EquipWeapon(CurrentMelee)
+      EquipWeapon(GunKill)
+                    end
+  end)
+local player = game.Players:FindFirstChild(SelectedKillPlayer)
+local char = player.Character or player.CharacterAdded:Wait()
+local hum = char:FindFirstChild("Humanoid")
+    if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 20000 or not game.Players:FindFirstChild(SelectedKillPlayer).Character then
+        PlrNum = PlrNum + 1
+    else
+        print('ok')
+    end
+end
+end)
 end
 end)
 
