@@ -3093,6 +3093,15 @@ function TP(P1)
         TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
         {CFrame = P1}
     ):Play()
+
+if AutoBounty and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild('Main').InCombat.Visible == false and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 3000 then
+           _G.Farm = false
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,-301,0)
+for i=1,5 do
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+end
+end
 end
 end)
 end
@@ -7806,7 +7815,7 @@ spawn(function()
                game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
                end)
                               require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 200
-                                 TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-4.3))
+                                 TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,4,-4.3))
                               end
                               end
                               end)
@@ -7817,6 +7826,7 @@ spawn(function()
     while wait() do
         if KillPlayerV2 then
             pcall(function()
+                if Safe() then
                 if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
                 elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
@@ -7878,13 +7888,16 @@ spawn(function()
                         Skill = false
                         Shooting = true
                         EquipWeapon(GunKill)
+                      --  game.Players.LocalPlayer.Backpack:FindFirstChild(CurrentMelee).Parent = game.Players.LocalPlayer.Character
                         spawn(function()
-                        local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
+                            local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
 game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
-end)
+
+                      end)
                 end
 end
 until not KillPlayerV2 or game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid.Health == 0
+end
 end
 end)
 end
@@ -7916,14 +7929,15 @@ spawn(function()
     while wait() do
         if AutoBounty then
             pcall(function()
+                if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
             for i,v in pairs(game.Players:GetChildren()) do
 if i == PlrNum and v.TeamColor ~= "Neutral" and v.Character then
     SelectedKillPlayer = v.Name
-   if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 250 then
+   -- repeat wait()
+   if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
+  _G.Farm = false
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
-   	_G.Farm = false
                 else
-                          --  if game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid
                             _G.Farm = true
                    if game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
                        EquipWeapon(CurrentMelee)
@@ -7985,8 +7999,8 @@ game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteF
 end)
 end
 end
-elseif v.TeamColor == "Neutral" and not v.Character then
-    PlrNum = PlrNum + 1
+--until (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 250
+end
 end
 end
 end)
@@ -8010,7 +8024,6 @@ local hum = char:FindFirstChild("Humanoid")
     if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 20000 or not game.Players:FindFirstChild(SelectedKillPlayer).Character then
         PlrNum = PlrNum + 1
     else
-        print('ok')
     end
 end
 end)
