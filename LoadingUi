@@ -2550,7 +2550,7 @@ if Old_World then
 elseif New_World then
 	tableMon = {"Raider [Lv. 700]","Mercenary [Lv. 725]","Swan Pirate [Lv. 775]","Factory Staff [Lv. 800]","Marine Lieutenant [Lv. 875]","Marine Captain [Lv. 900]","Zombie [Lv. 950]","Vampire [Lv. 975]","Snow Trooper [Lv. 1000]","Winter Warrior [Lv. 1050]","Lab Subordinate [Lv. 1100]","Horned Warrior [Lv. 1125]","Magma Ninja [Lv. 1175]","Lava Pirate [Lv. 1200]","Ship Deckhand [Lv. 1250]","Ship Engineer [Lv. 1275]","Ship Steward [Lv. 1300]","Ship Officer [Lv. 1325]","Arctic Warrior [Lv. 1350]","Snow Lurker [Lv. 1375]","Sea Soldier [Lv. 1425]","Water Fighter [Lv. 1450]"}
 elseif Three_World then
-	tableMon = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]"}
+	tableMon = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]",}
 end
 
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventoryWeapons")
@@ -2807,12 +2807,12 @@ AutoFarm:Line()
 AutoFarm:Label(""):Refresh("Halloween and Christmas")
 
 local Bone = AutoFarm:Label("")
-local Candy = AutoFarm:Label("")
+--local Candy = AutoFarm:Label("")
 
 spawn(function()
 	while wait(2) do
 		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
-        Candy:Refresh("Total Candy : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check")))
+       -- Candy:Refresh("Total Candy : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check")))
 	end
 end)
 
@@ -3356,7 +3356,10 @@ Event:InvokeServer(A_1, A_2)
     -- wait(.01)
     -- game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Running)
     -- wait(0.1)
-     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-12551.534179688, 337.1940612793, -7554.548828125)
+     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Map.Turtle.TradeTable.P1.CFrame
+     game:GetService("Workspace").Map.Turtle.TradeTable.P1.Disabled = true
+     wait(5)
+     game:GetService("Workspace").Map.Turtle.TradeTable.P1.Disabled = false
 	end)
 
 	Tp:Button("Castle on the Sea", function()
@@ -7082,35 +7085,35 @@ function CheckBossQuest()
 			BossMon = "Stone [Lv. 1550] [Boss]"
 			NameQuestBoss = "PiratePortQuest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$25,000\n40,000,000 Exp."
+            RewardBoss = "Reward:\n$25,000\n60,000,000 Exp."
             CFrameQBoss = CFrame.new(-289.76705932617, 43.819011688232, 5579.9384765625)
             CFrameBoss = CFrame.new(-1027.6512451172, 92.404174804688, 6578.8530273438)
 		elseif SelectBoss == "Island Empress [Lv. 1675] [Boss]" then
 			BossMon = "Island Empress [Lv. 1675] [Boss]"
 			NameQuestBoss = "AmazonQuest2"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$30,000\n52,000,000 Exp."
+            RewardBoss = "Reward:\n$30,000\n70,000,000 Exp."
             CFrameQBoss = CFrame.new(5445.9541015625, 601.62945556641, 751.43792724609)
             CFrameBoss = CFrame.new(5543.86328125, 668.97399902344, 199.0341796875)
 		elseif SelectBoss == "Kilo Admiral [Lv. 1750] [Boss]" then
 			BossMon = "Kilo Admiral [Lv. 1750] [Boss]"
 			NameQuestBoss = "MarineTreeIsland"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$35,000\n56,000,000 Exp."
+            RewardBoss = "Reward:\n$35,000\n78,000,000 Exp."
             CFrameQBoss = CFrame.new(2179.3010253906, 28.731239318848, -6739.9741210938)
             CFrameBoss = CFrame.new(2764.2233886719, 432.46154785156, -7144.4580078125)
 		elseif SelectBoss == "Captain Elephant [Lv. 1875] [Boss]" then
 			BossMon = "Captain Elephant [Lv. 1875] [Boss]"
 			NameQuestBoss = "DeepForestIsland"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$40,000\n67,000,000 Exp."
+            RewardBoss = "Reward:\n$40,000\n90,000,000 Exp."
             CFrameQBoss = CFrame.new(-13232.682617188, 332.40396118164, -7626.01171875)
             CFrameBoss = CFrame.new(-13376.7578125, 433.28689575195, -8071.392578125)
 		elseif SelectBoss == "Beautiful Pirate [Lv. 1950] [Boss]" then
 			BossMon = "Beautiful Pirate [Lv. 1950] [Boss]"
             NameQuestBoss = "DeepForestIsland2"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$50,000\n70,000,000 Exp."
+            RewardBoss = "Reward:\n$50,000\n100,000,000 Exp."
             CFrameQBoss = CFrame.new(-12682.096679688, 390.88653564453, -9902.1240234375)
             CFrameBoss = CFrame.new(5283.609375, 22.56223487854, -110.78285217285)
 		elseif SelectBoss == "Longma [Lv. 2000] [Boss]" then
@@ -7126,9 +7129,12 @@ function CheckBossQuest()
 		    BossMon = "Cake Queen [Lv. 2175] [Boss]"
 		    NameQuestBoss = "IceCreamIslandQuest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$30,000\n91,000,000 Exp."
-            CFrameQBoss = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938  )
+            RewardBoss = "Reward:\n$30,000\n112,500,000 Exp."
+            CFrameQBoss = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938)
             CFrameBoss = CFrame.new(-610.87945556641, 179.32225036621, -11146.975585938)
+        elseif SelectBoss == "Cake Prince [Lv. 2300] [Raid Boss]" then
+		    BossMon = "Cake Prince [Lv. 2300] [Raid Boss]"
+			CFrameBoss = CFrame.new(-2148.307861328125, 70.00884246826172, -12403.2294921875)
 		end
 	end
 end
@@ -7140,7 +7146,7 @@ spawn(function()
 			    pcall(function()  
 			        if Safe() then
 				CheckBossQuest()
-				if SelectBoss == "Soul Reaper [Lv. 2100] [Raid Boss]" or SelectBoss == "Longma [Lv. 2000] [Boss]" or SelectBoss == "Don Swan [Lv. 1000] [Boss]" or SelectBoss == "Cursed Captain [Lv. 1325] [Raid Boss]" or SelectBoss == "Order [Lv. 1250] [Raid Boss]" or SelectBoss == "rip_indra True Form [Lv. 5000] [Raid Boss]" then
+				if SelectBoss == "Soul Reaper [Lv. 2100] [Raid Boss]" or SelectBoss == "Longma [Lv. 2000] [Boss]" or SelectBoss == "Don Swan [Lv. 1000] [Boss]" or SelectBoss == "Cursed Captain [Lv. 1325] [Raid Boss]" or SelectBoss == "Order [Lv. 1250] [Raid Boss]" or SelectBoss == "rip_indra True Form [Lv. 5000] [Raid Boss]" or SelectBoss == "Cake Prince [Lv. 2300] [Raid Boss]" then
 					if game:GetService("Workspace").Enemies:FindFirstChild(SelectBoss) then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 							if v.Name == BossMon then
@@ -7704,7 +7710,7 @@ while wait() do
 								v.HumanoidRootPart.CFrame = PosMon
 								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 								v.HumanoidRootPart.CanCollide = false
-							--	v.Humanoid.PlatformStand = true
+								v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
 					end
