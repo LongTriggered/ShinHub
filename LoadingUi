@@ -1,3 +1,5 @@
+
+
 -- Config
 
 --Config
@@ -2369,7 +2371,7 @@ end
 
 local win = DiscordLib:Window("Blox Fruits", _G.Color, _G.Toggle)
 
-local serv = win:Server("PORN HUB (SHIN HUB)","")
+local serv = win:Server("SHIN HUB","")
 
 local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
 
@@ -2739,7 +2741,7 @@ AutoFarm:Slider("Health %", 1,100,HealthPersen, function(Value)
 	HealthPersen = Value
 end)
 
-AutoFarm:Toggle("Auto Farm Mastery Magnet", false, function(vu)
+AutoFarm:Toggle("Auto Farm Mastery Bring", false, function(vu)
 	MasteryMagnet = vu
 end)
 
@@ -2894,11 +2896,10 @@ spawn(function()
 								   repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 									v.HumanoidRootPart.CanCollide = false
-									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 									v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
-								    require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								   until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
@@ -2925,11 +2926,10 @@ spawn(function()
 								   repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 									v.HumanoidRootPart.CanCollide = false
-									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 									v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
-								    require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								   until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
@@ -3077,12 +3077,10 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance <= 250 then
+    if Distance <= 300 then
         Speed = math.huge
-    elseif Distance <= 300 and Distance > 250 then
-        Speed = 450
-    elseif Distance < 500 and Distance > 300 then
-        Speed = 400
+   -- elseif Distance < 500 and Distance > 250 then
+       -- Speed = 400
     elseif Distance < 1000 then
         Speed = 350
     elseif Distance >= 1000 then
@@ -3093,6 +3091,15 @@ function TP(P1)
         TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
         {CFrame = P1}
     ):Play()
+
+if AutoBounty and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild('Main').InCombat.Visible == false and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 3000 then
+           _G.Farm = false
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,-301,0)
+for i=1,5 do
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+end
+end
 end
 end)
 end
@@ -3123,7 +3130,7 @@ Tp:Toggle("Ctrl + Click to TP", false, function(vu)
 	CTRL = vu
 end)
 
-Tp:Button("Stop Tween", function()
+Tp:Button("Stop TP", function()
     Clip = false
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
@@ -3398,6 +3405,10 @@ end)
    
         Tp:Button("Candy Island 2", function()
 		TP2(CFrame.new(-812.11346435547, 65.845291137695, -10928.4609375))
+        end)
+
+Tp:Button("Candy Island 3", function()
+		TP2(CFrame.new(-1945.0286865234375, 37.82406997680664, -11867.9140625))
 	end)
 end
 
@@ -3480,6 +3491,42 @@ Players:Toggle("Kill Player", false, function(vu)
             end
          end
       end
+      if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) and not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
+      EquipWeapon(CurrentMelee)
+      EquipWeapon(GunKill)
+      end
+    if vu == false then
+	TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+	game.Players.LocalPlayer.Character.UpperTorso.BodyVelocity:Destroy()
+	end
+end)
+
+Players:Toggle("Auto Bounty", false, function(vu)
+    AutoBounty = vu
+    for i,v in pairs(ListMelee) do
+      if game.Players.LocalPlayer.Backpack:FindFirstChild(ListMelee[i]) then
+         CurrentMelee = ListMelee[i]
+      end
+   end
+   for i,v in pairs(ListMelee) do
+      if game.Players.LocalPlayer.Character:FindFirstChild(ListMelee[i]) then
+         CurrentMelee = ListMelee[i]
+      end
+   end
+   for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do  
+         if v:IsA("Tool") then
+            if v:FindFirstChild("RemoteFunctionShoot") then 
+               GunKill = v.Name
+            end
+         end
+      end
+      for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
+         if v:IsA("Tool") then
+            if v:FindFirstChild("RemoteFunctionShoot") then 
+               GunKill = v.Name
+            end
+         end
+      end
       EquipWeapon(CurrentMelee)
       EquipWeapon(GunKill)
     if vu == false then
@@ -3487,51 +3534,27 @@ Players:Toggle("Kill Player", false, function(vu)
 	game.Players.LocalPlayer.Character.UpperTorso.BodyVelocity:Destroy()
 	end
 end)
-
+    
+    Players:Toggle("Auto Bounty Hop", false, function(vu)
+        AutoBountyHop = vu
+        spawn(function()
+	    while wait() do 
+	        if AutoBountyHop and AutoBounty then
+	        wait(120)
+		Teleport()
+		else
+		    break
+	    end
+	    end
+end)
+    end)
+    
 Players:Toggle("Spectate Player", false, function(vu)
     Spectate = vu
     repeat game:GetService("RunService").Heartbeat:wait()
         game.Workspace.Camera.CameraSubject = game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid
     until Spectate == false
     game.Workspace.Camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
-end)
-
-Players:Toggle("Aimbot Gun", false, function(vu)
-	Aimbot = vu
-end)
-
-Players:Toggle("Aimbot Skill Nearest", false, function(vu)
-	AimSkillNearest = vu
-end)
-
-spawn(function()
-	while wait() do
-		pcall(function()
-			local MaxDistance = math.huge
-			for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-				if v.Name ~= game.Players.LocalPlayer.Name then
-					local Distance = v:DistanceFromCharacter(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
-					if Distance < MaxDistance then
-						MaxDistance = Distance
-						TargetPlayerAim = v.Name
-					end
-				end
-			end
-		end)
-	end
-end)
-
-spawn(function()
-	pcall(function()
-		game:GetService("RunService").RenderStepped:connect(function()
-			if AimSkillNearest and TargetPlayerAim ~= nil and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") and game.Players.LocalPlayer.Character[game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name]:FindFirstChild("MousePos") then
-				local args = {
-					[1] = game:GetService("Players"):FindFirstChild(TargetPlayerAim).Character.HumanoidRootPart.Position
-				}
-				game:GetService("Players").LocalPlayer.Character[game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name].RemoteEvent:FireServer(unpack(args))
-			end
-		end)
-	end)
 end)
 
 Players:Line()
@@ -4871,9 +4894,9 @@ Setting:Toggle("Press Home Button Stop Tween", true, function(vu)
 	PressHomeStopTween = vu
 end)
 
-Setting:Toggle("Fast Attack (Lag)", true ,function(vu)
-    _G.FastAttack = vu
-end)
+--Setting:Toggle("Fast Attack (Lag)", false ,function(vu)
+  --  _G.FastAttack = vu
+--end)
 
 Setting:Toggle("Auto Haki", true, function(vu)
     Auto_Haki = vu
@@ -5439,13 +5462,27 @@ function CheckLevel()
             NameMon = "Ice Cream Chef"
             CFrameQ = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938)
             CFrameMon = CFrame.new(-610.87945556641, 179.32225036621, -11146.975585938)
-        elseif Lv >= 2050 or SelectMonster == "Ice Cream Commander [Lv. 2150]" then
+        elseif Lv == 2150 or Lv <= 2199 or SelectMonster == "Ice Cream Commander [Lv. 2150]" then
             Ms = "Ice Cream Commander [Lv. 2150]"
             NameQuest = "IceCreamIslandQuest"
             QuestLv = 2
             NameMon = "Ice Cream Commander"
             CFrameQ = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938)
             CFrameMon = CFrame.new(-610.87945556641, 179.32225036621, -11146.975585938)
+        elseif Lv == 2200 or Lv <= 2224 or SelectMonster == "Cookie Crafter [Lv. 2200]" then
+            Ms = "Cookie Crafter [Lv. 2200]"
+            NameQuest = "CakeQuest1"
+            QuestLv = 1
+            NameMon = "Cookie Crafter"
+            CFrameQ = CFrame.new(-2021.7838134765625, 37.82400894165039, -12029.1328125)
+            CFrameMon = CFrame.new(-2271.1982421875, 146.5656280517578, -12187.7890625)
+        elseif Lv == 2225 or Lv <= 2249 or SelectMonster == "Cake Guard [Lv. 2225]" then
+            Ms = "Cake Guard [Lv. 2225]"
+            NameQuest = "CakeQuest1"
+            QuestLv = 2
+            NameMon = "Cake Guard"
+            CFrameQ = CFrame.new(-2021.7838134765625, 37.82400894165039, -12029.1328125)
+            CFrameMon = CFrame.new(-1595.721923828125, 195.68417358398438, -12356.916015625)
 		end
 	end
 end
@@ -5500,7 +5537,8 @@ spawn(function()
 												Click()
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 												PosMon = v.HumanoidRootPart.CFrame
-												require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
+												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											     v.HumanoidRootPart.CanCollide = false
 												MagnetActive = true
 											else
 												MagnetActive = false    
@@ -5615,7 +5653,8 @@ spawn(function()
 						repeat game:GetService("RunService").Heartbeat:wait()
 							TP(CFrame.new(402.404296875, 182.53373718262, -414.73394775391))
 							EquipWeapon(SelectToolWeapon)
-							require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+							v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+							v.HumanoidRootPart.CanCollide = false
 							game:GetService'VirtualUser':CaptureController()
 							game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 						until not Core or v.Humanoid.Health <= 0  or Factory == false
@@ -5697,8 +5736,9 @@ spawn(function()
 										game:GetService'VirtualUser':CaptureController()
 										game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,0))
-										require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
-										PosMon = v.HumanoidRootPart.CFrame
+										v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+										v.HumanoidRootPart.CanCollide = false
+									    PosMon = v.HumanoidRootPart.CFrame
 										MagnetBatilo = true
                                     until not v.Parent or v.Humanoid.Health <= 0 or AutoBartilo == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
 									MagnetBatilo = false
@@ -5730,8 +5770,9 @@ spawn(function()
 						if v.Name == "Jeremy [Lv. 850] [Boss]" then
 							repeat wait(.1)
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
 								EquipWeapon(SelectToolWeapon)
+								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+								v.HumanoidRootPart.CanCollide = false
 								TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,6))
 								game:GetService'VirtualUser':CaptureController()
 								game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
@@ -5782,7 +5823,8 @@ spawn(function()
 							repeat game:GetService("RunService").Heartbeat:wait()
 								EquipWeapon(SelectToolWeapon)
 								PosMon = v.HumanoidRootPart.CFrame
-								require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+								v.HumanoidRootPart.CanCollide = false
 								TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 								game:GetService'VirtualUser':CaptureController()
 								game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
@@ -5815,10 +5857,11 @@ spawn(function()
 								EquipWeapon(SelectToolWeapon)
                                 if string.find(v.Name, "Ship") then
                                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,15))
+                                    v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											v.HumanoidRootPart.CanCollide = false
 									game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
-                                    PosMon = v.HumanoidRootPart.CFrame
+									PosMon = v.HumanoidRootPart.CFrame
                                     EctoplasMagnet = true
                                 else
                                     EctoplasMagnet = false
@@ -5964,7 +6007,8 @@ spawn(function()
                                         pcall(function()
                                             EquipWeapon(SelectToolWeapon)
                                             TP(v.HumanoidRootPart.CFrame * CFrame.new(0,25,25))
-                                            require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+                                            v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											v.HumanoidRootPart.CanCollide = false
                                             game:GetService'VirtualUser':CaptureController()
                                             game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
                                             FoundIndra = true
@@ -6063,8 +6107,8 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
 									sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 									v.HumanoidRootPart.CanCollide = false
-                                    v.HumanoidRootPart.Size = Vector3.new(10,2,10)
                                     v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
 									game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 7)
@@ -6112,8 +6156,9 @@ spawn(function()
 							if v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 16, 7)
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
 									game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 								until v.Humanoid.Health <= 0 or not v.Parent
@@ -6158,9 +6203,10 @@ spawn(function()
 							if v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 16, 7)
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
-									game:GetService'VirtualUser':CaptureController()
+								    game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 								until v.Humanoid.Health <= 0 or not v.Parent
 							end
@@ -6219,7 +6265,8 @@ spawn(function()
 										if QuestElite then
 											EquipWeapon(SelectToolWeapon)
 											TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 10, 4))
-											require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+											v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											v.HumanoidRootPart.CanCollide = false
 											game:GetService'VirtualUser':CaptureController()
 											game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 										else
@@ -6308,8 +6355,8 @@ spawn(function()
 										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
 										v.Head.CanCollide = false
-						                v.HumanoidRootPart.CanCollide = false
-						                v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+						                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+										v.HumanoidRootPart.CanCollide = false
 						                v.Humanoid.WalkSpeed = 0
 								        v.HumanoidRootPart.Transparency = 1
 										game:GetService("VirtualUser"):CaptureController()
@@ -6405,7 +6452,8 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
                                     EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 10))
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoRainbow == false or v.Humanoid.Health <= 0 or not v.Parent or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
@@ -6421,7 +6469,8 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
                                     EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 10))
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoRainbow == false or v.Humanoid.Health <= 0 or not v.Parent or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
@@ -6437,7 +6486,8 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
                                     EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 10))
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoRainbow == false or v.Humanoid.Health <= 0 or not v.Parent or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
@@ -6453,8 +6503,9 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
                                     EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 10))
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
-									game:GetService("VirtualUser"):CaptureController()
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
+								    game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoRainbow == false or v.Humanoid.Health <= 0 or not v.Parent or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
 							end
@@ -6469,7 +6520,8 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
                                     EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 10))
-									require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoRainbow == false or v.Humanoid.Health <= 0 or not v.Parent or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
@@ -6522,6 +6574,8 @@ spawn(function()
 											USEBF = false
 											EquipWeapon(SelectToolWeapon)
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+											v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											v.HumanoidRootPart.CanCollide = false
 											game:GetService("VirtualUser"):CaptureController()
 											game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 										end
@@ -6579,8 +6633,9 @@ spawn(function()
 											game:GetService("Players").LocalPlayer.Character[SelectToolWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
 										else
 											EquipWeapon(SelectToolWeapon)
-											require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 1000
 											TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+											v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											v.HumanoidRootPart.CanCollide = false
 											game:GetService'VirtualUser':CaptureController()
 											game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 										end
@@ -6644,13 +6699,10 @@ spawn(function()
 									v.HumanoidRootPart.Size = Vector3.new(120, 120, 120)
 									game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-									RawFastAttack = true
 								until not v.Parent or v.Humanoid.Health <= 0 or AutoLowRaid == false
-								RawFastAttack = false
 							end
 						end
 					elseif game:GetService("ReplicatedStorage"):FindFirstChild("Order [Lv. 1250] [Raid Boss]") then
-						RawFastAttack = false
 						TP(CFrame.new(-6217.2021484375, 28.047645568848, -5053.1357421875))
 					end
 				end
@@ -7081,12 +7133,11 @@ spawn(function()
 								repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
 									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 									v.HumanoidRootPart.CanCollide = false
-									v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 									v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
-								    require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
-									game:GetService("VirtualUser"):CaptureController()
+								    game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 								until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
 							end
@@ -7110,12 +7161,11 @@ spawn(function()
 											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestReward.Title.Text, RewardBoss) then
 												EquipWeapon(SelectToolWeapon)
 												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-												v.HumanoidRootPart.CanCollide = false
-												v.HumanoidRootPart.Size = Vector3.new(10,2,10)
+												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+											    v.HumanoidRootPart.CanCollide = false
 												v.Humanoid.WalkSpeed = 0
 								                v.HumanoidRootPart.Transparency = 1
-								                require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
-												game:GetService("VirtualUser"):CaptureController()
+								                game:GetService("VirtualUser"):CaptureController()
 												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 											else
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
@@ -7134,12 +7184,11 @@ spawn(function()
 									repeat game:GetService("RunService").Heartbeat:wait()
 										EquipWeapon(SelectToolWeapon)
 										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+										v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 										v.HumanoidRootPart.CanCollide = false
-										v.HumanoidRootPart.Size = Vector3.new(10,2,10)
 										v.Humanoid.WalkSpeed = 0
 								        v.HumanoidRootPart.Transparency = 1
-								        require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 150
-										game:GetService("VirtualUser"):CaptureController()
+								        game:GetService("VirtualUser"):CaptureController()
 										game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 									until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
 								end
@@ -7155,43 +7204,10 @@ spawn(function()
 		end
 	end)
 end)
-
-local lp = game:GetService('Players').LocalPlayer
-local mouse = lp:GetMouse()
-mouse.Button1Down:Connect(function()
-	if AimbotRange and game.Players.LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun) then
-        for i,v in pairs(game:GetService("Players"):GetChildren()) do
-            if v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") then
-                if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3 <= RangeAimGun then
-                    if v.Name == game.Players.LocalPlayer.Name then
-                    else
-                        local args = {
-                            [1] = v.Character.HumanoidRootPart.Position,
-                            [2] = v.Character.HumanoidRootPart
-                        }
-                        game:GetService("Players").LocalPlayer.Character[SelectToolWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
-                    end
-                end
-            end
-        end
-	end
-end)
-
-local lp = game:GetService('Players').LocalPlayer
-local mouse = lp:GetMouse()
-mouse.Button1Down:Connect(function()
-	if Aimbot and game.Players.LocalPlayer.Character:FindFirstChild(SelectToolWeaponGun) then
-        local args = {
-            [1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position,
-            [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart
-        }
-        game:GetService("Players").LocalPlayer.Character[SelectToolWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
-	end
-end)
             
 spawn(function()
    while wait() do
-        if PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
+        if AutoBounty or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7208,7 +7224,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if SafeMode or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
+        if AutoBounty or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
@@ -7342,34 +7358,30 @@ end
 end)
 
 spawn(function()
-    while wait(4) do
+    while wait() do
         if Auto_Haki then
-            pcall(function()
-                if Safe() then
             if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
-            end
-                end
-        end)
+        end
     end
     end
 end)
 
-    game:GetService('RunService').Heartbeat:connect(function()
-    if _G.FastAttack == true and Safe() then
-        if AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
-        pcall(function() 
+  --  game:GetService('RunService').Heartbeat:connect(function()
+  --  if _G.FastAttack == true and Safe() then
+      --  if AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
+      --  pcall(function() 
          --   require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.attacking = false
           --  require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.active = false
            -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.timeToNextAttack = 0
            -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
            -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
-           require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
-           require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
-    end)
-    end
-    end
-    end)
+--           require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+  --         require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
+   -- end)
+  --  end
+  --  end
+--    end)
         
 spawn(function()
 	while wait(1) do
@@ -7675,28 +7687,27 @@ while wait() do
 				if Auto_FarmLvl and MagnetActive and Magnet then
 					if v.Name == Ms and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 							if (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
+								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+								v.HumanoidRootPart.CanCollide = false
 							--	v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 							end
 					end
 				elseif FarmMasteryFruit and MasteryBFMagnetActive and MasteryMagnet then
 						if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
-						    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
+								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+								v.HumanoidRootPart.CanCollide = false
 								v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
 				elseif FarmMasteryGun and MasteryGunMagnetActive and MasteryMagnet then
 						if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 250 then
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								v.Humanoid.PlatformStand = true
+								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+								v.HumanoidRootPart.CanCollide = false
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
 				elseif AutoBartilo and MagnetBatilo and Magnet then
@@ -7800,8 +7811,8 @@ local oldindex = mt.__index
 setreadonly(mt, false)
 mt.__index = newcclosure(function(t, k)
    if t:IsA("Mouse") and (k == "Hit") then
-     if KillPlayerV2 then 
-           if game.Players:FindFirstChild(SelectedKillPlayer).Character and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("Humanoid").Health > 0 and KillPlayerV2 then
+     if KillPlayerV2 or AutoBounty then 
+           if game.Players:FindFirstChild(SelectedKillPlayer).Character and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("Humanoid").Health > 0 then
               return (k == "Hit" and game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame or game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart)
            end
         end
@@ -7811,37 +7822,36 @@ end)
 
 spawn(function()
     while wait() do
- if KillPlayerV2 then
+ if KillPlayerV2 or AutoBounty then
             pcall(function()
-                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 320 then
+                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
-                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 320 then
+                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
                     if Shooting then
                         spawn(function()
                         local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
 game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
 game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Material = "SmoothPlastic"
-               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
 end)
 spawn(function()
     local RandomThing = math.random(1,4)
     if RandomThing == 1 then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(-30,63,0)
-                     elseif RandomThing == 2 then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,63,30)
-                     elseif RandomThing == 3 then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(30,63,0)
-                     elseif RandomThing == 4 then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,63,-30)
-                     end
-                     end)
+        TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(-30,63,0))
+    elseif RandomThing == 2 then
+                   TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,63,30))
+    elseif RandomThing == 3 then
+                     TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(30,63,0))
+    elseif RandomThing == 4 then
+                    TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,63,-30))
+                    end
+                    end)
                     elseif Skill then
                         spawn(function()
                             game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Material = "SmoothPlastic"
-               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+               game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
                end)
-                              require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework).activeController.hitboxMagnitude = 200
-                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,4.7,-4.3)
+                                 TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,4,-4.3))
                               end
                               end
                               end)
@@ -7852,11 +7862,12 @@ spawn(function()
     while wait() do
         if KillPlayerV2 then
             pcall(function()
-                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 350 then
+                if Safe() then
+                if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
    	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
-                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 350 then
+                elseif (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
                     repeat wait()
-                        if KillPlayerV2 and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 350 then
+                        if KillPlayerV2 and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 300 then
                    if game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
                        EquipWeapon(CurrentMelee)
                        Skill = true
@@ -7913,16 +7924,153 @@ spawn(function()
                         Skill = false
                         Shooting = true
                         EquipWeapon(GunKill)
+                      --  game.Players.LocalPlayer.Backpack:FindFirstChild(CurrentMelee).Parent = game.Players.LocalPlayer.Character
                         spawn(function()
-                        local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
+                            local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
 game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
-end)
+
+                      end)
                 end
 end
 until not KillPlayerV2 or game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid.Health == 0
 end
+end
 end)
 end
+end
+end)
+spawn(function()
+    while wait() do
+        if _G.Farm == true then
+        wait(8)
+pcall(function()
+local player = game.Players:FindFirstChild(SelectedKillPlayer)
+local char = player.Character or player.CharacterAdded:Wait()
+local hum = char:FindFirstChild("Humanoid")
+local oldHealth = hum.MaxHealth
+    if game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid.Health ~= oldHealth then
+        print('ok')
+    else
+        wait(1)
+        PlrNum = PlrNum + 1
+    end
+end)
+end
+end
+end)
+
+PlrNum = 2
+
+spawn(function()
+    while wait() do
+        if AutoBounty then
+            pcall(function()
+                if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
+            for i,v in pairs(game.Players:GetChildren()) do
+if i == PlrNum and v.TeamColor ~= "Neutral" and v.Character then
+    SelectedKillPlayer = v.Name
+   -- repeat wait()
+   if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 300 then
+  _G.Farm = false
+  if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 3000 and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 20000 and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild('Main').InCombat.Visible == false then
+  game.Players.LocalPlayer.Character.Humanoid.Health = 0
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,-301,0)
+for i=1,5 do
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+end
+elseif game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild('Main').InCombat.Visible == true and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 3000 then
+    wait(1)
+   	TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
+   	end
+                else
+                            _G.Farm = true
+                   if game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].Z.Cooldown.AbsoluteSize.X == 0 then
+                       EquipWeapon(CurrentMelee)
+                       Skill = true
+                       Shooting = false
+                      spawn(function()
+                      require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                      wait(0.5)
+                      require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                      end)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
+                    wait()
+                   elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].X.Cooldown.AbsoluteSize.X == 0 then
+                    EquipWeapon(CurrentMelee)
+                    Skill = true
+                    Shooting = false
+                    spawn(function()
+                    require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                    wait(0.5)
+                    require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                    end)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
+                    wait()
+                    
+                   elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[GunKill].Z.Cooldown.AbsoluteSize.X == 0 then
+                    EquipWeapon(GunKill)
+                    Skill = true
+                    Shooting = false
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
+                    wait()
+                    elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[GunKill].X.Cooldown.AbsoluteSize.X == 0 then
+                        EquipWeapon(GunKill)
+                        Skill = true
+                        Shooting = false
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
+                    wait()
+                    elseif game:GetService("Players").LocalPlayer:FindFirstChild('PlayerGui'):FindFirstChild('Main').Skills[CurrentMelee].C.Cooldown.AbsoluteSize.X == 0 then
+                        EquipWeapon(CurrentMelee)
+                        Skill = true
+                        Shooting = false
+                        spawn(function()
+                        require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                        wait(0.5)
+                        require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
+                        end)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"C",false,game)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"C",false,game)
+                    else
+                        Skill = false
+                        Shooting = true
+                        EquipWeapon(GunKill)
+                        spawn(function()
+                        local args = {[1] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position, [2] = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart}
+game:GetService("Players").LocalPlayer.Character:FindFirstChild(GunKill).RemoteFunctionShoot:InvokeServer(unpack(args))
+end)
+end
+end
+--until (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 250
+end
+end
+end
+end)
+end
+end
+end)
+
+spawn(function()
+    while wait() do
+        pcall(function()
+        if AutoBounty then
+            spawn(function()
+                    if not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(CurrentMelee) or not game.Players.LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(GunKill) then
+      EquipWeapon(CurrentMelee)
+      EquipWeapon(GunKill)
+                    end
+            end)
+spawn(function()
+    if (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 20000 then
+        PlrNum = PlrNum + 1
+    else
+    end
+end)
+end
+end)
 end
 end)
 
