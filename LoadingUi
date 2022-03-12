@@ -5483,6 +5483,20 @@ function CheckLevel()
             NameMon = "Cake Guard"
             CFrameQ = CFrame.new(-2021.7838134765625, 37.82400894165039, -12029.1328125)
             CFrameMon = CFrame.new(-1595.721923828125, 195.68417358398438, -12356.916015625)
+        elseif Lv == 2250 or Lv <= 2274 or SelectMonster == "Baking Staff [Lv. 2250]" then
+            Ms = "Baking Staff [Lv. 2250]"
+            NameQuest = "CakeQuest2"
+            QuestLv = 1
+            NameMon = "Baking Staff"
+            CFrameQ = CFrame.new(-1927.1634521484375, 37.82392501831055, -12843.0634765625)
+            CFrameMon = CFrame.new(-1837.031494140625, 136.5231170654297, -12957.4716796875)
+        elseif Lv >= 2275 or SelectMonster == "Head Baker [Lv. 2275]" then
+            Ms = "Head Baker [Lv. 2275]"
+            NameQuest = "CakeQuest2"
+            QuestLv = 2
+            NameMon = "Head Baker"
+            CFrameQ = CFrame.new(-1927.1634521484375, 37.82392501831055, -12843.0634765625)
+            CFrameMon = CFrame.new(-2293.04052734375, 108.80238342285156, -12810.4853515625)
 		end
 	end
 end
