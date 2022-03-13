@@ -2470,6 +2470,7 @@ if Three_World then
 	AutoFarm:Toggle("Auto Enma/Yama", _G.AutoYama, function(vu)
 		AutoYama = vu
 	end)
+	
 	AutoFarm:Toggle("Auto Rainbow Haki", false, function(vu)
 		AutoRainbow = vu
 		if vu == false then
@@ -2524,6 +2525,7 @@ AutoFarm:Toggle("Auto Fully Superhuman", _G.FullyAutoSuperhuman, function(vu)
 		end
 end)
 
+if Three_World then
 AutoFarm:Toggle("Auto Electric Claw", false, function(vu)
     AutoElectricClaw = vu
 	if AutoElectricClaw then
@@ -2544,6 +2546,16 @@ AutoFarm:Toggle("Auto Dark Dagger Hop", false, function(vu)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 		end
 end)
+
+AutoFarm:Toggle("Auto Buddy Sword Hop", false, function(vu)
+    _G.AutoBuddy = vu
+    if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
+end)
+end
 
 if Old_World then
 	tableMon = {"Bandit [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","Pirate [Lv. 35]","Brute [Lv. 45]","Desert Bandit [Lv. 60]","Desert Officer [Lv. 70]","Snow Bandit [Lv. 90]","Snowman [Lv. 100]","Chief Petty Officer [Lv. 120]","Sky Bandit [Lv. 150]","Dark Master [Lv. 175]","Toga Warrior [Lv. 225]","Gladiator [Lv. 275]","Military Soldier [Lv. 300]","Military Spy [Lv. 330]","Fishman Warrior [Lv. 375]","Fishman Commando [Lv. 400]","God's Guard [Lv. 450]","Shanda [Lv. 475]","Royal Squad [Lv. 525]","Royal Soldier [Lv. 550]","Galley Pirate [Lv. 625]","Galley Captain [Lv. 650]"}
@@ -2803,7 +2815,7 @@ AutoFarm:Button("Refresh Boss", function()
 end)
 
 AutoFarm:Line()
-
+if Three_World then
 AutoFarm:Label(""):Refresh("Halloween and Christmas")
 
 local Bone = AutoFarm:Label("")
@@ -2881,6 +2893,7 @@ if Three_World then
         end
     end)
 
+end
 end
 
 spawn(function()
@@ -3091,15 +3104,6 @@ function TP(P1)
         TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
         {CFrame = P1}
     ):Play()
-
-if AutoBounty and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild('Main').InCombat.Visible == false and (game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.Position-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 3000 then
-           _G.Farm = false
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame * CFrame.new(0,-301,0)
-for i=1,5 do
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
-end
-end
 end
 end)
 end
@@ -3781,6 +3785,16 @@ Raid:Toggle("ESP Player",false,function(Value)
 end)
 Raid:Toggle("ESP Chest",false,function(Value)
     ChestESP = Value
+    for i,v in pairs(workspace:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+    end
+    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+    end
 	while ChestESP do wait()
         UpdateChest()
     end
@@ -6097,15 +6111,50 @@ spawn(function()
 end)
 
 spawn(function()
-	while wait() do
-		if _G.AutoDarkDagger then
-		    pcall(function()
-		        if Safe() then
-			if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Dark Dagger") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Dark Dagger") then
-				game:Shutdown()
+    while wait() do
+        if _G.AutoBuddy then
+            pcall(function()
+                if Safe() then
+ if game:GetService("ReplicatedStorage"):FindFirstChild("Cake Queen [Lv. 2175] [Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Queen [Lv. 2175] [Boss]") then
+     if game:GetService("Workspace").Enemies:FindFirstChild("Cake Queen [Lv. 2175] [Boss]") then
+        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+						if v.Name == "Cake Queen [Lv. 2175] [Boss]" then
+							if v.Humanoid.Health > 0 then
+								repeat game:GetService("RunService").Heartbeat:wait()
+									EquipWeapon(SelectToolWeapon)
+									sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									v.HumanoidRootPart.CanCollide = false
+                                    v.Humanoid.WalkSpeed = 0
+								    v.HumanoidRootPart.Transparency = 1
+									game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 7)
+									game:GetService'VirtualUser':CaptureController()
+									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+								until v.Humanoid.Health <= 0 or not v.Parent
+							end
+						end
+						end
+					else
+						TP(CFrame.new(-745.0151977539062, 213.36851501464844, -10953.541015625))
+     end
+ end
+ end
+     if _G.AutoBuddy and Three_World and not game:GetService("ReplicatedStorage"):FindFirstChild("Cake Queen [Lv. 2175] [Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("Cake Queen [Lv. 2175] [Boss]") then
+				if game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible == false then
+					Teleport()
+					--SafeMode = true
+					TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,10000,0))
+				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible == true then
+					repeat game:GetService("RunService").Heartbeat:wait()
+						local X = math.random(1,1000)
+						local Z = math.random(1,1000)
+						local LP = game.Players.LocalPlayer.Character
+						TP(CFrame.new(X,LP.HumanoidRootPart.CFrame.Y,Z))
+					until game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible == false
+					Teleport()
+				end
 			end
-		    end
-	end)
+		        end)
 		end
 end
 end)
@@ -7028,21 +7077,21 @@ function CheckBossQuest()
             BossMon = "Diamond [Lv. 750] [Boss]"
             NameQuestBoss = "Area1Quest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$25,000\n9,000,000 Exp."
+            RewardBoss = "Reward:\n$25,000\n12,500,000 Exp."
             CFrameQBoss = CFrame.new(-427.5666809082, 73.313781738281, 1835.4208984375)
             CFrameBoss = CFrame.new(-1576.7166748047, 198.59265136719, 13.724286079407)
         elseif SelectBoss == "Jeremy [Lv. 850] [Boss]" then
             BossMon = "Jeremy [Lv. 850] [Boss]"
             NameQuestBoss = "Area2Quest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$25,000\n11,500,000 Exp."
+            RewardBoss = "Reward:\n$25,000\n16,000,000 Exp."
             CFrameQBoss = CFrame.new(636.79943847656, 73.413787841797, 918.00415039063)
             CFrameBoss = CFrame.new(2006.9261474609, 448.95666503906, 853.98284912109)
         elseif SelectBoss == "Fajita [Lv. 925] [Boss]" then
             BossMon = "Fajita [Lv. 925] [Boss]"
             NameQuestBoss = "MarineQuest3"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$25,000\n15,000,000 Exp."
+            RewardBoss = "Reward:\n$25,000\n19,000,000 Exp."
             CFrameQBoss = CFrame.new(-2441.986328125, 73.359344482422, -3217.5324707031)
             CFrameBoss = CFrame.new(-2172.7399902344, 103.32216644287, -4015.025390625)
         elseif SelectBoss == "Don Swan [Lv. 1000] [Boss]" then
@@ -7052,21 +7101,21 @@ function CheckBossQuest()
             BossMon = "Smoke Admiral [Lv. 1150] [Boss]"
             NameQuestBoss = "IceSideQuest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$20,000\n25,000,000 Exp."
+            RewardBoss = "Reward:\n$20,000\n32,500,000 Exp."
             CFrameQBoss = CFrame.new(-5429.0473632813, 15.977565765381, -5297.9614257813)
             CFrameBoss = CFrame.new(-5275.1987304688, 20.757257461548, -5260.6669921875)
         elseif SelectBoss == "Awakened Ice Admiral [Lv. 1400] [Boss]" then
             BossMon = "Awakened Ice Admiral [Lv. 1400] [Boss]"
             NameQuestBoss = "FrostQuest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$20,000\n36,000,000 Exp."
+            RewardBoss = "Reward:\n$20,000\n45,000,000 Exp."
             CFrameQBoss = CFrame.new(5668.9780273438, 28.519989013672, -6483.3520507813)
             CFrameBoss = CFrame.new(6403.5439453125, 340.29766845703, -6894.5595703125)
         elseif SelectBoss == "Tide Keeper [Lv. 1475] [Boss]" then
             BossMon = "Tide Keeper [Lv. 1475] [Boss]"
             NameQuestBoss = "ForgottenQuest"
             QuestLvBoss = 3
-            RewardBoss = "Reward:\n$12,500\n38,000,000 Exp."
+            RewardBoss = "Reward:\n$12,500\n51,000,000 Exp."
             CFrameQBoss = CFrame.new(-3053.9814453125, 237.18954467773, -10145.0390625)
             CFrameBoss = CFrame.new(-3795.6423339844, 105.88877105713, -11421.307617188)
         elseif SelectBoss == "Darkbeard [Lv. 1000] [Raid Boss]" then
@@ -7227,7 +7276,7 @@ end)
             
 spawn(function()
    while wait() do
-        if AutoBounty or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7244,7 +7293,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if AutoBounty or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
@@ -7482,7 +7531,7 @@ spawn(function()
 		while wait() do
 			if _G.Redeem and game.Players.LocalPlayer.Data.Level.Value >= 850 then
 				function UseCode(Text)
-					game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer(Text)
+					game:GetSerwwvice("ReplicatedStorage").Remotes.Redeem:InvokeServer(Text)
 				end
                 UseCode("UPD16")
                 UseCode("2BILLION")
