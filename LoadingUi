@@ -3751,6 +3751,11 @@ Raid:Line()
 
 Raid:Toggle("Auto Law Raid", false, function(vu)
 	AutoLowRaid = vu
+	if vu == false then
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
 end)
 
 Raid:Toggle("Auto Buy Chip Law Raid", false, function(vu)
@@ -3795,6 +3800,21 @@ Raid:Toggle("ESP Chest",false,function(Value)
             v.Parent = game.Workspace
         end
     end
+    spawn(function()
+        while ChestESP do
+            wait(120)
+            for i,v in pairs(workspace:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+        end
+    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+        end
+        end
+end)
 	while ChestESP do wait()
         UpdateChest()
     end
@@ -3876,7 +3896,7 @@ function UpdatePlayer()
 						local Textlb = Instance.new("TextLabel", Bb)
 						Textlb.Font = "GothamBold"
 						Textlb.FontSize = "Size14"
-						Textlb.Text = v.Name.."\n"..math.round((v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
+						Textlb.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
 						Textlb.Size = UDim2.new(1,0,1,0)
 						Textlb.BackgroundTransparency = 1
 						Textlb.TextStrokeTransparency = 0.5
@@ -3886,7 +3906,7 @@ function UpdatePlayer()
 							Textlb.TextColor3 = Color3.new(0, 0, 204)
 						end
 					else
-						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Name.."\n"..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
+						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
 					end
 				else
 					if v.Character.Head:FindFirstChild("PlayerESP"..Number) then
@@ -7276,7 +7296,7 @@ end)
             
 spawn(function()
    while wait() do
-        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or TPChest or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7293,7 +7313,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or TPChest or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
