@@ -3884,7 +3884,7 @@ end
 function UpdatePlayer()
 	for i,v in pairs(game:GetService("Players"):GetChildren()) do
 		pcall(function()
-			if v.Character then
+			if v.Character and v.Name ~= game.Players.LocalPlayer.Name then
 				if PlayerESP then
 					if v.Character.Head and not v.Character.Head:FindFirstChild("PlayerESP"..Number) then
 						local Bb = Instance.new("BillboardGui", v.Character.Head)
@@ -3900,10 +3900,10 @@ function UpdatePlayer()
 						Textlb.Size = UDim2.new(1,0,1,0)
 						Textlb.BackgroundTransparency = 1
 						Textlb.TextStrokeTransparency = 0.5
-						if v.Team == game:GetService("Players").LocalPlayer.Team then
-							Textlb.TextColor3 = Color3.new(0, 255, 0)
+						if v.Team.Name == "Pirates" then
+							Textlb.TextColor3 = Color3.new(255, 0, 0)
 						else
-							Textlb.TextColor3 = Color3.new(0, 0, 204)
+							Textlb.TextColor3 = Color3.new(0, 191, 255)
 						end
 					else
 						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
