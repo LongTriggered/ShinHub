@@ -3784,6 +3784,17 @@ Raid:Line()
 
 Raid:Toggle("ESP Player",false,function(Value)
     PlayerESP = Value
+    if Value == false then
+    for i,v in pairs(game.Players:GetChildren()) do
+        if v.Name ~= game.Players.LocalPlayer.Name then
+        for f,g in pairs(v.Character:GetDescendants()) do
+            if g.Name == "Chams" then
+                g:Destroy()
+            end
+        end
+    end
+end
+end
 	while PlayerESP do wait()
 		UpdatePlayer()
 	end
@@ -3887,16 +3898,29 @@ function UpdatePlayer()
 			if v.Character and v.Name ~= game.Players.LocalPlayer.Name then
 				if PlayerESP then
 					if v.Character.Head and not v.Character.Head:FindFirstChild("PlayerESP"..Number) then
+					    for b,n in pairs(v.Character:GetChildren()) do
+					    if (n:IsA("BasePart") and n.Name ~= "HumanoidRootPart") then
+					local alo = Instance.new("BoxHandleAdornment")
+					alo.Parent = n
+					alo.Name = "Chams"
+					alo.Adornee = n
+					alo.AlwaysOnTop = true
+					alo.ZIndex = 10
+					alo.Size = n.Size
+					alo.Transparency = 0.1
+					alo.Color = v.TeamColor
+					        end
+		    end
 						local Bb = Instance.new("BillboardGui", v.Character.Head)
 						Bb.Name = "PlayerESP"..Number
-						Bb.ExtentsOffset = Vector3.new(0, 1, 0)
+						Bb.ExtentsOffset = Vector3.new(0, 7, 0)
 						Bb.Size = UDim2.new(1, 200, 1, 30)
 						Bb.Adornee = v.Character.Head
 						Bb.AlwaysOnTop = true
 						local Textlb = Instance.new("TextLabel", Bb)
 						Textlb.Font = "GothamBold"
 						Textlb.FontSize = "Size14"
-						Textlb.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
+						Textlb.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(v.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
 						Textlb.Size = UDim2.new(1,0,1,0)
 						Textlb.BackgroundTransparency = 1
 						Textlb.TextStrokeTransparency = 0.5
@@ -3906,7 +3930,7 @@ function UpdatePlayer()
 							Textlb.TextColor3 = Color3.new(0, 191, 255)
 						end
 					else
-						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
+						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(v.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
 					end
 				else
 					if v.Character.Head:FindFirstChild("PlayerESP"..Number) then
