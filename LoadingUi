@@ -6001,14 +6001,14 @@ spawn(function()
                         end
                         end
                     elseif FarmTime1 >= 18 and FarmTime1 < 27 then
-                        TP(CFrame.new(-2115.850830078125, 58.12941360473633, -10184.060546875))
+                        TP(CFrame.new(-2095.850830078125, 38.12941360473633, -10174.060546875))
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Peanut Scout [Lv. 2075]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 BringCandyBone()
                                 EquipWeapon(EventWeapon)
                                 Click()
-							    TP(CFrame.new(-2115.850830078125, 58.12941360473633, -10184.060546875))
+							    TP(CFrame.new(-2095.850830078125, 38.12941360473633, -10174.060546875))
 						       until FarmTime1 == 27 or not AutoCandy
                         end
                         end
