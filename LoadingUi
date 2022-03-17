@@ -5984,9 +5984,7 @@ spawn(function()
                                 EquipWeapon(EventWeapon)
 							    TP(CFrame.new(-682,105.5,-11261))
 							    BringCandyBone()
-							    spawn(function()
-							    require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
-							    end)
+							    Click()
 							    until FarmTime1 == 12 or not AutoCandy
                         end
                     end
@@ -5998,6 +5996,7 @@ spawn(function()
                                 BringCandyBone()
                                 EquipWeapon(EventWeapon)
 							    TP(CFrame.new(-806.2667236328125, 95.84530639648438, -10955.5439453125))
+							    Click()
 							    until FarmTime1 == 18 or not AutoCandy
                         end
                         end
@@ -6008,6 +6007,7 @@ spawn(function()
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 BringCandyBone()
                                 EquipWeapon(EventWeapon)
+                                Click()
 							    TP(CFrame.new(-2115.850830078125, 58.12941360473633, -10184.060546875))
 						       until FarmTime1 == 27 or not AutoCandy
                         end
@@ -6020,6 +6020,7 @@ spawn(function()
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
                                 BringCandyBone()
+                                Click()
 							    TP(CFrame.new(-2132.01953125, 83.12896728515625, -10557.9169921875))
 							    until FarmTime1 == 32 or not AutoCandy
                         end
