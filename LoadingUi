@@ -2823,16 +2823,14 @@ local Katakuri = AutoFarm:Label("")
 
 spawn(function()
 	while wait(2) do
-	    spawn(function()
-		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
-	    end)
-    local args = {
+	    local args = {
             [1] = "CakePrinceSpawner",
             [2] = true
          }
+		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
 local KatakuriKill2 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
 local KatakuriKill1 = tonumber(KatakuriKill2)
-        Katakuri:Refresh("Need to kill "..math.abs(KatakuriKill1).." mobs to spawn Katakuri")
+        Katakuri:Refresh("Need to kill "..tostring(KatakuriKill1).." mobs to spawn Katakuri")
 	end
 end)
 
@@ -2843,14 +2841,6 @@ AutoFarm:Toggle("Auto Buy Random Surprise", false, function(vu)
 end)
 
 if Three_World then
-
-    AutoFarm:Toggle("Auto Try Luck [gravestone]", false, function(vu)
-        TryLuck = vu
-    end)
-
-    AutoFarm:Toggle("Auto Pray [gravestone]", false, function(vu)
-        Pray = vu
-    end)
 
     AutoFarm:Toggle("Auto Farm Bone", false, function(vu)
         CheckBoneWeapon = vu
@@ -2967,22 +2957,6 @@ spawn(function()
 	while wait() do
 		if AutoBuySurprise and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") >= 50 then
                     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
-		end
-	end
-end)
-
-spawn(function()
-	while wait() do
-		if TryLuck then
-			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("gravestoneEvent",1)
-		end
-	end
-end)
-
-spawn(function()
-	while wait() do
-		if Pray then
-			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("gravestoneEvent",2)
 		end
 	end
 end)
