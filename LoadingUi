@@ -2782,7 +2782,7 @@ AutoFarm:Toggle("Auto Farm All Boss", false, function(vu)
 end)
 
 AutoFarm:Toggle("Auto Farm All Boss [ HOP ]", false, function(vu)
-	AutoFarmAllBossHOP = vu
+	_G.AutoFarmAllBossHOP = vu
 	if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -2894,12 +2894,16 @@ end
 
 spawn(function()
     while wait() do
-        if AutoFarmAllBoss then
+        if _G.AutoFarmAllBoss then
             pcall(function()
             if Safe() then
+                spawn(function()
                 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
                  if string.find(v.Name, "Boss") then
                      v.Parent = game:GetService("Workspace").Enemies
+                 end
+                end
+             end)
                 for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if string.find(v.Name, "Boss") and v.Humanoid.Health > 0 then
 								   repeat game:GetService("RunService").Heartbeat:wait()
@@ -2911,10 +2915,8 @@ spawn(function()
 								    v.HumanoidRootPart.Transparency = 1
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
-								   until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
+								   until _G.AutoFarmAllBoss == false or not v.Parent or v.Humanoid.Health <= 0
                 end
-						end
-            end
                 end
                 end
 end)
@@ -2924,7 +2926,7 @@ end)
 
 spawn(function()
     while wait() do
-        if AutoFarmAllBossHOP then
+        if _G.AutoFarmAllBossHOP then
             pcall(function()
             if Safe() then
                 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
@@ -2941,7 +2943,7 @@ spawn(function()
 								    v.HumanoidRootPart.Transparency = 1
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
-								   until AutoFarmBoss == false or not v.Parent or v.Humanoid.Health <= 0
+								   until _G.AutoFarmAllBossHOP == false or not v.Parent or v.Humanoid.Health <= 0
                 end
 						end
             end
@@ -7283,7 +7285,7 @@ end)
             
 spawn(function()
    while wait() do
-        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or noclip or Clip then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or noclip or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7300,7 +7302,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or AutoFarmAllBoss or AutoFarmAllBossHOP then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or HolyTorch or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or _G.AutoFarmAllBossHOP then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
