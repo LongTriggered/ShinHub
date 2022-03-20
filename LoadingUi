@@ -2816,24 +2816,30 @@ end)
 
 AutoFarm:Line()
 if Three_World then
-AutoFarm:Label(""):Refresh("Halloween and Christmas")
+AutoFarm:Label(""):Refresh("Event Stats")
 
 local Bone = AutoFarm:Label("")
---local Candy = AutoFarm:Label("")
+local Katakuri = AutoFarm:Label("")
 
 spawn(function()
 	while wait(2) do
+	    spawn(function()
 		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
-       -- Candy:Refresh("Total Candy : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check")))
+	    end)
+    local args = {
+            [1] = "CakePrinceSpawner",
+            [2] = true
+         }
+local KatakuriKill2 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
+local KatakuriKill1 = tonumber(KatakuriKill2)
+        Katakuri:Refresh("Need to kill "..math.abs(KatakuriKill1).." mobs to spawn Katakuri")
 	end
 end)
 
+
+
 AutoFarm:Toggle("Auto Buy Random Surprise", false, function(vu)
 	AutoBuySurprise = vu
-end)
-
-AutoFarm:Toggle("Auto Buy EXP x2 [ Candy and Bone ]", false, function(vu)
-    _G.AutoBuyEXP = vu
 end)
 
 if Three_World then
@@ -2956,24 +2962,6 @@ end)
 end
 end)
 
-spawn(function()
-    pcall(function()
-        while _G.AutoBuyEXP == true do
-            wait()
-            if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") >= 50 then
-            if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
-                    end
-                else
-                    if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Exp.Text, "2x") then
-      if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 50 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check") < 50 then
-         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Buy",1,1)
-                    end
-  end
-            end
-end
-    end)
-end)
 
 spawn(function()
 	while wait() do
@@ -3090,7 +3078,7 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance <= 300 then
+    if Distance <= 299 then
         Speed = math.huge
    -- elseif Distance < 500 and Distance > 250 then
        -- Speed = 400
