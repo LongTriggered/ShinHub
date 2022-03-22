@@ -1,6 +1,6 @@
 
 
--- Config
+-- Configh
 
 --Config
 
@@ -4919,9 +4919,9 @@ Setting:Toggle("Press Home Button Stop Tween", true, function(vu)
 	PressHomeStopTween = vu
 end)
 
---Setting:Toggle("Fast Attack (Lag)", false ,function(vu)
-  --  _G.FastAttack = vu
---end)
+Setting:Toggle("Fast Attack (Lag)", true ,function(vu)
+   _G.FastAttack = vu
+end)
 
 Setting:Toggle("Auto Haki", true, function(vu)
     Auto_Haki = vu
@@ -7445,21 +7445,18 @@ spawn(function()
     end
 end)
 
-  --  game:GetService('RunService').Heartbeat:connect(function()
-  --  if _G.FastAttack == true and Safe() then
-      --  if AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
-      --  pcall(function() 
-         --   require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.attacking = false
-          --  require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.active = false
-           -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.timeToNextAttack = 0
-           -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.increment = 4
-           -- require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
---           require(game.Players.LocalPlayer.PlayerScripts.CombatFramework).activeController:attack()
-  --         require(game:GetService("Players").LocalPlayer:FindFirstChild('PlayerScripts').CombatFramework).activeController.hitboxMagnitude = 500
-   -- end)
-  --  end
-  --  end
---    end)
+   local combat = getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))
+local Rig = combat[2]
+    game:GetService('RunService').Heartbeat:connect(function()
+    if _G.FastAttack == true and Safe() then
+       if AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
+        pcall(function()
+Rig.activeController.hitboxMagnitude = 60
+Rig.activeController:attack()
+    end)
+    end
+    end
+    end)
         
 spawn(function()
 	while wait(1) do
