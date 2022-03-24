@@ -3054,8 +3054,8 @@ function TP(P1)
     pcall(function() 
         if Safe() then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance <= 299 then
-        Speed = math.huge
+    if Distance <= 300 then
+        Speed = 99999
    -- elseif Distance < 500 and Distance > 250 then
        -- Speed = 400
     elseif Distance < 1000 then
@@ -4282,31 +4282,6 @@ BuyItem:Button("Reroll Race [3000 F]", function()
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Reroll","2")
 end)
 
-BuyItem:Button("Reroll Stat [75 Candy]", function()
-   if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 75 then
-      game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Buy",1,2)
-   end
-end)
-
-BuyItem:Button("Reroll Race [100 Candy]", function()
-   if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 100 then
-      game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Buy",1,3)
-   end
-end)
-
-BuyItem:Button("Buy 300 Fragments [50 Candy]", function()
-   if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 50 then
-   game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Candies", "Buy", 2, 1)
-
-   end
-end)
-
-BuyItem:Button("Buy 700 Fragments [100 Candy]", function()
-   if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Candies","Check") >= 100 then
-      game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Candies", "Buy", 2, 2)
-   end
-end)
-
 BuyItem:Line()
 
 BuyItem:Label("Fighting Style")
@@ -4629,56 +4604,6 @@ Misc:Toggle("Inf Energy",false,function(value)
     InfinitsEnergy = value
     originalstam = LocalPlayer.Character.Energy.Value
 end)
-
-Misc:Toggle("Inf Ability", false, function(vu)
-	InfAbility = vu
-end)
-
-spawn(function()
-	while wait() do
-		if InfAbility then
-			InfAb()
-		end
-	end
-end)
-
-function InfAb()
-	if InfAbility then
-		if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Agility") then
-			local inf = Instance.new("ParticleEmitter")
-			inf.Acceleration = Vector3.new(0,0,0)
-			inf.Archivable = true
-			inf.Drag = 20
-			inf.EmissionDirection = Enum.NormalId.Top
-			inf.Enabled = true
-			inf.Lifetime = NumberRange.new(0.2,0.2)
-			inf.LightInfluence = 0
-			inf.LockedToPart = true
-			inf.Name = "Agility"
-			inf.Rate = 500
-			local numberKeypoints2 = {
-				NumberSequenceKeypoint.new(0, 0);  -- At t=0, size of 0
-				NumberSequenceKeypoint.new(1, 4); -- At t=1, size of 10
-			}
-
-			inf.Size = NumberSequence.new(numberKeypoints2)
-			inf.RotSpeed = NumberRange.new(999, 9999)
-			inf.Rotation = NumberRange.new(0, 0)
-			inf.Speed = NumberRange.new(30, 30)
-			inf.SpreadAngle = Vector2.new(360,360)
-			inf.Texture = "rbxassetid://243098098"
-			inf.VelocityInheritance = 0
-			inf.ZOffset = 2
-			inf.Transparency = NumberSequence.new(0)
-			inf.Color = ColorSequence.new(Color3.fromRGB(0, 255, 255),Color3.fromRGB(0, 255, 255))
-			inf.Parent = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-		end
-	else
-		if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Agility") then
-			game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Agility"):Destroy()
-		end
-	end
-end
 
 Misc:Toggle("Auto Click", false, function(value)
     AutoClick = value 
@@ -5620,12 +5545,10 @@ function Safe()
     return false
 						                end
 function Click()
-    pcall(function()
    if Safe() then
                                                 game:GetService("VirtualUser"):CaptureController()
 												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 end
-end)
 end
 
 if SelectToolWeapon then
@@ -5636,19 +5559,6 @@ if EventWeapon then
     else
         EventWeapon = ""
         end
-
-function AutoHaki()
-    pcall(function()  
-        if Safe() then
-    if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-        local args = {
-            [1] = "Buso"
-        }
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-    end
-end
-end)
-end
 
 spawn(function()
     while wait() do
@@ -7438,7 +7348,7 @@ end)
 spawn(function()
     while wait() do
         if Auto_Haki then
-            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") and Safe() then
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
         end
     end
