@@ -4747,7 +4747,7 @@ Misc:Toggle("Fly", false, function(vu)
    activatefly()
 end)
 
-Misc:Toggle("Noclip [Fake]", false, function(vu)
+Misc:Toggle("Noclip", false, function(vu)
     noclip = vu
 end)
 
