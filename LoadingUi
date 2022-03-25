@@ -2856,13 +2856,12 @@ if Three_World then
 		end
     end)
 
-    AutoFarm:Toggle("Auto Farm Candy", false, function(vu)
+    AutoFarm:Toggle("Auto Farm Katakuri", false, function(vu)
         CheckCandyWeapon = vu
         if CheckCandyWeapon and EventWeapon == "" then
 			DiscordLib:Notification("Auto Farm Candy","Select Weapon First","Okay")
 			else
 	    AutoCandy = vu
-	    FarmTime1 = 0
 	    if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -5461,7 +5460,7 @@ function EquipWeapon(ToolSe)
     end
 end
 
-local Farm_Mode = CFrame.new(5, Y, 15)
+local Farm_Mode = CFrame.new(0, Y, 15)
 
 pcall(function()
 	for i,v in pairs(game:GetService("Workspace").Map.Dressrosa.Tavern:GetDescendants()) do
@@ -5807,7 +5806,7 @@ spawn(function()
                                 if string.find(v.Name, "Ship") then
                                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,15))
                                     v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-											v.HumanoidRootPart.CanCollide = false
+									v.HumanoidRootPart.CanCollide = false
 									game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 									PosMon = v.HumanoidRootPart.CFrame
@@ -5833,77 +5832,114 @@ spawn(function()
     end
     end)
 end)
-local FarmTime1 = 0
-spawn(function()
-    while wait(1) do
-        if AutoCandy then
-        FarmTime1 = FarmTime1 + 1
-        if FarmTime1 >= 35 then
-            FarmTime1 = 0
-end
-end
-end
-end)
 
+local CandyMagnet
+local CandyMagnet2
+local CandyMagnet3
+local CandyMagnet4
+        
 spawn(function()
     while wait() do
-        if AutoCandy then
-           pcall(function()
-                if Safe() then
-                    if FarmTime1 < 12 then
-                        TP(CFrame.new(-682,105.5,-11261))
+ if AutoCandy then
+          pcall(function()
+                local args = {
+            [1] = "CakePrinceSpawner",
+            [2] = true
+         }
+local KatakuriKill4 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
+local KatakuriKill3 = tonumber(KatakuriKill4)
+              if string.find(tostring(KatakuriKill3),'nil') or game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') or game:GetService('ReplicatedStorage'):FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') then
+                   local args = {
+            [1] = "CakePrinceSpawner",
+         }
+         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+         	if game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') then
+							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+								if v.Name == 'Cake Prince [Lv. 2300] [Raid Boss]' then
+									repeat game:GetService("RunService").Heartbeat:wait()
+										EquipWeapon(EventWeapon)
+										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,50))
+										v.HumanoidRootPart.Size = Vector3.new(120,120,120)
+										v.HumanoidRootPart.CanCollide = false
+										v.Humanoid.WalkSpeed = 0
+								        v.HumanoidRootPart.Transparency = 1
+								        game:GetService("VirtualUser"):CaptureController()
+										game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
+									until not AutoCandy or not v.Parent or v.Humanoid.Health <= 0
+								end
+							end
+						else
+							TP(CFrame.new(-2148.307861328125, 70.00884246826172, -12403.2294921875))
+						end
+         else
+                          if game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') then
+                              CandyMagnet = true
+                              CandyMagnet2 = false
+                              CandyMagnet3 = false
+                              CandyMagnet4 = false
                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Ice Cream Commander [Lv. 2150]" then
+                        if v.Name == "Head Baker [Lv. 2275]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-682,105.5,-11261))
-							    BringCandyBone()
+							    TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+							    PosMon = v.HumanoidRootPart.CFrame
 							    Click()
-							    until FarmTime1 == 12 or not AutoCandy
-                        end
-                    end
-                    elseif FarmTime1 >= 12 and FarmTime1 < 18  then
-                        TP(CFrame.new(-806.2667236328125, 95.84530639648438, -10985.5439453125))
-                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Ice Cream Chef [Lv. 2125]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                BringCandyBone()
-                                EquipWeapon(EventWeapon)
-							    TP(CFrame.new(-806.2667236328125, 95.84530639648438, -10955.5439453125))
-							    Click()
-							    until FarmTime1 == 18 or not AutoCandy
-                        end
-                        end
-                    elseif FarmTime1 >= 18 and FarmTime1 < 27 then
-                        TP(CFrame.new(-2095.850830078125, 38.12941360473633, -10174.060546875))
-                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Peanut Scout [Lv. 2075]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                BringCandyBone()
-                                EquipWeapon(EventWeapon)
-                                Click()
-							    TP(CFrame.new(-2095.850830078125, 38.12941360473633, -10174.060546875))
-						       until FarmTime1 == 27 or not AutoCandy
-                        end
-                        end
-                    elseif FarmTime1 >= 27 and FarmTime1 < 32 then
-                     --   TP(CFrame.new(-2137.37939453125, 100.3045425415039, -10530.1630859375))
-                        TP(CFrame.new(-2147.01953125, 83.12896728515625, -10572.9169921875))
-                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Peanut President [Lv. 2100]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(EventWeapon)
-                                BringCandyBone()
-                                Click()
-							    TP(CFrame.new(-2132.01953125, 83.12896728515625, -10557.9169921875))
-							    until FarmTime1 == 32 or not AutoCandy
+							    until not v.Parent or v.Humanoid.Health <= 0 or not AutoCandy
                         end
                         end
                     end
-                end
-           end)
+                          if not game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') then
+                              CandyMagnet = false
+                               CandyMagnet2 = true
+                               CandyMagnet3 = false
+                               CandyMagnet4 = false
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v.Name == "Cookie Crafter [Lv. 2200]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                                 EquipWeapon(EventWeapon)
+							    TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+							    PosMon = v.HumanoidRootPart.CFrame
+							    Click()
+							    until not v.Parent or v.Humanoid.Health <= 0 or not AutoCandy
+                        end
+                        end
+                        end
+                          if not game.Workspace.Enemies:FindFirstChild('Cookie Crafter [Lv. 2200]') then
+                CandyMagnet = false
+                              CandyMagnet2 = false
+                              CandyMagnet3 = true
+                              CandyMagnet4 = false
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v.Name == "Cake Guard [Lv. 2225]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                                EquipWeapon(EventWeapon)
+							    TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+							    PosMon = v.HumanoidRootPart.CFrame
+							    Click()
+							    until not v.Parent or v.Humanoid.Health <= 0 or not AutoCandy
+                        end
+                        end
+                        end
+                          if not game.Workspace.Enemies:FindFirstChild('Cake Guard [Lv. 2225]') then
+                              CandyMagnet = false
+                              CandyMagnet2 = false
+                              CandyMagnet3 = false
+                              CandyMagnet4 = true
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v.Name == "Baking Staff [Lv. 2250]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                               EquipWeapon(EventWeapon)
+							    TP(v.HumanoidRootPart.CFrame * Farm_Mode)
+							    PosMon = v.HumanoidRootPart.CFrame
+							    Click()
+                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoCandy
+                        end
+                        end
+                          end
+                    end
+ end)
             end
-        end
+           end
 end)
                         
 spawn(function()
@@ -7120,8 +7156,8 @@ spawn(function()
 							if v.Name == BossMon then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									EquipWeapon(SelectToolWeapon)
-									TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,50))
+									v.HumanoidRootPart.Size = Vector3.new(120,120,120)
 									v.HumanoidRootPart.CanCollide = false
 									v.Humanoid.WalkSpeed = 0
 								    v.HumanoidRootPart.Transparency = 1
@@ -7148,8 +7184,8 @@ spawn(function()
 										repeat game:GetService("RunService").Heartbeat:wait()
 											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestReward.Title.Text, RewardBoss) then
 												EquipWeapon(SelectToolWeapon)
-												TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,50))
+												v.HumanoidRootPart.Size = Vector3.new(120,120,120)
 											    v.HumanoidRootPart.CanCollide = false
 												v.Humanoid.WalkSpeed = 0
 								                v.HumanoidRootPart.Transparency = 1
@@ -7171,8 +7207,8 @@ spawn(function()
 								if v.Name == BossMon then
 									repeat game:GetService("RunService").Heartbeat:wait()
 										EquipWeapon(SelectToolWeapon)
-										TP(v.HumanoidRootPart.CFrame * Farm_Mode)
-										v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,50))
+										v.HumanoidRootPart.Size = Vector3.new(120,120,120)
 										v.HumanoidRootPart.CanCollide = false
 										v.Humanoid.WalkSpeed = 0
 								        v.HumanoidRootPart.Transparency = 1
@@ -7195,7 +7231,7 @@ end)
             
 spawn(function()
    while wait() do
-        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or noclip or Clip then
+        if AutoBounty or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or HolyTorch or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7348,7 +7384,7 @@ end)
 spawn(function()
     while wait() do
         if Auto_Haki then
-            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") and Safe() then
+            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
         end
     end
@@ -7361,7 +7397,7 @@ local Rig = combat[2]
     if _G.FastAttack == true and Safe() then
        if AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or AutoFarmAllBossHOP or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or AutoFarmAllBoss then
         pcall(function()
-Rig.activeController.hitboxMagnitude = 60
+Rig.activeController.hitboxMagnitude = 100
 Rig.activeController:attack()
     end)
     end
@@ -7741,6 +7777,38 @@ while wait() do
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+						elseif AutoCandy and CandyMagnet and Magnet then
+					if v.Name == "Head Baker [Lv. 2275]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
+							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								v.HumanoidRootPart.CFrame = PosMon
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+							elseif AutoCandy and CandyMagnet2 and Magnet then
+					if v.Name == "Cookie Crafter [Lv. 2200]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
+							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								v.HumanoidRootPart.CFrame = PosMon
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+							elseif AutoCandy and CandyMagnet3 and Magnet then
+					if v.Name == "Cake Guard [Lv. 2225]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
+							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								v.HumanoidRootPart.CFrame = PosMon
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+							elseif AutoCandy and CandyMagnet4 and Magnet then
+					if v.Name == "Baking Staff [Lv. 2250]" and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 then
+							    v.HumanoidRootPart.CanCollide = false
+							    v.Humanoid.PlatformStand = true
+							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+								v.HumanoidRootPart.CFrame = PosMon
+								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 								end
             end
 			end
@@ -7748,48 +7816,6 @@ while wait() do
   end)
 end
 end)
-	  
-function BringCandyBone()
-    pcall(function()
-        if Safe() then
-            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                if AutoCandy and FarmTime1 < 11 then
-				    if v.Name == "Ice Cream Commander [Lv. 2150]" then
-							    v.HumanoidRootPart.CanCollide = false
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-							    v.Humanoid.PlatformStand = true
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-652,85.5,-11291)
-								end
-				elseif AutoCandy and FarmTime1 >= 11 and FarmTime1 < 18 then
-				    if v.Name == "Ice Cream Chef [Lv. 2125]" then			
-				                v.HumanoidRootPart.CanCollide = false
-							    v.Humanoid.PlatformStand = true
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-806.2667236328125, 65.84530639648438, -10955.5439453125)
-								end
-				elseif AutoCandy and FarmTime1 >= 18 and FarmTime1 < 27 then
-				    if v.Name == "Peanut Scout [Lv. 2075]" then
-								    v.HumanoidRootPart.CanCollide = false
-							    v.Humanoid.PlatformStand = true
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-2085.850830078125, 38.12941360473633, -10154.060546875)
-								end
-				elseif AutoCandy  and FarmTime1 > 27 and FarmTime1 <= 32 then
-				    if v.Name == "Peanut President [Lv. 2100]" then
-								    v.HumanoidRootPart.CanCollide = false
-							    v.Humanoid.PlatformStand = true
-							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-								v.HumanoidRootPart.CFrame = CFrame.new(-2132.01953125, 63.12896728515625, -10557.9169921875)
-								end
-				end
-            end
-			end
-end)
-end
 
 local mt = getrawmetatable(game)
 local oldindex = mt.__index
