@@ -4462,9 +4462,7 @@ spawn(function()
     end
 end)
 
-nododgecool = false
 function NoDodgeCool()
-    if nododgecool then
         for i,v in next, getgc() do
             if game.Players.LocalPlayer.Character.Dodge then
                 if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Dodge then
@@ -4475,15 +4473,12 @@ function NoDodgeCool()
                             until not nododgecool
                         end
                     end
-                end
             end
         end
     end
 end
 
-nosorucool = false
 function NoSoruCool()
-    if nosorucool then
         for i,v in next, getgc() do
       if game.Players.LocalPlayer.Character.Soru then
          if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Soru then
@@ -4495,9 +4490,24 @@ function NoSoruCool()
                         end
                     end
                 end
-            end
         end
     end
+end
+
+function InfGeppo()
+     for i,v in next, getgc() do
+      if game.Players.LocalPlayer.Character.Geppo then
+         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Geppo then
+            for i2,v2 in next, getupvalues(v) do
+               if tostring(i2) == "9" then
+                  repeat wait(.1)
+                     setupvalue(v,i2,0)
+                  until not infgeppo
+               end
+            end
+         end
+      end
+     end
 end
 
 Misc:Line()
@@ -4596,13 +4606,60 @@ end
 
 Misc:Toggle("No Dodge Cooldown", false, function(Value)
     nododgecool = Value
-    NoDodgeCool()
+    if Value == true then
+        for i,v in next, getgc() do
+            if game.Players.LocalPlayer.Character.Dodge then
+                if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Dodge then
+                    for i2,v2 in next, getupvalues(v) do
+                        if tostring(v2) == "0.4" then
+                            repeat wait(.1)
+                                setupvalue(v,i2,0)
+                            until not nododgecool
+                        end
+                    end
+            end
+        end
+        end
+end
+end)
+
+Misc:Toggle("No Geppo Cooldown", false, function(Value)
+    infgeppo = Value
+    if Value == true then
+        for i,v in next, getgc() do
+      if game.Players.LocalPlayer.Character.Geppo then
+         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Geppo then
+            for i2,v2 in next, getupvalues(v) do
+               if tostring(i2) == "9" then
+                  repeat wait(.1)
+                     setupvalue(v,i2,0)
+                  until not infgeppo
+               end
+            end
+         end
+      end
+        end
+ end
 end)
 
 Misc:Toggle("No Soru Cooldown", false, function(Value)
     nosorucool = Value
-    NoSoruCool()
-    end)
+    if Value == true then
+         for i,v in next, getgc() do
+      if game.Players.LocalPlayer.Character.Soru then
+         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Soru then
+            for i2,v2 in next, getupvalues(v) do
+               if typeof(v2) == "table"  then
+                  repeat wait(.1)
+                     v2.LastUse = 0
+                            until not nosorucool
+                        end
+                    end
+                end
+        end
+         end
+end
+end)
 
 Misc:Toggle("Inf Energy",false,function(value)
     InfinitsEnergy = value
