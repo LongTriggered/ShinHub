@@ -5,7 +5,19 @@
 --Config
 
 repeat wait() until game:IsLoaded()
-
+if _G.Team == "Pirate" then
+	for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
+		v.Function()
+	end
+elseif _G.Team == "Marine" then
+	for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
+		v.Function()
+	end
+else
+    for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
+		v.Function()
+    end
+end
 wait(1)
 game:GetService('ReplicatedStorage').Assets.GUI.DamageCounter.Enabled = false
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
