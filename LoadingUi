@@ -5,19 +5,33 @@
 --Config
 
 repeat wait() until game:IsLoaded()
+local Name = "ShinHubSetting.txt"
+
+local DefaultSettings = {
+AutoHaki = true,
+AutoObservation = false,
+UseFastAttack = true,
+Y = 30,
+Magnet = true,
+Marine = true,
+Pirate = false
+}
+
+local set
+
+if not pcall(function() readfile(Name) end) then writefile(Name, game:service'HttpService':JSONEncode(DefaultSettings)) end
+
+set = game:service'HttpService':JSONDecode(readfile(Name))
+
 local LevelMax = 2300
-if _G.Team == "Pirate" then
+if set.Pirate then
 	for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
 		v.Function()
 	end
-elseif _G.Team == "Marine" then
+elseif set.Marine then
 	for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
 		v.Function()
 	end
-else
-    for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.MouseButton1Click)) do
-		v.Function()
-    end
 end
 
 wait(1)
@@ -2986,7 +3000,7 @@ local win = DiscordLib:Window("Blox Fruits", _G.Color, _G.Toggle)
 
 local serv = win:Server("SHIN HUB 🔥🔥🔥","")
 
-local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
+local AutoFarm = serv:Channel("Auto Farm", "http://www.roblox.com/asset/?id=7040391851")
 
 Time = AutoFarm:Label("Server Time:")
 
@@ -3446,7 +3460,7 @@ if Sea2 then
     end)
 end
 if not Sea1 then
-    AutoFarm:Toggle("Auto Buy Enchancement >= 1500 F", _G.AutoEnchancement, function(Value)
+    AutoFarm:Toggle("Auto Buy Haki Color", _G.AutoEnchancement, function(Value)
         Enchancement = Value    
     end)
 end
@@ -3737,7 +3751,7 @@ spawn(function()
 	end
 end)
 
-local Stats = serv:Channel("Stats","http://www.roblox.com/asset/?id=7040410130")
+local Stats = serv:Channel("Auto Stat","http://www.roblox.com/asset/?id=7040410130")
 
 Stats:Label(""):Refresh("Player Stats")
 local Point = Stats:Label("")
@@ -4121,15 +4135,108 @@ Tp:Button("Candy Island 3", function()
 		TP2(CFrame.new(-1945.0286865234375, 37.82406997680664, -11867.9140625))
 	end)
 end
+local DefaultBounty = game.Players.LocalPlayer.leaderstats['Bounty/Honor'].Value
+local DefaultBeli = game.Players.LocalPlayer.Data.Beli.Value
+local DefaultFrag = game.Players.LocalPlayer.Data.Fragments.Value
+local MainPlayer = serv:Channel("LocalPlayer","http://www.roblox.com/asset/?id=7252023075")
 
-local Players = serv:Channel("Players","http://www.roblox.com/asset/?id=7252023075")
+MainPlayer:Textbox("Fake Bounty/Honor", "Default Bounty/Honor:"..DefaultBounty, true, function(Value)
+    game.Players.LocalPlayer.leaderstats['Bounty/Honor'].Value = Value
+end)
 
+MainPlayer:Textbox("Fake Beli", "Default Beli:"..DefaultBeli, true, function(Value)
+    game.Players.LocalPlayer.Data.Beli.Value = Value
+end)
+
+MainPlayer:Textbox("Fake Fragment", "Default Fragment:"..DefaultFrag, true, function(Value)
+    game.Players.LocalPlayer.Data.Fragments.Value = Value
+end)
+
+MainPlayer:Line()
+
+MainPlayer:Slider("WalkSpeed", 0,1000,16, function(t)
+    game:GetService("Players").LocalPlayer.Character.Movement.Disabled = true
+    game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = t
+end)
+
+MainPlayer:Slider("Jump Power", 0,1000,50, function(t)
+    game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = t
+end)
+
+MainPlayer:Toggle("No Dodge Cooldown", false, function(Value)
+    nododgecool = Value
+    if Value == true then
+        for i,v in next, getgc() do
+            if game.Players.LocalPlayer.Character.Dodge then
+                if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Dodge then
+                    for i2,v2 in next, getupvalues(v) do
+                        if tostring(v2) == "0.4" then
+                            repeat wait(.1)
+                                setupvalue(v,i2,0)
+                            until not nododgecool
+                        end
+                    end
+            end
+        end
+        end
+end
+end)
+
+MainPlayer:Toggle("No Soru Cooldown", false, function(Value)
+    nosorucool = Value
+    if Value == true then
+         for i,v in next, getgc() do
+      if game.Players.LocalPlayer.Character.Soru then
+         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Soru then
+            for i2,v2 in next, getupvalues(v) do
+               if typeof(v2) == "table"  then
+                  repeat wait(.1)
+                     v2.LastUse = 0
+                            until not nosorucool
+                        end
+                    end
+                end
+        end
+         end
+end
+end)
+
+MainPlayer:Toggle("Inf Geppo", false, function(Value)
+    infgeppo = Value
+    if Value == true then
+        for i,v in next, getgc() do
+      if game.Players.LocalPlayer.Character.Geppo then
+         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Geppo then
+            for i2,v2 in next, getupvalues(v) do
+               if tostring(i2) == "9" then
+                  repeat wait(.1)
+                     setupvalue(v,i2,0)
+                  until not infgeppo
+               end
+            end
+         end
+      end
+        end
+ end
+end)
+
+MainPlayer:Toggle("Fly", false, function(vu)
+   Fly = vu
+   activatefly()
+end)
+
+MainPlayer:Toggle("Noclip", false, function(vu)
+    noclip = vu
+end)
+
+local Players = serv:Channel("Players - ESP","http://www.roblox.com/asset/?id=7252023075")
+local SelectedKillPlayer = ""
 SelectKillWeapon = ""
-KillPlayer = Players:Label("Players")
+KillPlayer = Players:Label("Current Player : ")
 
 function UpdateKillPlayer()
     pcall(function()
-    KillPlayer:Refresh( "Current Player :".. SelectedKillPlayer)
+    KillPlayer:Refresh(SelectedKillPlayer)
     end)
 end
 
@@ -4144,17 +4251,17 @@ end
 
 spawn(function()
     while wait(1) do
-        if SelectedKillPlayer ~= nil then
+        if SelectedKillPlayer ~= "" then
     UpdateKillPlayer()
     else
-    KillPlayer:Refresh( "Current Player : None ")
+    KillPlayer:Refresh("None")
 end
 end
 end)
 
-Players:Line()
+--Players:Line()
 Player = ""
-Players:Textbox("Enter Player Name", "", true, function(playername)
+Players:Textbox("Enter or Select Player Name", "", true, function(playername)
 local Players = game:GetService("Players")
 
    local name = playername:lower()
@@ -4184,7 +4291,7 @@ end)
 
 Players:Line()
 
-Players:Toggle("Kill Player", false, function(vu)
+--[[Players:Toggle("Kill Player", false, function(vu)
     KillPlayerV2 = vu
     for i,v in pairs(ListMelee) do
       if game.Players.LocalPlayer.Backpack:FindFirstChild(ListMelee[i]) then
@@ -4254,7 +4361,7 @@ Players:Toggle("Auto Bounty", false, function(vu)
 	end
 end)
     
-    Players:Toggle("Auto Bounty ( HOP )", false, function(vu)
+  Players:Toggle("Auto Bounty ( HOP )", false, function(vu)
         AutoBountyHop = vu
         spawn(function()
 	    while wait() do 
@@ -4266,18 +4373,109 @@ end)
 	    end
 	    end
 end)
-    end)
-    
+   end)
+    --]]
+    Players:Toggle("Teleport to Player", false, function(vu)
+        if vu and SelectedKillPlayer == "" then
+		DiscordLib:Notification("Players - ESP","Select Player Please","OK")
+		else
+TeleportToPlayer = vu
+Seat(true)
+		if vu == false then
+		    Seat(false)
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+			end
+		end
+end)
+
+spawn(function()
+    while wait() do
+        if TeleportToPlayer then
+        TP(game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame)
+        end
+end
+end)
+
 Players:Toggle("Spectate Player", false, function(vu)
-    Spectate = vu
-    repeat game:GetService("RunService").Heartbeat:wait()
+if vu == true then
         game.Workspace.Camera.CameraSubject = game.Players:FindFirstChild(SelectedKillPlayer).Character.Humanoid
-    until Spectate == false
+        else
     game.Workspace.Camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+    end
 end)
 
 Players:Line()
 
+Players:Toggle("Player ESP", false, function(Value)
+ PlayerESP = Value
+    if Value == false then
+    for i,v in pairs(game.Players:GetChildren()) do
+        if v.Name ~= game.Players.LocalPlayer.Name then
+        for f,g in pairs(v.Character:GetDescendants()) do
+            if g.Name == "Chams" then
+                g:Destroy()
+            end
+        end
+    end
+end
+end
+	while PlayerESP do wait()
+		UpdatePlayer()
+	end
+end)
+
+Players:Toggle("Chest ESP", false, function(Value)
+ChestESP = Value
+if Value then
+    for i,v in pairs(workspace:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+    end
+    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+    end
+    end
+    spawn(function()
+        while ChestESP do
+            wait(120)
+            for i,v in pairs(workspace:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+        end
+    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do
+        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
+            v.Parent = game.Workspace
+        end
+        end
+        end
+end)
+	while ChestESP do wait()
+        UpdateChest()
+    end
+end)
+
+Players:Toggle("Devil Fruit ESP", false, function(Value)
+DevilESP = Value
+	while DevilESP do wait()
+		UpdateDevilFruit()
+	end
+end)
+
+if Sea2 then
+	Players:Toggle("ESP Flower",false,function(Value)
+		FlowerESP = Value
+		while FlowerESP do wait()
+			UpdateFlower()
+		end
+	end)
+end
+--[[
 Players:Slider("WalkSpeed", 0,1000,16, function(t)
     game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = t
     while t do wait(1)
@@ -4288,12 +4486,8 @@ end)
 Players:Slider("Jump Power", 0,1000,50, function(t)
     game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = t
 end)
-
-Players:Slider("Gravity", 0,500,196, function(t)
-    workspace.Gravity = t
-end)
-
-local Raid = serv:Channel("EPS-Raid","http://www.roblox.com/asset/?id=7251993295")
+--]]
+local Raid = serv:Channel("Raid","http://www.roblox.com/asset/?id=7251993295")
 if Sea2 then
 	Raid:Button("Teleport To Lab", function()
 		TP2(CFrame.new(-6438.73535, 250.645355, -4501.50684))
@@ -4499,74 +4693,6 @@ Raid:Button("Refresh Weapon", function()
 		end
 	end
 end)
-
-Raid:Line()
-
-Raid:Toggle("ESP Player",false,function(Value)
-    PlayerESP = Value
-    if Value == false then
-    for i,v in pairs(game.Players:GetChildren()) do
-        if v.Name ~= game.Players.LocalPlayer.Name then
-        for f,g in pairs(v.Character:GetDescendants()) do
-            if g.Name == "Chams" then
-                g:Destroy()
-            end
-        end
-    end
-end
-end
-	while PlayerESP do wait()
-		UpdatePlayer()
-	end
-end)
-
-Raid:Toggle("ESP Devil Fruit",false,function(Value)
-    DevilESP = Value
-	while DevilESP do wait()
-		UpdateDevilFruit()
-	end
-end)
-
-Raid:Toggle("ESP Chest",false,function(Value)
-    ChestESP = Value
-    for i,v in pairs(workspace:GetDescendants()) do
-        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
-            v.Parent = game.Workspace
-        end
-    end
-    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do
-        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
-            v.Parent = game.Workspace
-        end
-    end
-    spawn(function()
-        while ChestESP do
-            wait(120)
-            for i,v in pairs(workspace:GetDescendants()) do
-        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
-            v.Parent = game.Workspace
-        end
-        end
-    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do
-        if v.Name == "Chest1" or v.Name == "Chest2" or v.Name == "Chest3" then
-            v.Parent = game.Workspace
-        end
-        end
-        end
-end)
-	while ChestESP do wait()
-        UpdateChest()
-    end
-end)
-
-if Sea2 then
-	Raid:Toggle("ESP Flower",false,function(Value)
-		FlowerESP = Value
-		while FlowerESP do wait()
-			UpdateFlower()
-		end
-	end)
-end
 
 Number = math.random(1,1000000)
 
@@ -4787,7 +4913,7 @@ function UpdateFruits()
 	end
 end
 
-local Devil = serv:Channel("DevilFruit","http://www.roblox.com/asset/?id=7044284832")
+local Devil = serv:Channel("Devil Fruit","http://www.roblox.com/asset/?id=7044284832")
 
 SelectDevil = ""
 CheckF = false
@@ -5004,7 +5130,7 @@ spawn(function()
     end
 end)
 
-local BuyItem = serv:Channel("Buy Item","http://www.roblox.com/asset/?id=7294901968")
+local BuyItem = serv:Channel("Shop","http://www.roblox.com/asset/?id=7294901968")
 
 BuyItem:Label("Abilities")
 BuyItem:Button("Skyjump", function()
@@ -5359,63 +5485,6 @@ if Sea2 then
 	end)
 end
 
-Misc:Toggle("No Dodge Cooldown", false, function(Value)
-    nododgecool = Value
-    if Value == true then
-        for i,v in next, getgc() do
-            if game.Players.LocalPlayer.Character.Dodge then
-                if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Dodge then
-                    for i2,v2 in next, getupvalues(v) do
-                        if tostring(v2) == "0.4" then
-                            repeat wait(.1)
-                                setupvalue(v,i2,0)
-                            until not nododgecool
-                        end
-                    end
-            end
-        end
-        end
-end
-end)
-
-Misc:Toggle("No Soru Cooldown", false, function(Value)
-    nosorucool = Value
-    if Value == true then
-         for i,v in next, getgc() do
-      if game.Players.LocalPlayer.Character.Soru then
-         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Soru then
-            for i2,v2 in next, getupvalues(v) do
-               if typeof(v2) == "table"  then
-                  repeat wait(.1)
-                     v2.LastUse = 0
-                            until not nosorucool
-                        end
-                    end
-                end
-        end
-         end
-end
-end)
-
-Misc:Toggle("Inf Geppo", false, function(Value)
-    infgeppo = Value
-    if Value == true then
-        for i,v in next, getgc() do
-      if game.Players.LocalPlayer.Character.Geppo then
-         if typeof(v) == "function" and getfenv(v).script == game.Players.LocalPlayer.Character.Geppo then
-            for i2,v2 in next, getupvalues(v) do
-               if tostring(i2) == "9" then
-                  repeat wait(.1)
-                     setupvalue(v,i2,0)
-                  until not infgeppo
-               end
-            end
-         end
-      end
-        end
- end
-end)
-
 Misc:Toggle("Inf Energy",false,function(value)
     InfinitsEnergy = value
     originalstam = LocalPlayer.Character.Energy.Value
@@ -5545,15 +5614,6 @@ function activatefly()
 	start()
 end
 
-Misc:Toggle("Fly", false, function(vu)
-   Fly = vu
-   activatefly()
-end)
-
-Misc:Toggle("Noclip", false, function(vu)
-    noclip = vu
-end)
-
 Misc:Button("Remove Lave", function()
     for i,v in pairs(game.Workspace:GetDescendants()) do
         if v.Name == "Lava" then   
@@ -5644,8 +5704,29 @@ Setting:Button("Destroy UI", function()
 	end
 end)
 
-Setting:Button("Copy Link Discord : HUB", function()
-	setclipboard("https://discord.gg/tgDeYtEm")
+Setting:Button("Save Setting", function()
+	writefile(Name,game:service'HttpService':JSONEncode(set))
+end)
+
+Setting:Line()
+local Team = Setting:Label("Auto Join:")
+if set.Pirate then
+    Team:Refresh("Pirates")
+elseif set.Marine then
+    Team:Refresh("Marines")
+end
+
+--Setting:Line()
+Setting:Button("Pirate", function()
+        Team:Refresh("Pirate")
+	set.Pirate = true
+	set.Marine = false
+end)
+
+Setting:Button("Marine", function()
+    Team:Refresh("Marine")
+	set.Marine = true
+	set.Pirate = false
 end)
 
 Setting:Line()
@@ -5654,27 +5735,27 @@ Setting:Toggle("Press P To Stop TP", true, function(vu)
 	PressPStopTP = vu
 end)
 
-Setting:Toggle("Fast Attack (Lag)", true ,function(vu)
-   _G.UseFastAttack = vu
+Setting:Toggle("Fast Attack (Lag)", set.UseFastAttack ,function(vu)
+   set.UseFastAttack = vu
 end)
 
-Setting:Toggle("Auto Buso Haki", true, function(vu)
-    Auto_Haki = vu
+Setting:Toggle("Auto Buso Haki", set.AutoHaki, function(vu)
+    set.AutoHaki = vu
 end)
 
-Setting:Toggle("Auto Observation Haki", false, function(vu)
-	AutoObservation = vu
+Setting:Toggle("Auto Observation Haki", set.AutoObservation, function(vu)
+	set.AutoObservation = vu
 end)
 
-Setting:Toggle("Bring Mob", true, function(vu)
-    Magnet = vu
+Setting:Toggle("Bring Mob", set.Magnet, function(vu)
+    set.Magnet = vu
 end)
 
+Setting:Line()
 Setting:Label("Auto Farm Setting")
 
-getgenv().Y = 30
-Setting:Slider("Distance [Default 30]", 0,60,getgenv().Y, function(vu)
-	getgenv().Y = vu
+Setting:Slider("Distance [Default 30]", 0,60,set.Y, function(vu)
+	set.Y = vu
 end)
 
 Setting:Slider("Level Lock", 1,LevelMax,LevelMax, function(value)
@@ -5724,7 +5805,7 @@ function EquipWeapon(ToolSe)
     end
 end
 
-local Farm_Mode = CFrame.new(0, getgenv().Y, 15)
+local Farm_Mode = CFrame.new(0, set.Y, 15)
 
 pcall(function()
 	for i,v in pairs(game:GetService("Workspace").Map.Dressrosa.Tavern:GetDescendants()) do
@@ -7829,7 +7910,7 @@ end)
             
 spawn(function()
    while wait() do
-        if AutoBounty or AutoSaber or AutoTushita or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or Clip then
+        if AutoBounty or AutoSaber or TeleportToPlayer or AutoTushita or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7846,7 +7927,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if AutoBounty or AutoSaber or AutoTushita or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or _G.AutoFarmAllBossHOP then
+        if AutoBounty or AutoSaber or TeleportToPlayer or AutoTushita or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or _G.AutoFarmAllBossHOP then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
@@ -7963,7 +8044,7 @@ end)
 
 spawn(function()
 	while wait() do
-		if AutoObservation then
+		if set.AutoObservation then
 		    pcall(function() 
 		        if Safe() then
 			if not game.Players.LocalPlayer.PlayerGui.ScreenGui:FindFirstChild("ImageLabel") then
@@ -7981,7 +8062,7 @@ end)
 
 spawn(function()
     while wait() do
-        if Auto_Haki then
+        if set.AutoHaki then
             if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
         end
@@ -7992,7 +8073,7 @@ end)
    local combat = getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))
 local Rig = combat[2]
     game:GetService('RunService').Stepped:connect(function()
-    if _G.UseFastAttack == true and Safe() and FastAttack then
+    if set.UseFastAttack == true and Safe() and FastAttack then
         pcall(function()
             if Rig.activeController.equipped == true  then
  Rig.activeController.hitSound = nil
@@ -8241,7 +8322,7 @@ end)
 function BringMob()
 		pcall(function()
 			for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-				if Auto_FarmLvl and Magnet and not AutoUpdate then
+				if Auto_FarmLvl and set.Magnet and not AutoUpdate then
 					if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 320 then
 								v.HumanoidRootPart.CFrame = PosMon
 								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
@@ -8249,7 +8330,7 @@ function BringMob()
 								v.Humanoid.PlatformStand = true
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-				elseif Auto_FarmLvl and Magnet and AutoUpdate then
+				elseif Auto_FarmLvl and set.Magnet and AutoUpdate then
 				    if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 320 then
 								v.HumanoidRootPart.CFrame = PosMon
 								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
@@ -8273,14 +8354,14 @@ function BringMob()
 								v.HumanoidRootPart.CanCollide = false
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
-				elseif AutoBartilo and Magnet then
+				elseif AutoBartilo and set.Magnet then
 					if v.Name == "Swan Pirate [Lv. 775]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-				elseif AutoRengoku and Magnet then
+				elseif AutoRengoku and set.Magnet then
 					if (v.Name == "Snow Lurker [Lv. 1375]" or v.Name == "Arctic Warrior [Lv. 1350]") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8289,14 +8370,14 @@ function BringMob()
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				
-				elseif Auto_Bone and Magnet then
+				elseif Auto_Bone and set.Magnet then
 					if (v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-				elseif AutoEcto and Magnet then
+				elseif AutoEcto and set.Magnet then
 					if string.find(v.Name, "Ship") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8304,7 +8385,7 @@ function BringMob()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-				elseif AutoEvoRace and Magnet then
+				elseif AutoEvoRace and set.Magnet then
 					if v.Name == "Zombie [Lv. 950]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8312,7 +8393,7 @@ function BringMob()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-				elseif AutoCitizen and Magnet then
+				elseif AutoCitizen and set.Magnet then
 					if v.Name == "Forest Pirate [Lv. 1825]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8320,7 +8401,7 @@ function BringMob()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-						elseif AutoCandy and CandyMagnet and Magnet then
+						elseif AutoCandy and CandyMagnet and set.Magnet then
 					if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8328,7 +8409,7 @@ function BringMob()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-							elseif AutoCandy and CandyMagnet2 and Magnet then
+							elseif AutoCandy and CandyMagnet2 and set.Magnet then
 					if v.Name == "Cookie Crafter [Lv. 2200]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8336,7 +8417,7 @@ function BringMob()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-							elseif AutoCandy and CandyMagnet3 and Magnet then
+							elseif AutoCandy and CandyMagnet3 and set.Magnet then
 					if v.Name == "Cake Guard [Lv. 2225]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
@@ -8344,7 +8425,7 @@ function BringMob()
 								v.HumanoidRootPart.CFrame = PosMon
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
-							elseif AutoCandy and CandyMagnet4 and Magnet then
+							elseif AutoCandy and CandyMagnet4 and set.Magnet then
 					if v.Name == "Baking Staff [Lv. 2250]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
 							    v.HumanoidRootPart.CanCollide = false
 							    v.Humanoid.PlatformStand = true
