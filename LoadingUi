@@ -5704,29 +5704,24 @@ Setting:Button("Destroy UI", function()
 	end
 end)
 
-Setting:Button("Save Setting", function()
+Setting:Button("Save Settings", function()
 	writefile(Name,game:service'HttpService':JSONEncode(set))
 end)
 
 Setting:Line()
-local Team = Setting:Label("Auto Join:")
 if set.Pirate then
-    Team:Refresh("Pirates")
+    Teamm = "Pirate"
 elseif set.Marine then
-    Team:Refresh("Marines")
+    Teamm = "Marine"
+    end
+local Team = Setting:Dropdown("Auto Join : "..Teamm,{"Auto Join : Pirate","Auto Join : Marine"}, function(vu)
+if vu == "Pirate" then
+    set.Pirate = true
+    set.Marine = false
+elseif vu == "Marine" then
+    set.Pirate = false
+    set.Marine = true
 end
-
---Setting:Line()
-Setting:Button("Pirate", function()
-        Team:Refresh("Pirate")
-	set.Pirate = true
-	set.Marine = false
-end)
-
-Setting:Button("Marine", function()
-    Team:Refresh("Marine")
-	set.Marine = true
-	set.Pirate = false
 end)
 
 Setting:Line()
