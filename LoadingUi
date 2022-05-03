@@ -14,7 +14,8 @@ UseFastAttack = true,
 Y = 30,
 Magnet = true,
 Marine = true,
-Pirate = false
+Pirate = false,
+HealthPersen = 25
 }
 
 local set
@@ -3501,9 +3502,8 @@ AutoFarm:Toggle("Auto Farm Mastery Gun", false, function(vu)
 	end
 end)
 
-local HealthPersen = 25
-AutoFarm:Slider("Health % [Default 25]", 1,100,HealthPersen, function(Value)
-	HealthPersen = Value
+AutoFarm:Slider("Health % [Default 25]", 1,100,set.HealthPersen, function(Value)
+	set.HealthPersen = Value
 end)
 
 AutoFarm:Toggle("Auto Farm Mastery Bring", false, function(vu)
@@ -7143,7 +7143,7 @@ spawn(function()
 							if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
-										HealthMin = v.Humanoid.MaxHealth * HealthPersen/100
+										HealthMin = v.Humanoid.MaxHealth * set.HealthPersen/100
 										if v.Humanoid.Health <= HealthMin then
 											TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 											USEBF = true
@@ -7189,7 +7189,7 @@ spawn(function()
 							if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
-										HealthMin = v.Humanoid.MaxHealth * HealthPersen/100
+										HealthMin = v.Humanoid.MaxHealth * set.HealthPersen/100
 										if v.Humanoid.Health <= HealthMin then
 											TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 											USEBF = true
@@ -7269,7 +7269,7 @@ spawn(function()
 							if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
-										HealthMin = v.Humanoid.MaxHealth * HealthPersen/100
+										HealthMin = v.Humanoid.MaxHealth * set.HealthPersen/100
 										if v.Humanoid.Health <= HealthMin then
 											EquipWeapon(SelectToolWeaponGun)
 											FastAttack = false
@@ -7315,7 +7315,7 @@ spawn(function()
 							if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 							    repeat game:GetService("RunService").Heartbeat:wait()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
-										HealthMin = v.Humanoid.MaxHealth * HealthPersen/100
+										HealthMin = v.Humanoid.MaxHealth * set.HealthPersen/100
 										if v.Humanoid.Health <= HealthMin then
 											EquipWeapon(SelectToolWeaponGun)
 											FastAttack = false
