@@ -15,7 +15,15 @@ Y = 30,
 Magnet = true,
 Marine = true,
 Pirate = false,
-HealthPersen = 25
+HealthPersen = 25,
+EliteHunter = false,
+EliteHunterHop = false,
+AutoSaveSetting = false,
+DonSwanHop = false,
+Superhuman = false,
+AutoFullySuperhuman = false,
+AutoDarkDagger = false,
+AutoBuddy = false
 }
 
 local set
@@ -768,7 +776,8 @@ Discord.Parent = game:GetService("CoreGui")
 Discord.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 function DiscordLib:Window(text,mainclr,cls)
-	local PresetColor = mainclr or Color3.fromRGB(255, 204, 255) or _G.Color
+	local PresetColor = mainclr or Color3.fromRGB(255, 255, 255) or _G.Color
+	local PresetColor2 = Color3.fromRGB(255, 204, 255)
 	local CloseBind = cls or Enum.KeyCode.RightControl or _G.Toggle
 	local currentservertoggled = ""
 	local minimized = false
@@ -908,10 +917,10 @@ function DiscordLib:Window(text,mainclr,cls)
 	UserCircleImage.Parent = UserImage
 	UserCircleImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	UserCircleImage.BackgroundTransparency = 1.000
-	UserCircleImage.ImageColor3 = Color3.fromRGB(23, 23, 23)
+	UserCircleImage.ImageColor3 = Color3.new(0.207843, 0.207843, 0.207843)
 	UserCircleImage.Size = UDim2.new(0, 32, 0, 32)
 	UserCircleImage.Image = "rbxassetid://4031889928"
-	UserCircleImage.ImageColor3 = Color3.fromRGB(27, 27, 27)
+	UserCircleImage.ImageColor3 = Color3.new(0.207843, 0.207843, 0.207843)
 
 	UserName.Name = "UserName"
 	UserName.Parent = Userpad
@@ -1045,7 +1054,7 @@ function DiscordLib:Window(text,mainclr,cls)
 		Text1.Size = UDim2.new(0, 346, 0, 68)
 		Text1.Font = Enum.Font.GothamSemibold
 		Text1.Text = titletext
-		Text1.TextColor3 = PresetColor
+		Text1.TextColor3 = PresetColor2
 		Text1.TextSize = 20.000
 
 		Text2.Name = "Text2"
@@ -1056,18 +1065,18 @@ function DiscordLib:Window(text,mainclr,cls)
 		Text2.Size = UDim2.new(0, 272, 0, 63)
 		Text2.Font = Enum.Font.Gotham
 		Text2.Text = desctext
-		Text2.TextColor3 = PresetColor
+		Text2.TextColor3 = PresetColor2
 		Text2.TextSize = 14.000
 		Text2.TextWrapped = true
 
 		AlrightBtn.Name = "AlrightBtn"
 		AlrightBtn.Parent = Notification
-		AlrightBtn.BackgroundColor3 = PresetColor
+		AlrightBtn.BackgroundColor3 = PresetColor2
 		AlrightBtn.Position = UDim2.new(0.0332369953, 0, 0.789141417, 0)
 		AlrightBtn.Size = UDim2.new(0, 322, 0, 27)
 		AlrightBtn.Font = Enum.Font.Gotham
 		AlrightBtn.Text = btntext
-		AlrightBtn.TextColor3 = Color3.fromRGB(23, 23, 23)
+		AlrightBtn.TextColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 		AlrightBtn.TextSize = 13.000
 		AlrightBtn.AutoButtonColor = false
 
@@ -1095,7 +1104,7 @@ function DiscordLib:Window(text,mainclr,cls)
 			TweenService:Create(
 				AlrightBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = Color3.fromRGB(23, 23, 23), TextColor3 = PresetColor}
+				{BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627), TextColor3 = PresetColor2}
 			):Play()
 		end)
 
@@ -1103,7 +1112,7 @@ function DiscordLib:Window(text,mainclr,cls)
 			TweenService:Create(
 				AlrightBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = PresetColor, TextColor3 = Color3.fromRGB(23, 23, 23)}
+				{BackgroundColor3 = PresetColor2, TextColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
 			):Play()
 		end)
 	end
@@ -1173,7 +1182,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 		ServerFrame.Name = "ServerFrame"
 		ServerFrame.Parent = ServersHolder
-		ServerFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+		ServerFrame.BackgroundColor3 = Color3.new(0.207843, 0.207843, 0.207843)
 		ServerFrame.BorderSizePixel = 0
 		ServerFrame.ClipsDescendants = true
 		ServerFrame.Position = UDim2.new(0.005356875, 0, 0.32262593, 13)
@@ -1197,7 +1206,7 @@ function DiscordLib:Window(text,mainclr,cls)
 		ServerTitle.Size = UDim2.new(0, 97, 0, 39)
 		ServerTitle.Font = Enum.Font.GothamSemibold
 		ServerTitle.Text = text
-		ServerTitle.TextColor3 = PresetColor
+		ServerTitle.TextColor3 = PresetColor2
 		ServerTitle.TextSize = 15.000
 		ServerTitle.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -1236,7 +1245,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 		ChannelTitleFrame.Name = "ChannelTitleFrame"
 		ChannelTitleFrame.Parent = ServerFrame
-		ChannelTitleFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+		ChannelTitleFrame.BackgroundColor3 = Color3.new(0.207843, 0.207843, 0.207843)
 		ChannelTitleFrame.BorderSizePixel = 0
 		ChannelTitleFrame.Position = UDim2.new(0.294561088, 0, -0.000900391256, 0)
 		ChannelTitleFrame.Size = UDim2.new(0, 429, 0, 40)
@@ -1254,13 +1263,13 @@ function DiscordLib:Window(text,mainclr,cls)
 		ChannelTitle.Size = UDim2.new(0, 95, 0, 39)
 		ChannelTitle.Font = Enum.Font.GothamSemibold
 		ChannelTitle.Text = ""
-		ChannelTitle.TextColor3 = PresetColor
+		ChannelTitle.TextColor3 = PresetColor2
 		ChannelTitle.TextSize = 15.000
 		ChannelTitle.TextXAlignment = Enum.TextXAlignment.Left
 
 		ChannelContentFrame.Name = "ChannelContentFrame"
 		ChannelContentFrame.Parent = ServerFrame
-		ChannelContentFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+		ChannelContentFrame.BackgroundColor3 = Color3.new(0.207843, 0.207843, 0.207843)
 		ChannelContentFrame.BorderSizePixel = 0
 		ChannelContentFrame.ClipsDescendants = true
 		ChannelContentFrame.Position = UDim2.new(0.294561088, 0, 0.106338218, 0)
@@ -1319,7 +1328,7 @@ function DiscordLib:Window(text,mainclr,cls)
 				TweenService:Create(
 					Server,
 					TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-					{BackgroundColor3 = Color3.fromRGB(23, 23, 23)}
+					{BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
 				):Play()
 				TweenService:Create(
 					ServerBtnCorner,
@@ -1376,7 +1385,7 @@ function DiscordLib:Window(text,mainclr,cls)
 					TweenService:Create(
 						Server,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = Color3.fromRGB(23, 23, 23)}
+						{BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
 					):Play()
 					TweenService:Create(
 						v.ServerCorner,
@@ -1416,7 +1425,7 @@ function DiscordLib:Window(text,mainclr,cls)
 			TweenService:Create(
 				Server,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = Color3.fromRGB(23, 23, 23)}
+				{BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
 			):Play()
 			TweenService:Create(
 				ServerBtnCorner,
@@ -1451,7 +1460,7 @@ function DiscordLib:Window(text,mainclr,cls)
 			ChannelBtnOutline.Parent = ServerChannelHolder
 			ChannelBtnOutline.Position = UDim2.new(0.24118948, 0, 0.578947365, 0)
 			ChannelBtnOutline.Size = UDim2.new(0, 162, 0, 32)
-			ChannelBtnOutline.BackgroundColor3 = PresetColor
+			ChannelBtnOutline.BackgroundColor3 = PresetColor2--PresetColor
 
 			ChannelBtnOutlineCorner.CornerRadius = UDim.new(0, 6)
 			ChannelBtnOutlineCorner.Name = "ChannelBtnOutlineCorner"
@@ -1459,7 +1468,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 			ChannelBtn.Name = text .. "ChannelBtn"
 			ChannelBtn.Parent = ChannelBtnOutline
-			ChannelBtn.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+			ChannelBtn.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 			ChannelBtn.BorderSizePixel = 0
 			ChannelBtn.Position = UDim2.new(0.002761, 0, 0.02761, 0)
 			ChannelBtn.Size = UDim2.new(0, 160, 0, 30)
@@ -1521,28 +1530,28 @@ function DiscordLib:Window(text,mainclr,cls)
 
 			ChannelBtn.MouseEnter:Connect(function()
 				if currentchanneltoggled ~= ChannelBtn.Name then
-					ChannelBtn.BackgroundColor3 = PresetColor
-					ChannelBtnTitle.TextColor3 = Color3.fromRGB(27, 27, 27)
+					ChannelBtn.BackgroundColor3 = PresetColor2
+					ChannelBtnTitle.TextColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				end
 			end)
 
 			ChannelBtn.MouseLeave:Connect(function()
 				if currentchanneltoggled ~= ChannelBtn.Name then
-					ChannelBtn.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+					ChannelBtn.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 					ChannelBtnTitle.TextColor3 = PresetColor
 				end
 			end)
 
 			ChannelBtn.MouseEnter:Connect(function()
 				if currentchanneltoggled == ChannelBtn.Name then
-					ChannelBtn.BackgroundColor3 = PresetColor
-					ChannelBtnTitle.TextColor3 = Color3.fromRGB(27, 27, 27)
+					ChannelBtn.BackgroundColor3 = PresetColor2
+					ChannelBtnTitle.TextColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				end
 			end)
 
 			ChannelBtn.MouseLeave:Connect(function()
 				if currentchanneltoggled == ChannelBtn.Name then
-					ChannelBtn.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+					ChannelBtn.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 					ChannelBtnTitle.TextColor3 = PresetColor
 				end
 			end)
@@ -1556,13 +1565,13 @@ function DiscordLib:Window(text,mainclr,cls)
 				end
 				for i, v in next, ServerChannelHolder:GetChildren() do
 					if v.ClassName == "TextButton" then
-						v.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+						v.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 						v.ChannelBtnTitle.TextColor3 = PresetColor
 					end
 					ServerFrame.Visible = true
 				end
 				ChannelTitle.Text = text
-				ChannelBtn.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+				ChannelBtn.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				ChannelBtnTitle.TextColor3 = PresetColor
 				currentchanneltoggled = ChannelBtn.Name
 			end)
@@ -1570,7 +1579,7 @@ function DiscordLib:Window(text,mainclr,cls)
 			if fc == false then
 				fc = true
 				ChannelTitle.Text = text
-				ChannelBtn.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+				ChannelBtn.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				ChannelBtnTitle.TextColor3 = PresetColor
 				currentchanneltoggled = ChannelBtn.Name
 				ChannelHolder.Visible = true
@@ -1583,7 +1592,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				Button.Name = "Button"
 				Button.Parent = ChannelHolder
-				Button.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				Button.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				Button.Size = UDim2.new(0, 401, 0, 30)
 				Button.AutoButtonColor = false
 				Button.Font = Enum.Font.Gotham
@@ -1599,7 +1608,7 @@ function DiscordLib:Window(text,mainclr,cls)
 					TweenService:Create(
 						Button,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = PresetColor, TextColor3 = Color3.fromRGB(23, 23, 23)}
+						{BackgroundColor3 = PresetColor2, TextColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
 					):Play()
 				end)
 
@@ -1617,7 +1626,7 @@ function DiscordLib:Window(text,mainclr,cls)
 					TweenService:Create(
 						Button,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = Color3.fromRGB(23, 23, 23), TextColor3 = PresetColor}
+						{BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627), TextColor3 = PresetColor}
 					):Play()
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0, 0, 0, ChannelHolderLayout.AbsoluteContentSize.Y)
@@ -1637,7 +1646,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
                 Toggle.Name = "Toggle"
                 Toggle.Parent = ChannelHolder
-                Toggle.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+                Toggle.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
                 Toggle.BorderSizePixel = 0
                 Toggle.Position = UDim2.new(0.261979163, 0, 0.190789461, 0)
                 Toggle.Size = UDim2.new(0, 401, 0, 30)
@@ -1661,7 +1670,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
                 ToggleFrameOutline.Name = "ToggleFrameOutline"
                 ToggleFrameOutline.Parent = Toggle
-                ToggleFrameOutline.BackgroundColor3 = PresetColor
+                ToggleFrameOutline.BackgroundColor3 = PresetColor2
                 ToggleFrameOutline.Position = UDim2.new(0.900481343, -5, 0.16300018, 0)
                 ToggleFrameOutline.Size = UDim2.new(0, 41, 0, 22)
 
@@ -1671,7 +1680,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
                 ToggleFrame.Name = "ToggleFrame"
                 ToggleFrame.Parent = ToggleFrameOutline
-                ToggleFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+                ToggleFrame.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
                 ToggleFrame.Size = UDim2.new(0, 39, 0, 20)
                 ToggleFrame.Position = UDim2.new(0, 1, 0.03761, 0)
 
@@ -1709,7 +1718,7 @@ function DiscordLib:Window(text,mainclr,cls)
                     TweenService:Create(
                         ToggleFrame,
                         TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                        {BackgroundColor3 = PresetColor}
+                        {BackgroundColor3 = PresetColor2}
                     ):Play()
                     ToggleFrameCircle:TweenPosition(UDim2.new(0.655, -5, 0.133000001, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3,true)
                     TweenService:Create(
@@ -1738,7 +1747,7 @@ function DiscordLib:Window(text,mainclr,cls)
                         TweenService:Create(
                             ToggleFrame,
                             TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                            {BackgroundColor3 = PresetColor}
+                            {BackgroundColor3 = PresetColor2}
                         ):Play()
                         ToggleFrameCircle:TweenPosition(UDim2.new(0.655, -5, 0.133000001, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
                         TweenService:Create(
@@ -1757,12 +1766,12 @@ function DiscordLib:Window(text,mainclr,cls)
                         TweenService:Create(
                             Icon,
                             TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                            {ImageColor3 = Color3.fromRGB(31, 31, 31)}
+                            {ImageColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
                         ):Play()
                         TweenService:Create(
                             ToggleFrame,
                             TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                            {BackgroundColor3 = Color3.fromRGB(31, 31, 31)}
+                            {BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
                         ):Play()
                         ToggleFrameCircle:TweenPosition(UDim2.new(0.234999999, -5, 0.133000001, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
                         TweenService:Create(
@@ -1804,7 +1813,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				Slider.Name = "Slider"
 				Slider.Parent = ChannelHolder
-				Slider.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				Slider.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				Slider.BorderSizePixel = 0
 				Slider.Position = UDim2.new(0, 0, 0.216560602, 0)
 				Slider.Size = UDim2.new(0, 401, 0, 38)
@@ -1838,7 +1847,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				CurrentValueFrame.Name = "CurrentValueFrame"
 				CurrentValueFrame.Parent = SliderFrame
-				CurrentValueFrame.BackgroundColor3 = PresetColor
+				CurrentValueFrame.BackgroundColor3 = PresetColor2
 				CurrentValueFrame.Size = UDim2.new((start or 0) / max, 0, 0, 8)
 
 				CurrentValueFrameCorner.Name = "CurrentValueFrameCorner"
@@ -1956,14 +1965,14 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				Line1.Name = "Line1"
 				Line1.Parent = ChannelHolder
-				Line1.BackgroundColor3 = PresetColor
+				Line1.BackgroundColor3 = PresetColor2--PresetColor
 				Line1.BackgroundTransparency = 1.000
 				Line1.Position = UDim2.new(0, 0, 0.350318581, 0)
 				Line1.Size = UDim2.new(0, 100, 0, 8)
 
 				Line2.Name = "Line2"
 				Line2.Parent = Line1
-				Line2.BackgroundColor3 = PresetColor
+				Line2.BackgroundColor3 = PresetColor2--PresetColor
 				Line2.BorderSizePixel = 0
 				Line2.Position = UDim2.new(0, 0, 0, 4)
 				Line2.Size = UDim2.new(0, 401, 0, 1)
@@ -2007,7 +2016,7 @@ function DiscordLib:Window(text,mainclr,cls)
 				DropdownFrameOutline.Name = "DropdownFrameOutline"
 				DropdownFrameOutline.Parent = DropdownTitle
 				DropdownFrameOutline.AnchorPoint = Vector2.new(0.5, 0.5)
-				DropdownFrameOutline.BackgroundColor3 = PresetColor
+				DropdownFrameOutline.BackgroundColor3 = PresetColor2--PresetColor
 				DropdownFrameOutline.Position = UDim2.new(0.988442957, 0, 1.0197437, 0)
 				DropdownFrameOutline.Size = UDim2.new(0, 396, 0, 36)
 
@@ -2017,7 +2026,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				DropdownFrame.Name = "DropdownFrame"
 				DropdownFrame.Parent = DropdownTitle
-				DropdownFrame.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				DropdownFrame.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				DropdownFrame.ClipsDescendants = true
 				DropdownFrame.Position = UDim2.new(0.00899999978, 0, 0.46638527, 0)
 				DropdownFrame.Selectable = true
@@ -2069,7 +2078,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				DropdownFrameMainOutline.Name = "DropdownFrameMainOutline"
 				DropdownFrameMainOutline.Parent = DropdownTitle
-				DropdownFrameMainOutline.BackgroundColor3 = PresetColor
+				DropdownFrameMainOutline.BackgroundColor3 = PresetColor2
 				DropdownFrameMainOutline.Position = UDim2.new(-0.00155700743, 0, 1.66983342, 0)
 				DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, 81)
 				DropdownFrameMainOutline.Visible = false
@@ -2080,7 +2089,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				DropdownFrameMain.Name = "DropdownFrameMain"
 				DropdownFrameMain.Parent = DropdownTitle
-				DropdownFrameMain.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				DropdownFrameMain.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				DropdownFrameMain.ClipsDescendants = true
 				DropdownFrameMain.Position = UDim2.new(0.00799999978, 0, 1.7468965, 0)
 				DropdownFrameMain.Selectable = true
@@ -2169,7 +2178,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 					Item.Name = "Item"
 					Item.Parent = DropItemHolder
-					Item.BackgroundColor3 = Color3.fromRGB(42, 44, 48)
+					Item.BackgroundColor3 = Color3.fromRGB(89,89,89)
 					Item.Size = UDim2.new(0, 379, 0, 29)
 					Item.AutoButtonColor = false
 					Item.Font = Enum.Font.SourceSans
@@ -2383,7 +2392,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				ColorpickerFrameOutline.Name = "ColorpickerFrameOutline"
 				ColorpickerFrameOutline.Parent = ColorpickerTitle
-				ColorpickerFrameOutline.BackgroundColor3 = PresetColor
+				ColorpickerFrameOutline.BackgroundColor3 = PresetColor2
 				ColorpickerFrameOutline.Position = UDim2.new(-0.00100000005, 0, 0.991999984, 0)
 				ColorpickerFrameOutline.Size = UDim2.new(0, 238, 0, 139)
 
@@ -2393,7 +2402,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				ColorpickerFrame.Name = "ColorpickerFrame"
 				ColorpickerFrame.Parent = ColorpickerTitle
-				ColorpickerFrame.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				ColorpickerFrame.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				ColorpickerFrame.ClipsDescendants = true
 				ColorpickerFrame.Position = UDim2.new(0.00899999978, 0, 1.06638515, 0)
 				ColorpickerFrame.Selectable = true
@@ -2557,7 +2566,7 @@ function DiscordLib:Window(text,mainclr,cls)
 				TextboxFrameOutline.Name = "TextboxFrameOutline"
 				TextboxFrameOutline.Parent = TextboxTitle
 				TextboxFrameOutline.AnchorPoint = Vector2.new(0.5, 0.5)
-				TextboxFrameOutline.BackgroundColor3 = PresetColor
+				TextboxFrameOutline.BackgroundColor3 = PresetColor2
 				TextboxFrameOutline.Position = UDim2.new(0.988442957, 0, 1.6197437, 0)
 				TextboxFrameOutline.Size = UDim2.new(0, 396, 0, 36)
 
@@ -2567,7 +2576,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				TextboxFrame.Name = "TextboxFrame"
 				TextboxFrame.Parent = TextboxTitle
-				TextboxFrame.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				TextboxFrame.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				TextboxFrame.ClipsDescendants = true
 				TextboxFrame.Position = UDim2.new(0.00899999978, 0, 1.06638527, 0)
 				TextboxFrame.Selectable = true
@@ -2594,7 +2603,7 @@ function DiscordLib:Window(text,mainclr,cls)
 					TweenService:Create(
 						TextboxFrameOutline,
 						TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = Color3.fromRGB(23, 23, 23)}
+						{BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)}
 					):Play()
 				end)
 
@@ -2602,7 +2611,7 @@ function DiscordLib:Window(text,mainclr,cls)
 					TweenService:Create(
 						TextboxFrameOutline,
 						TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = PresetColor}
+						{BackgroundColor3 = PresetColor2}
 					):Play()
 					if ep then
 						if #TextBox.Text > 0 then
@@ -2664,21 +2673,21 @@ function DiscordLib:Window(text,mainclr,cls)
 				ChannelHolder.CanvasSize = UDim2.new(0, 0, 0, ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 
-			function ChannelContent:Label(text)
+			function ChannelContent:Label(text,Color)
 				local Label = Instance.new("TextButton")
 				local LabelTitle = Instance.new("TextLabel")
 				local labelfunc = {}
 				Label.Name = "Label"
 
 				Label.Parent = ChannelHolder
-				Label.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+				Label.BackgroundColor3 = Color3.new(0.207843, 0.207843, 0.207843)
 				Label.BorderSizePixel = 0
 				Label.Position = UDim2.new(0.261979163, 0, 0.190789461, 0)
 				Label.Size = UDim2.new(0, 401, 0, 30)
 				Label.AutoButtonColor = false
 				Label.Font = Enum.Font.Gotham
 				Label.Text = ""
-				Label.TextColor3 = PresetColor
+				Label.TextColor3 = Color or PresetColor
 				Label.TextSize = 14.000
 
 				LabelTitle.Name = "LabelTitle"
@@ -2689,14 +2698,14 @@ function DiscordLib:Window(text,mainclr,cls)
 				LabelTitle.Size = UDim2.new(0, 200, 0, 30)
 				LabelTitle.Font = Enum.Font.Gotham
 				LabelTitle.Text = text
-				LabelTitle.TextColor3 = PresetColor
+				LabelTitle.TextColor3 = Color or PresetColor
 				LabelTitle.TextSize = 14.000
 				LabelTitle.TextXAlignment = Enum.TextXAlignment.Left
 
 				ChannelHolder.CanvasSize = UDim2.new(0, 0, 0, ChannelHolderLayout.AbsoluteContentSize.Y)
-
+local fu = "                                                   "
 				function labelfunc:Refresh(tochange)
-					Label.Text = tochange
+					Label.Text = tochange..fu
 				end
 				return labelfunc
 			end
@@ -2709,7 +2718,7 @@ function DiscordLib:Window(text,mainclr,cls)
 
 				Keybind.Name = "Keybind"
 				Keybind.Parent = ChannelHolder
-				Keybind.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+				Keybind.BackgroundColor3 = Color3.new(0.168627, 0.168627, 0.168627)
 				Keybind.BorderSizePixel = 0
 				Keybind.Position = UDim2.new(0.261979163, 0, 0.190789461, 0)
 				Keybind.Size = UDim2.new(0, 401, 0, 30)
@@ -3003,7 +3012,7 @@ local serv = win:Server("SHIN HUB 🔥🔥🔥","")
 
 local AutoFarm = serv:Channel("Auto Farm", "http://www.roblox.com/asset/?id=7040391851")
 
-Time = AutoFarm:Label("Server Time:")
+Time = AutoFarm:Label("Server Time:",Color3.fromRGB(255, 204, 255))
 
 function UpdateTime()
     local GameTime = math.floor(workspace.DistributedGameTime+0.5)
@@ -3011,7 +3020,7 @@ function UpdateTime()
     local Minute = math.floor(GameTime/(60^1))%60
     local Second = math.floor(GameTime/(60^0))%60
    -- Time:Refresh("Hour : "..Hour.." Minute : "..Minute.." Second : "..Second)
-    Time:Refresh(Hour.." Hour " ..Minute.. " Minute " ..Second.. " Second")
+    Time:Refresh(Hour.."                                                    Hour " ..Minute.. " Minute " ..Second.. " Second")
 end
 
 UpdateTime()
@@ -3069,24 +3078,6 @@ AutoFarm:Toggle("Auto Farm Level", false, function(vu)
 	end
 end)
 
-if Sea3 then
-AutoFarm:Toggle("Auto Tushita", false, function(vu)
-    if vu and SelectToolWeapon == "" then
-		DiscordLib:Notification("Auto Tushita","Select Weapon Please","OK")
-	else
-    AutoTushita = vu
-    Seat(true)
-		if vu == false then
-		    Seat(false)
-			wait(1)
-			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
-			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
-			
-		end
-	end
-end)
-end
-
 if Sea2 then
     AutoFarm:Toggle("Auto Factory", false, function(vu)
         if vu and SelectToolWeapon == "" then
@@ -3105,24 +3096,23 @@ if Sea2 then
     end)
 end
 
-
 if Sea3 then
-	AutoFarm:Toggle("Auto Elite Hunter", _G.AutoElite, function(vu)
-	    if vu and SelectToolWeapon == "" then
-		DiscordLib:Notification("Auto Elite Hunter","Select Weapon Please","OK")
+AutoFarm:Toggle("Auto Tushita", false, function(vu)
+    if vu and SelectToolWeapon == "" then
+		DiscordLib:Notification("Auto Tushita","Select Weapon Please","OK")
 	else
-		EliteHunter = vu
-		  Seat(true)
+    AutoTushita = vu
+    Seat(true)
 		if vu == false then
-		    Elite = false
 		    Seat(false)
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
 			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+			
 		end
-		end
-	end)
-
+	end
+end)
+end
 
 	AutoFarm:Toggle("Auto Enma/Yama", _G.AutoYama, function(vu)
 		AutoYama = vu
@@ -3143,8 +3133,7 @@ if Sea3 then
 		end
 		end
 	end)
-end
-
+	
 if Sea1 then
 	AutoFarm:Toggle("Auto Sea 2", _G.AutoNewworld, function(vu)
 	    if vu and SelectToolWeapon == "" then
@@ -3182,11 +3171,11 @@ if Sea2 then
         end
 	end)
 	
-AutoFarm:Toggle("Auto Farm Don Swan ( HOP )", false, function(vu)
+AutoFarm:Toggle("Auto Farm Don Swan ( HOP )", set.DonSwanHop, function(vu)
     if vu and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Farm Don Swan ( HOP )","Select Weapon Please","OK")
 	else
-    _G.DonSwanHop = vu
+    set.DonSwanHop = vu
     Seat(true)
 		if vu == false then
 		    Seat(false)
@@ -3199,8 +3188,8 @@ AutoFarm:Toggle("Auto Farm Don Swan ( HOP )", false, function(vu)
 end)
 end
 
-AutoFarm:Toggle("Auto Superhuman", _G.AutoSuperhuman, function(vu)
-    Superhuman = vu
+AutoFarm:Toggle("Auto Superhuman", set.Superhuman, function(vu)
+    set.Superhuman = vu
     if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -3208,8 +3197,8 @@ AutoFarm:Toggle("Auto Superhuman", _G.AutoSuperhuman, function(vu)
 		end
 end)
 
-AutoFarm:Toggle("Auto Fully Superhuman", _G.FullyAutoSuperhuman, function(vu)
-    AutoFullySuperhuman = vu
+AutoFarm:Toggle("Auto Fully Superhuman", set.AutoFullySuperhuman, function(vu)
+    set.AutoFullySuperhuman = vu
     Seat(true)
 		if vu == false then
 		    Seat(false)
@@ -3233,11 +3222,11 @@ AutoFarm:Toggle("Auto Electric Claw", false, function(vu)
 		end
 end)
 
-AutoFarm:Toggle("Auto Dark Dagger ( HOP )", false, function(vu)
+AutoFarm:Toggle("Auto Dark Dagger ( HOP )", set.AutoDarkDagger, function(vu)
     if vu and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Dark Dagger ( HOP )","Select Weapon Please","OK")
 	else
-    _G.AutoDarkDagger = vu
+    set.AutoDarkDagger = vu
     if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -3246,11 +3235,11 @@ AutoFarm:Toggle("Auto Dark Dagger ( HOP )", false, function(vu)
 	end
 end)
 
-AutoFarm:Toggle("Auto Buddy Sword ( HOP )", false, function(vu)
+AutoFarm:Toggle("Auto Buddy Sword ( HOP )", set.AutoBuddy, function(vu)
     if vu and SelectToolWeapon == "" then
 		DiscordLib:Notification("Auto Buddy Sword ( HOP )","Select Weapon Please","OK")
 	else
-    _G.AutoBuddy = vu
+      set.AutoBuddy = vu
     if vu == false then
 			wait(1)
 			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -3435,6 +3424,41 @@ AutoFarm:Toggle("Auto Equip Accessories", _G.AutoAccessory, function(Value)
 	AutoAccessories = Value 
 end)
 
+if Sea3 then
+    AutoFarm:Line()
+    AutoFarm:Label("Elite Hunter",Color3.fromRGB(255, 204, 255))--:Refresh("Elite Hunter")
+	AutoFarm:Toggle("Auto Elite Hunter", set.EliteHunter, function(vu)
+	    if vu and SelectToolWeapon == "" then
+		DiscordLib:Notification("Auto Elite Hunter","Select Weapon Please","OK")
+	else
+		set.EliteHunter = vu
+		  Seat(true)
+		if vu == false then
+		    Elite = false
+		    Seat(false)
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
+		end
+	end)
+	AutoFarm:Toggle("Auto Elite Hunter ( HOP )", set.EliteHunterHop, function(vu)
+	    if vu and SelectToolWeapon == "" then
+		DiscordLib:Notification("Auto Elite Hunter ( HOP )","Select Weapon Please","OK")
+	else
+		set.EliteHunterHop = vu
+		  Seat(true)
+		if vu == false then
+		    Elite = false
+		    Seat(false)
+			wait(1)
+			TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+			game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+		end
+		end
+	end)
+end
+
 if not Sea1 then
     AutoFarm:Line()
 end
@@ -3567,12 +3591,12 @@ AutoFarm:Button("Refresh Boss", function()
     end
 end)
 
-AutoFarm:Line()
 if Sea3 then
-AutoFarm:Label(""):Refresh("Event Stats")
+    AutoFarm:Line()
+AutoFarm:Label("",Color3.fromRGB(255, 204, 255)):Refresh("                                                   Event Stats")
 
-local Bone = AutoFarm:Label("")
-local Katakuri = AutoFarm:Label("")
+local Bone = AutoFarm:Label("",Color3.fromRGB(255, 204, 255))
+local Katakuri = AutoFarm:Label("",Color3.fromRGB(255, 204, 255))
 
 spawn(function()
 	while wait(2) do
@@ -3580,10 +3604,10 @@ spawn(function()
             [1] = "CakePrinceSpawner",
             [2] = true
          }
-		Bone:Refresh("Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
+		Bone:Refresh("                                                   Total Bone : "..tostring(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Check")))
 local KatakuriKill2 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
 local KatakuriKill1 = tonumber(KatakuriKill2)
-        Katakuri:Refresh("Need to kill "..tostring(KatakuriKill1).." mobs to spawn Katakuri")
+        Katakuri:Refresh("                                                   Need to kill "..tostring(KatakuriKill1).." mobs to spawn Katakuri")
 	end
 end)
 
@@ -3739,7 +3763,7 @@ AutoFarm:Toggle("Auto Farm Observation Haki", AutoFarmKen, function(vu)
 end)
 
 local ObservationLevel = AutoFarm:Label("")
-
+ObservationLevel:Refresh("                                                   Observation Haki Level : "..tostring(math.round(game.Players.LocalPlayer.VisionRadius.Value)))
 spawn(function()
 	while wait(10) do
 		if game.Players.LocalPlayer.VisionRadius.Value >= 3000 then
@@ -3747,17 +3771,17 @@ spawn(function()
 		else
 			Value = math.round(game.Players.LocalPlayer.VisionRadius.Value)
 		end
-		ObservationLevel:Refresh("Observation Haki Level : "..tostring(Value))
+		ObservationLevel:Refresh("                                                   Observation Haki Level : "..tostring(Value))
 	end
 end)
 
 local Stats = serv:Channel("Auto Stat","http://www.roblox.com/asset/?id=7040410130")
 
-Stats:Label(""):Refresh("Player Stats")
-local Point = Stats:Label("")
+Stats:Label("",Color3.fromRGB(255, 204, 255)):Refresh("                                                   Player Stats")
+local Point = Stats:Label("",Color3.fromRGB(255, 204, 255))
 spawn(function()
 	while wait(1) do
-		Point:Refresh("Point : "..tostring(game:GetService("Players").LocalPlayer.Data.Points.Value))
+		Point:Refresh("                                                   Current Point : "..tostring(game:GetService("Players").LocalPlayer.Data.Points.Value))
 	end
 end)
 
@@ -4232,11 +4256,11 @@ end)
 local Players = serv:Channel("Players - ESP","http://www.roblox.com/asset/?id=7252023075")
 local SelectedKillPlayer = ""
 SelectKillWeapon = ""
-KillPlayer = Players:Label("Current Player : ")
+KillPlayer = Players:Label("Current Player : ",Color3.fromRGB(255, 204, 255))
 
 function UpdateKillPlayer()
     pcall(function()
-    KillPlayer:Refresh(SelectedKillPlayer)
+    KillPlayer:Refresh("                            "..SelectedKillPlayer)
     end)
 end
 
@@ -4254,7 +4278,7 @@ spawn(function()
         if SelectedKillPlayer ~= "" then
     UpdateKillPlayer()
     else
-    KillPlayer:Refresh("None")
+    KillPlayer:Refresh("                            None")
 end
 end
 end)
@@ -4553,7 +4577,7 @@ spawn(function()
 		if _G.AutoRaid or RaidSuperhuman then
 			pcall(function()
 				if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false then
-					if AutoFullySuperhuman then
+					if set.AutoFullySuperhuman then
 						if not game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") and not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip") then
 							for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 								if not string.find(v.Name, "Fruit") then
@@ -5132,7 +5156,7 @@ end)
 
 local BuyItem = serv:Channel("Shop","http://www.roblox.com/asset/?id=7294901968")
 
-BuyItem:Label("Abilities")
+BuyItem:Label("Abilities",Color3.fromRGB(255, 204, 255))
 BuyItem:Button("Skyjump", function()
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Geppo")
 end)
@@ -5169,7 +5193,7 @@ end)
 
 BuyItem:Line()
 
-BuyItem:Label("Fighting Style")
+BuyItem:Label("Fighting Style",Color3.fromRGB(255, 204, 255))
 
 BuyItem:Button("Black Leg", function()
    	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBlackLeg")
@@ -5210,7 +5234,7 @@ end)
 
 BuyItem:Line()
 
-BuyItem:Label("Sword")
+BuyItem:Label("Sword",Color3.fromRGB(255, 204, 255))
 
 BuyItem:Button("Katana", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Katana")
@@ -5260,7 +5284,7 @@ end)
 
 BuyItem:Line()
 
-BuyItem:Label("Gun")
+BuyItem:Label("Gun",Color3.fromRGB(255, 204, 255))
 
 BuyItem:Button("Slingshot", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Slingshot")
@@ -5298,7 +5322,7 @@ end)
 
 BuyItem:Line()
 
-BuyItem:Label("Accessory")
+BuyItem:Label("Accessory",Color3.fromRGB(255, 204, 255))
 
 BuyItem:Button("Black Cape", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Black Cape")
@@ -5708,6 +5732,21 @@ Setting:Button("Save Settings", function()
 	writefile(Name,game:service'HttpService':JSONEncode(set))
 end)
 
+Setting:Toggle("Auto Save Settings", set.AutoSaveSetting, function(value)
+    writefile(Name,game:service'HttpService':JSONEncode(set))
+    set.AutoSaveSetting = value 
+    wait(1)
+    writefile(Name,game:service'HttpService':JSONEncode(set))
+end)
+
+spawn(function()
+    while wait(1) do
+        if set.AutoSaveSetting then
+            writefile(Name,game:service'HttpService':JSONEncode(set))
+        end
+    end
+end)
+
 Setting:Line()
 if set.Pirate then
     Teamm = "Pirate"
@@ -5715,10 +5754,10 @@ elseif set.Marine then
     Teamm = "Marine"
     end
 local Team = Setting:Dropdown("Auto Join : "..Teamm,{"Auto Join : Pirate","Auto Join : Marine"}, function(vu)
-if vu == "Pirate" then
+if vu == "Auto Join : Pirate" then
     set.Pirate = true
     set.Marine = false
-elseif vu == "Marine" then
+elseif vu == "Auto Join : Marine" then
     set.Pirate = false
     set.Marine = true
 end
@@ -5747,7 +5786,7 @@ Setting:Toggle("Bring Mob", set.Magnet, function(vu)
 end)
 
 Setting:Line()
-Setting:Label("Auto Farm Setting")
+Setting:Label("Auto Farm Setting",Color3.fromRGB(255, 204, 255))
 
 Setting:Slider("Distance [Default 30]", 0,60,set.Y, function(vu)
 	set.Y = vu
@@ -5771,7 +5810,7 @@ end)]]
 
 Setting:Line()
 
-Setting:Label("Auto Farm Mastery Setting")
+Setting:Label("Auto Farm Mastery Setting",Color3.fromRGB(255, 204, 255))
 
 Setting:Toggle("Skill Z", true, function(vu)
     SkillZ = vu
@@ -5937,12 +5976,25 @@ end
 
 if SelectToolWeapon then
 else
-    SelectToolWeapon = ""
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+   if v and v:IsA("Tool") and v.ToolTip == "Melee" then
+      SelectToolWeapon = v.Name
+   end
+end
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+   if v and v:IsA("Tool") and v.ToolTip == "Melee" then
+      SelectToolWeapon = v.Name
+   end
+end
 end
 if EventWeapon then
     else
-        EventWeapon = ""
-        end
+        for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+   if v and v:IsA("Tool") and v.ToolTip == "Melee" then
+      EventWeapon = v.Name
+   end
+end
+end
 
 spawn(function()
     while wait() do
@@ -6488,7 +6540,7 @@ end)
 
 spawn(function()
 	while wait() do
-		if _G.AutoBuddy then
+		if set.AutoBuddy then
 		    pcall(function()  
 		        if Safe() then
 			if game:GetService("ReplicatedStorage"):FindFirstChild("Cake Queen [Lv. 2175] [Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Queen [Lv. 2175] [Boss]") then
@@ -6505,7 +6557,7 @@ spawn(function()
 								    game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 									FastAttack = true
-								until not _G.AutoBuddy or v.Humanoid.Health <= 0 or not v.Parent
+								until not set.AutoBuddy or v.Humanoid.Health <= 0 or not v.Parent
 							end
 						end
 					else
@@ -6514,7 +6566,7 @@ spawn(function()
 					end
 				end
 			end
-		 if _G.AutoBuddy and Sea3 and not game:GetService("ReplicatedStorage"):FindFirstChild("Cake Queen [Lv. 2175] [Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("Cake Queen [Lv. 2175] [Boss]") then
+		 if set.AutoBuddy and Sea3 and not game:GetService("ReplicatedStorage"):FindFirstChild("Cake Queen [Lv. 2175] [Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("Cake Queen [Lv. 2175] [Boss]") then
 					Teleport()
 			end
 		        end
@@ -6525,7 +6577,7 @@ end)
 
 spawn(function()
 	while wait() do
-		if _G.AutoDarkDagger then
+		if set.AutoDarkDagger then
 		    pcall(function()  
 		        if Safe() then
 			if game:GetService("ReplicatedStorage"):FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") then
@@ -6542,7 +6594,7 @@ spawn(function()
 								    game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 									FastAttack = true
-								until not _G.AutoDarkDagger or v.Humanoid.Health <= 0 or not v.Parent
+								until not set.AutoDarkDagger or v.Humanoid.Health <= 0 or not v.Parent
 							end
 						end
 					else
@@ -6551,7 +6603,7 @@ spawn(function()
 					end
 				end
 			end
-			if _G.AutoDarkDagger and Sea3 and not game:GetService("ReplicatedStorage"):FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") then
+			if set.AutoDarkDagger and Sea3 and not game:GetService("ReplicatedStorage"):FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("rip_indra True Form [Lv. 5000] [Raid Boss]") then
 					Teleport()
 			end
 		        end
@@ -6562,7 +6614,7 @@ end)
 
 spawn(function()
 	while wait() do
-		if _G.DonSwanHop then
+		if set.DonSwanHop then
 		    pcall(function()  
 		        if Safe() then
 			if game:GetService("ReplicatedStorage"):FindFirstChild("Don Swan [Lv. 1000] [Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Don Swan [Lv. 1000] [Boss]") then
@@ -6579,7 +6631,7 @@ spawn(function()
 								    game:GetService'VirtualUser':CaptureController()
 									game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 									FastAttack = true
-								until not _G.DonSwanHop or v.Humanoid.Health <= 0 or not v.Parent
+								until not set.DonSwanHop or v.Humanoid.Health <= 0 or not v.Parent
 							end
 						end
 					else
@@ -6588,7 +6640,7 @@ spawn(function()
 					end
 				end
 			end
-			if _G.DonSwanHop and Sea2 and not game:GetService("ReplicatedStorage"):FindFirstChild("Don Swan [Lv. 1000] [Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("Don Swan [Lv. 1000] [Boss]") then
+			if set.DonSwanHop and Sea2 and not game:GetService("ReplicatedStorage"):FindFirstChild("Don Swan [Lv. 1000] [Boss]") and not game:GetService("Workspace").Enemies:FindFirstChild("Don Swan [Lv. 1000] [Boss]") then
 					Teleport()
 			end
 		        end
@@ -6778,15 +6830,19 @@ end
         end)
     end
 end)
+local Elite = false
 
 spawn(function()
 	pcall(function()
 		while wait() do
-			if EliteHunter and Safe() then
+			if set.EliteHunter or set.EliteHunterHop then
 			    pcall(function()
 			        local QuestElite = string.find(game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Diablo") or string.find(game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Urban") or string.find(game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Deandre")
 				local ReplicatedStorage = game:GetService("ReplicatedStorage");
 				local Enemies = game:GetService("Workspace").Enemies
+				if not Enemies:FindFirstChild("Deandre [Lv. 1750]") and not Enemies:FindFirstChild("Diablo [Lv. 1750]") and not Enemies:FindFirstChild("Urban [Lv. 1750]") then
+				        Elite = false
+				        end
                      spawn(function()
 					if ReplicatedStorage:FindFirstChild("Diablo [Lv. 1750]") then
 					    Elite = true
@@ -6809,8 +6865,6 @@ spawn(function()
 					elseif Enemies:FindFirstChild("Deandre [Lv. 1750]") then
 					    Elite = true
 					    Auto_FarmLvl = false
-					else
-				        Elite = false
 					 end
 				end)
 					if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false and Elite then
@@ -6840,13 +6894,18 @@ spawn(function()
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
 											end
 										end
-									until not Elite or v.Humanoid.Health <= 0 or not v.Parent or not EliteHunter or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
+									until not Elite or v.Humanoid.Health <= 0 or not v.Parent or not set.EliteHunter or not set.EliteHunterHop or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false
 								end
 							end
 						else
 							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
 						end
 					end
+					spawn(function()
+					    if Elite == false and set.EliteHunterHop then
+					        Teleport()
+					        end
+					    end)
 				if _G.AutoFarm and not Elite then
 					Auto_FarmLvl = true
 				end
@@ -7484,7 +7543,7 @@ end)
 spawn(function()
 	pcall(function()
 		while wait() do
-			if Superhuman or AutoFullySuperhuman then
+			if set.Superhuman or set.AutoFullySuperhuman then
 			    pcall(function() 
 			        if Safe() then
 				if game.Players.LocalPlayer.Backpack:FindFirstChild("Combat") or game.Players.LocalPlayer.Character:FindFirstChild("Combat") or game.Players.LocalPlayer.Backpack:FindFirstChild("Electric Claw") or game.Players.LocalPlayer.Character:FindFirstChild("Electric Claw") or game.Players.LocalPlayer.Backpack:FindFirstChild("Sharkman Karate") or game.Players.LocalPlayer.Character:FindFirstChild("Sharkman Karate") or game.Players.LocalPlayer.Backpack:FindFirstChild("Death Step") or game.Players.LocalPlayer.Character:FindFirstChild("Death Step") then
@@ -7525,7 +7584,7 @@ spawn(function()
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 					end
 					if (game.Players.LocalPlayer.Character:FindFirstChild("Fishman Karate") and game.Players.LocalPlayer.Character:FindFirstChild("Fishman Karate").Level.Value >= 300) or (game.Players.LocalPlayer.Backpack:FindFirstChild("Fishman Karate") and game.Players.LocalPlayer.Backpack:FindFirstChild("Fishman Karate").Level.Value >= 300) then
-                        if AutoFullySuperhuman then
+                        if set.AutoFullySuperhuman then
                             if game.Players.LocalPlayer.Data.Level.Value >= 1100 then
                                 if game.Players.LocalPlayer.Data.Fragments.Value <= 1499 then
                                     RaidSuperhuman = true
@@ -7550,7 +7609,7 @@ spawn(function()
                                     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
                                 end
                             end
-						elseif not AutoFullySuperhuman then
+						elseif not set.AutoFullySuperhuman then
 							local args = {
 								[1] = "BlackbeardReward",
 								[2] = "DragonClaw",
@@ -7905,7 +7964,7 @@ end)
             
 spawn(function()
    while wait() do
-        if AutoBounty or AutoSaber or TeleportToPlayer or AutoTushita or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or Clip then
+        if AutoBounty or AutoSaber or TeleportToPlayer or AutoTushita or set.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite and set.EliteHunter or Elite and set.EliteHunterHop or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or set.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or AutoEvoRace or _G.AutoFarmAllBossHOP or NextIsland or RaidSuperhuman or _G.AutoRaid or AutoFarmBoss or SelectFarm or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or Clip then
             pcall(function()
            if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
                local BV = Instance.new('BodyVelocity')
@@ -7922,7 +7981,7 @@ end)
 spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-        if AutoBounty or AutoSaber or TeleportToPlayer or AutoTushita or _G.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or _G.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or _G.AutoFarmAllBossHOP then
+        if AutoBounty or AutoSaber or TeleportToPlayer or AutoTushita or set.AutoBuddy or PlayerHunt or KillPlayerV2 or AutoRainbow or AutoCitizen or AutoFarmBoss or FarmAllBoss or Elite and set.EliteHunter or Elite and set.EliteHunterHop or AutoThird or AutoBartilo or AutoRengoku or Auto_Bone or AutoEcto or AutoFarmObservation or Auto_FarmLvl or FarmMasteryGun or FarmMasteryFruit or set.AutoDarkDagger or _G.AutoDonSwan_Hop or _G.Pole_Hop or Core or noclip or AutoEvoRace or NextIsland or RaidSuperhuman or _G.AutoRaid or SelectFarm or Clip or AutoLowRaid or AutoCandy or _G.AutoFarmAllBoss or _G.AutoFarmAllBossHOP then
             for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 if v:IsA("BasePart") then
                     v.CanCollide = false
@@ -8701,7 +8760,6 @@ end)
 end
 end)
 
-warn("Anti AFK : Work")
 local vu = game:GetService("VirtualUser")   
 for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
       v:Disable()
