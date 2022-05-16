@@ -4424,6 +4424,26 @@ end)
 end)
    end)
     --]]
+  
+    
+    Players:Toggle("Aimbot Gun",false, function(vu)
+        AimbotGun = vu
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do  
+         if v:IsA("Tool") then
+            if v:FindFirstChild("RemoteFunctionShoot") then 
+               GunKill = v.Name
+            end
+         end
+      end
+      for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
+         if v:IsA("Tool") then
+            if v:FindFirstChild("RemoteFunctionShoot") then 
+               GunKill = v.Name
+            end
+         end
+      end
+    end)
+    
     Players:Toggle("Teleport to Player", false, function(vu)
         if vu and SelectedKillPlayer == "" then
 		DiscordLib:Notification("Players - ESP","Select Player Please","OK")
@@ -8522,7 +8542,7 @@ local oldindex = mt.__index
 setreadonly(mt, false)
 mt.__index = newcclosure(function(t, k)
    if t:IsA("Mouse") and (k == "Hit") then
-     if KillPlayerV2 or AutoBounty then 
+     if AimbotGun and GunKill ~= "" and game.Players.LocalPlayer.Character:FindFirstChild(GunKill) then 
            if game.Players:FindFirstChild(SelectedKillPlayer).Character and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("Humanoid").Health > 0 then
               return (k == "Hit" and game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame or game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart)
            end
