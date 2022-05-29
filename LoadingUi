@@ -8542,7 +8542,7 @@ local oldindex = mt.__index
 setreadonly(mt, false)
 mt.__index = newcclosure(function(t, k)
    if t:IsA("Mouse") and (k == "Hit") then
-     if AimbotGun and GunKill ~= "" and game.Players.LocalPlayer.Character:FindFirstChild(GunKill) then 
+     if AimbotGun and GunKill ~= "" and game.Players.LocalPlayer.Character:FindFirstChild(GunKill) and SelectedKillPlayer ~= "SHINgamer5" then 
            if game.Players:FindFirstChild(SelectedKillPlayer).Character and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedKillPlayer).Character:FindFirstChild("Humanoid").Health > 0 then
               return (k == "Hit" and game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart.CFrame or game.Players:FindFirstChild(SelectedKillPlayer).Character.HumanoidRootPart)
            end
