@@ -1,3 +1,6 @@
+getgenv().IrisAd = true
+local Notification = loadstring(game:HttpGet("https://pastebin.com/raw/SzAsegaR"))()
+
 local Kavo = {}
 
 local tween = game:GetService("TweenService")
@@ -279,6 +282,21 @@ function Kavo.CreateLib(kavName, themeList)
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
     close.MouseButton1Click:Connect(function()
+        Notification.Notify("{ Iris }", "Yeet", "rbxassetid://7258714296", {
+            Duration = 7,
+            
+            TitleSettings = {
+                TextXAlignment = Enum.TextXAlignment.Center,
+                Font = Enum.Font.SourceSansSemibold,
+            },
+        
+            GradientSettings = {
+                GradientEnabled = false,
+                SolidColorEnabled = true,
+                SolidColor = Color3.fromRGB(124, 83, 240),
+                Retract = true
+            }
+        })
         game.TweenService:Create(close, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
             ImageTransparency = 1
         }):Play()
