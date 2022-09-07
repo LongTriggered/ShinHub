@@ -280,7 +280,7 @@ function Kavo.CreateLib(kavName, themeList)
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
     close.MouseButton1Click:Connect(function()
-        Notification.Notify("{ Ui Closed }", "Tap RightCtrl to reopen", "rbxassetid://7258714296", {
+        Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://7258714296", {
             Duration = 5,
             
             TitleSettings = {
