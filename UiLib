@@ -143,10 +143,10 @@ end)
 local LibName = "Gui"
 
 function Kavo:ToggleUI()
-    if game.CoreGui[LibName].Enabled then
-        game.CoreGui[LibName].Enabled = false
+    if game.CoreGui[LibName].Main.Visible == true then
+        game.CoreGui[LibName].Main.Visible = false
     else
-        game.CoreGui[LibName].Enabled = true
+        game.CoreGui[LibName].Main.Visible = true
     end
 end
 
@@ -305,7 +305,7 @@ function Kavo.CreateLib(kavName, themeList)
 			Size = UDim2.new(0,0,0,0),
 			Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
 		}):Play()
-        game.CoreGui[LibName].Enabled = false
+        game.CoreGui[LibName].Main.Visible = false
     end)
 
     MainSide.Name = "MainSide"
