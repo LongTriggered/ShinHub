@@ -141,10 +141,10 @@ Settings = game:service'HttpService':JSONEncode(readfile(Name))
 end)
 
 function Kavo:ToggleUI()
-    if game.CoreGui['Gui'].Main.Visible == true then
-        game.CoreGui['Gui'].Main.Visible = false
+    if game.CoreGui["Gui"].Main.Visible == true then
+        game.CoreGui["Gui"].Main.Visible = false
     else
-        game.CoreGui['Gui'].Main.Visible = true
+        game.CoreGui["Gui"].Main.Visible = true
     end
 end
 
