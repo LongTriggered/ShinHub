@@ -140,18 +140,6 @@ end
 Settings = game:service'HttpService':JSONEncode(readfile(Name))
 end)
 
-game:GetService("UserInputService").InputBegan:Connect(function(io)
-    pcall(function()
-        if io.KeyCode == Enum.KeyCode.RightControl then
-            if ScreenGui.Enabled == true then
-                ScreenGui.Enabled = false
-            else
-                ScreenGui.Enabled = true
-            end
-        end
-    end)
-end)
-
 function Kavo.CreateLib(kavName, themeList)
     if not themeList then
         themeList = themes
@@ -2421,7 +2409,18 @@ function Kavo.CreateLib(kavName, themeList)
                 toggleEnabled.ImageRectOffset = Vector2.new(784, 420)
                 toggleEnabled.ImageRectSize = Vector2.new(48, 48)
                 toggleEnabled.ImageTransparency = 1.000
-
+		
+game:GetService("UserInputService").InputBegan:Connect(function(io)
+    pcall(function()
+        if io.KeyCode == Enum.KeyCode.RightControl then
+            if ScreenGui.Enabled == true then
+                ScreenGui.Enabled = false
+            else
+                ScreenGui.Enabled = true
+            end
+        end
+    end)
+end)
                 onrainbow.Name = "onrainbow"
                 onrainbow.Parent = toggleEnabled
                 onrainbow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
