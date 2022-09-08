@@ -140,21 +140,11 @@ end
 Settings = game:service'HttpService':JSONEncode(readfile(Name))
 end)
 
-game:GetService("UserInputService").InputBegan:Connect(function(io, p)
+game:GetService("UserInputService").InputBegan:Connect(function(io)
     pcall(function()
         if io.KeyCode == Enum.KeyCode.RightControl then
             if ScreenGui.Enabled == true then
-                game.TweenService:Create(close, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
-                    ImageTransparency = 1
-                }):Play()
-                wait()
-                game.TweenService:Create(Main, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                    Size = UDim2.new(0,0,0,0),
-                    Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
-                }):Play()
-                wait(0.3)
                 ScreenGui.Enabled = false
-
             else
                 ScreenGui.Enabled = true
             end
