@@ -186,13 +186,6 @@ function Kavo.CreateLib(kavName, themeList)
 
     themeList = themeList or {}
     local selectedTab 
-    kavName = kavName or "Library"
-    table.insert(Kavo, kavName)
-    for i,v in pairs(game.CoreGui:GetChildren()) do
-        if v:IsA("ScreenGui") and v.Name == kavName then
-            v:Destroy()
-        end
-    end
     local ScreenGui = Instance.new("ScreenGui")
     local Main = Instance.new("Frame")
     local MainCorner = Instance.new("UICorner")
@@ -280,6 +273,7 @@ function Kavo.CreateLib(kavName, themeList)
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
     close.MouseButton1Click:Connect(function()
+       ScreenGui.Enabled = false
         Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://7258714296", {
             Duration = 5,
             
@@ -295,7 +289,6 @@ function Kavo.CreateLib(kavName, themeList)
                 Retract = true
             }
         })
-        game.CoreGui["Gui"].Main.Visible = false
     end)
 
     MainSide.Name = "MainSide"
@@ -2547,7 +2540,18 @@ function Kavo.CreateLib(kavName, themeList)
                         callback(realcolor)
                     end
                 end
-
+                local UIS = game:GetService("UserInputService")
+                UIS.InputBegan:Connect(function(k)
+                    pcall(function()
+                if k.KeyCode == Enum.KeyCode.RightControl then
+                  if ScreenGui.Enabled == true then
+                    ScreenGui.Enabled = false
+                  else
+                    ScreenGui.Enabled = true
+                end
+            end
+        end)
+                end)
                 local function setcolor(tbl)
                     local cx = cursor.AbsoluteSize.X/2
                     local cy = cursor.AbsoluteSize.Y/2
