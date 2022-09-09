@@ -140,6 +140,14 @@ end
 Settings = game:service'HttpService':JSONEncode(readfile(Name))
 end)
 
+function Kavo:ToggleUI()
+    if game.CoreGui["Gui"].Main.Visible == true then
+        game.CoreGui["Gui"].Main.Visible = false
+    else
+        game.CoreGui["Gui"].Main.Visible = true
+    end
+end
+
 function Kavo.CreateLib(kavName, themeList)
     if not themeList then
         themeList = themes
@@ -272,8 +280,6 @@ function Kavo.CreateLib(kavName, themeList)
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
     close.MouseButton1Click:Connect(function()
-        wait(0.3)
-        ScreenGui.Enabled = false
         Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://7258714296", {
             Duration = 5,
             
@@ -289,6 +295,7 @@ function Kavo.CreateLib(kavName, themeList)
                 Retract = true
             }
         })
+        game.CoreGui["Gui"].Main.Visible = false
     end)
 
     MainSide.Name = "MainSide"
@@ -2409,18 +2416,7 @@ function Kavo.CreateLib(kavName, themeList)
                 toggleEnabled.ImageRectOffset = Vector2.new(784, 420)
                 toggleEnabled.ImageRectSize = Vector2.new(48, 48)
                 toggleEnabled.ImageTransparency = 1.000
-		
-game:GetService("UserInputService").InputBegan:Connect(function(io)
-    pcall(function()
-        if io.KeyCode == Enum.KeyCode.RightControl then
-            if ScreenGui.Enabled == true then
-                ScreenGui.Enabled = false
-            else
-                ScreenGui.Enabled = true
-            end
-        end
-    end)
-end)
+
                 onrainbow.Name = "onrainbow"
                 onrainbow.Parent = toggleEnabled
                 onrainbow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
