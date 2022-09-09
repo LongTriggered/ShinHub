@@ -308,7 +308,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
             ScreenGui.Enabled = true
             uitoggled = false
         end
-        Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://7258714296", {
+        Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://2484550861", {
             Duration = 5,
             
             TitleSettings = {
