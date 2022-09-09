@@ -186,6 +186,13 @@ function Kavo.CreateLib(kavName, themeList)
 
     themeList = themeList or {}
     local selectedTab 
+    kavName = kavName or "Library"
+    table.insert(Kavo, kavName)
+    for i,v in pairs(game.CoreGui:GetChildren()) do
+        if v:IsA("ScreenGui") and v.Name == kavName then
+            v:Destroy()
+        end
+    end
     local ScreenGui = Instance.new("ScreenGui")
     local Main = Instance.new("Frame")
     local MainCorner = Instance.new("UICorner")
@@ -202,6 +209,24 @@ function Kavo.CreateLib(kavName, themeList)
     local pages = Instance.new("Frame")
     local Pages = Instance.new("Folder")
     local infoContainer = Instance.new("Frame")
+
+    local uitoggled = false
+	game:GetService("UserInputService").InputBegan:Connect(function(io, p)
+		pcall(function()
+			if io.KeyCode == Enum.KeyCode.RightControl then
+				if uitoggled == false then
+Main:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
+					wait(.3)
+					ScreenGui.Enabled = false
+					uitoggled = true
+				else
+Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
+					ScreenGui.Enabled = true
+					uitoggled = false
+				end
+			end
+		end)
+	end)
 
     local blurFrame = Instance.new("Frame")
 
@@ -273,7 +298,16 @@ function Kavo.CreateLib(kavName, themeList)
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
     close.MouseButton1Click:Connect(function()
-       ScreenGui.Enabled = false
+   Main:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
+        if uitoggled == false then
+            wait(.3)
+            ScreenGui.Enabled = false
+            uitoggled = true
+        else
+Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .3, true)
+            ScreenGui.Enabled = true
+            uitoggled = false
+        end
         Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://7258714296", {
             Duration = 5,
             
@@ -2540,18 +2574,7 @@ function Kavo.CreateLib(kavName, themeList)
                         callback(realcolor)
                     end
                 end
-                local UIS = game:GetService("UserInputService")
-                UIS.InputBegan:Connect(function(k)
-                    pcall(function()
-                if k.KeyCode == Enum.KeyCode.RightControl then
-                  if ScreenGui.Enabled == true then
-                    ScreenGui.Enabled = false
-                  else
-                    ScreenGui.Enabled = true
-                end
-            end
-        end)
-                end)
+
                 local function setcolor(tbl)
                     local cx = cursor.AbsoluteSize.X/2
                     local cy = cursor.AbsoluteSize.Y/2
