@@ -1841,7 +1841,11 @@ hi:Play()
                         end
                     end)()
                 end
-
+                function DropFunction:UpdateDrop(newText)
+                    if newText ~= nil then 
+                        itemTextbox.Text = newText
+                    end
+                end
                 function DropFunction:Refresh(newList)
                     newList = newList or {}
                     for i,v in next, dropFrame:GetChildren() do
