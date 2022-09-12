@@ -193,13 +193,6 @@ function Kavo.CreateLib(kavName, themeList)
             v:Destroy()
         end
     end
-local hi = Instance.new("Sound")
-hi.Name = "Sound"
-hi.SoundId = "http://www.roblox.com/asset/?id=10863701033"
-hi.Volume = 4
-hi.Looped = false
-hi.archivable = false
-hi.Parent = game.Workspace
 
     local ScreenGui = Instance.new("ScreenGui")
     local Main = Instance.new("Frame")
@@ -316,7 +309,6 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
             ScreenGui.Enabled = true
             uitoggled = false
         end
-hi:Play()
         Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://2484550853", {
             Duration = 5,
             
