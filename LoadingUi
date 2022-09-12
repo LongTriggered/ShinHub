@@ -129,7 +129,7 @@ end
 local NearestQuestsNPC = math.huge
 for i,v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
     for x,y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if string.find(y.Name, HighestLevelToFarm) and y:FindFirstChild("Humanoid") and y.Humanoid.Health > 0 then
+							if y:FindFirstChild("Humanoid") and y.Humanoid.Health > 0 then
     if v:FindFirstChild('Head') then
                   if v.Head:FindFirstChild("Talk") and v.Head:FindFirstChild("QuestBBG") and v.Head:FindFirstChild("QuestBBG").Title.Text == "QUEST" then
                         if (v.HumanoidRootPart.Position-y.HumanoidRootPart.Position).magnitude < NearestQuestsNPC then
@@ -5903,7 +5903,7 @@ spawn(function()
 		            GetLevel()
 		            if AutoUpdate then
 		            for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-							        if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) then
+							        if string.find(v.Name, MobName) then
 							            v.Parent = game:GetService("Workspace").Enemies
 							        end
 		            end
@@ -5915,14 +5915,14 @@ spawn(function()
                                           if v:FindFirstChild("Head") and v.Head:FindFirstChild("Talk") and v.Head:FindFirstChild("QuestBBG") then
 						                    TP(CFrameQuest.HumanoidRootPart.CFrame)
 						                    else
-						                        if string.find(v2.Name, HighestLevelToFarm) and string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
+						                        if string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
 							           game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2048,2.0199999809265137,2048)
 							    TP(v2.HumanoidRootPart.CFrame  * CFrame.new(0,10,0))
                                              end
                                           end
 				                    end
 						            else
-					                if string.find(v2.Name, HighestLevelToFarm) and string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
+					                if string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
 							           game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2048,2.0199999809265137,2048)
 							    TP(v2.HumanoidRootPart.CFrame  * CFrame.new(0,10,0))
 							    end
@@ -5936,7 +5936,7 @@ spawn(function()
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+							if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 									repeat game:GetService("RunService").Heartbeat:wait()
 									    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
 												EquipWeapon(SelectToolWeapon)
@@ -7211,7 +7211,7 @@ spawn(function()
 			GetLevel()
 		            if AutoUpdate then
 		            for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-							        if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) then
+							        if string.find(v.Name, MobName) then
 							            v.Parent = game:GetService("Workspace").Enemies
 							        end
 		            end
@@ -7223,14 +7223,14 @@ spawn(function()
                                           if v:FindFirstChild("Head") and v.Head:FindFirstChild("Talk") and v.Head:FindFirstChild("QuestBBG") then
 						                    TP(CFrameQuest.HumanoidRootPart.CFrame)
 						                    else
-						                        if string.find(v2.Name, HighestLevelToFarm) and string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
+						                        if string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
 							           game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2048,2.0199999809265137,2048)
 							    TP(v2.HumanoidRootPart.CFrame  * CFrame.new(0,10,0))
                                              end
                                           end
 				                    end
 						            else
-					                if string.find(v2.Name, HighestLevelToFarm) and string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
+					                if string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
 							           game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2048,2.0199999809265137,2048)
 							    TP(v2.HumanoidRootPart.CFrame  * CFrame.new(0,10,0))
 							    end
@@ -7244,7 +7244,7 @@ spawn(function()
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+							if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
 										HealthMin = v.Humanoid.MaxHealth * set.HealthPersen/100
@@ -7337,7 +7337,7 @@ spawn(function()
 			GetLevel()
 		            if AutoUpdate then
 		            for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-							        if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) then
+							        if string.find(v.Name, MobName) then
 							            v.Parent = game:GetService("Workspace").Enemies
 							        end
 		            end
@@ -7349,14 +7349,14 @@ spawn(function()
                                           if v:FindFirstChild("Head") and v.Head:FindFirstChild("Talk") and v.Head:FindFirstChild("QuestBBG") then
 						                    TP(CFrameQuest.HumanoidRootPart.CFrame)
 						                    else
-						                        if string.find(v2.Name, HighestLevelToFarm) and string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
+						                        if string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
 							           game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2048,2.0199999809265137,2048)
 							    TP(v2.HumanoidRootPart.CFrame  * CFrame.new(0,10,0))
                                              end
                                           end
 				                    end
 						            else
-					                if string.find(v2.Name, HighestLevelToFarm) and string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
+					                if string.find(v2.Name, MobName) and v2:FindFirstChild("Humanoid") and v2.Humanoid.Health > 0 then
 							           game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2048,2.0199999809265137,2048)
 							    TP(v2.HumanoidRootPart.CFrame  * CFrame.new(0,10,0))
 							    end
@@ -7370,7 +7370,7 @@ spawn(function()
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+							if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 								repeat game:GetService("RunService").Heartbeat:wait()
 									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
 										HealthMin = v.Humanoid.MaxHealth * set.HealthPersen/100
@@ -8430,7 +8430,7 @@ function BringMob()
 								sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				elseif Auto_FarmLvl and set.Magnet and AutoUpdate then
-				    if string.find(v.Name, HighestLevelToFarm) and string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 320 then
+				    if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 320 then
 								v.HumanoidRootPart.CFrame = PosMon
 								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 								v.HumanoidRootPart.CanCollide = false
