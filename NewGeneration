@@ -876,7 +876,7 @@ function GetLevel()
     pcall(function()
         Lv = game.Players.LocalPlayer.Data.Level.Value
     if Sea3 then
-    if Lv > 2300 then
+    if Lv > LevelMax then
         AutoUpdate = true
   Lv = game.Players.LocalPlayer.Data.Level.Value
 for i,v in pairs(questmodule) do
@@ -922,7 +922,7 @@ end
 end
 end
 end
-elseif Lv <= 2300 then
+elseif Lv <= LevelMax then
     AutoUpdate = false
     if Lv == 1500 or Lv <= 1524 or SelectMonster == "Pirate Millionaire [Lv. 1500]" then -- Pirate Millionaire
 			MobFarmName = "Pirate Millionaire [Lv. 1500]"
@@ -1099,13 +1099,41 @@ elseif Lv <= 2300 then
             MobName = "Baking Staff"
             CFrameQuest = CFrame.new(-1927.1634521484375, 37.82392501831055, -12843.0634765625)
             FarmCFrame = CFrame.new(-1837.031494140625, 136.5231170654297, -12957.4716796875)
-        elseif Lv >= 2275 and Lv < 2301 then
+        elseif Lv == 2275 or Lv <= 2299 or SelectMonster == "Head Baker [Lv. 2275]" then
             MobFarmName = "Head Baker [Lv. 2275]"
             CurrentQuest = "CakeQuest2"
             CurrentQuestLv = 2
             MobName = "Head Baker"
             CFrameQuest = CFrame.new(-1927.1634521484375, 37.82392501831055, -12843.0634765625)
             FarmCFrame = CFrame.new(-2293.04052734375, 108.80238342285156, -12810.4853515625)
+        elseif Lv == 2300 or Lv <= 2324 or SelectMonster == "Cocoa Warrior [Lv. 2300]" then
+            MobFarmName = "Cocoa Warrior [Lv. 2300]"
+            CurrentQuest = "ChocQuest1"
+            CurrentQuestLv = 1
+            MobName = "Cocoa Warrior"
+            CFrameQuest = CFrame.new(231.83404541015625, 24.760040283203125, -12198.775390625)
+            FarmCFrame = CFrame.new(-94.08122253417969, 91.01761627197266, -12230.935546875)
+        elseif Lv == 2325 or Lv <= 2349 or SelectMonster == "Chocolate Bar Battler [Lv. 2325]" then
+            MobFarmName = "Chocolate Bar Battler [Lv. 2325]"
+            CurrentQuest = "ChocQuest1"
+            CurrentQuestLv = 2
+            MobName = "Chocolate Bar Battler"
+            CFrameQuest = CFrame.new(231.83404541015625, 24.760040283203125, -12198.775390625)
+            FarmCFrame = CFrame.new(621.0936889648438, 81.4298095703125, -12574.095703125)
+        elseif Lv == 2350 or Lv <= 2374 or SelectMonster == "Sweet Thief [Lv. 2350]" then
+            MobFarmName = "Sweet Thief [Lv. 2350]"
+            CurrentQuest = "ChocQuest2"
+            CurrentQuestLv = 1
+            MobName = "Sweet Thief"
+            CFrameQuest = CFrame.new(149.3335418701172, 24.819625854492188, -12775.22265625)
+            FarmCFrame = CFrame.new(-22.027713775634766, 66.95449829101562, -12689.94921875)
+        elseif Lv == 2375 or Lv < 2401 or SelectMonster == "Candy Rebel [Lv. 2375]" then
+            MobFarmName = "Candy Rebel [Lv. 2375]"
+            CurrentQuest = "ChocQuest2"
+            CurrentQuestLv = 2
+            MobName = "Candy Rebel"
+            CFrameQuest = CFrame.new(149.3335418701172, 24.819625854492188, -12775.22265625)
+            FarmCFrame = CFrame.new(39.30341339111328, 96.04134368896484, -12936.3056640625)
 		end
 end
 elseif Sea1 then
@@ -1483,6 +1511,9 @@ end
 
 GetLevel()
 
+local combat = getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))
+local Rig = combat[2]
+
 spawn(function()
 	while wait() do
 		if set.AutoFarmLevel and Safe() then
@@ -1530,8 +1561,11 @@ spawn(function()
 									    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
 												EquipWeapon(set.PickedWeapon)
                                                 BringMob()
-												game:GetService("VirtualUser"):CaptureController()
-												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                                                spawn(function()
+												Rig.activeController.hitSound = nil
+Rig.activeController.hitboxMagnitude = 60
+Rig.activeController:attack()
+                                                end)
 												FastAttack = true
 												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
                                                 PosMon = v.HumanoidRootPart.CFrame
@@ -1566,8 +1600,11 @@ spawn(function()
 									    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
 												EquipWeapon(set.PickedWeapon)
 												BringMob()
-												game:GetService("VirtualUser"):CaptureController()
-												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                                                spawn(function()
+												Rig.activeController.hitSound = nil
+Rig.activeController.hitboxMagnitude = 60
+Rig.activeController:attack()
+                                                end)
 												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
 												PosMon = v.HumanoidRootPart.CFrame
 												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
