@@ -1562,10 +1562,13 @@ spawn(function()
 												EquipWeapon(set.PickedWeapon)
                                                 BringMob()
                                                 spawn(function()
+                                                Rig.activeController.timeToNextAttack = 0
 												Rig.activeController.hitSound = nil
-Rig.activeController.hitboxMagnitude = 60
-Rig.activeController:attack()
+                                                Rig.activeController.hitboxMagnitude = 60
+                                                Rig.activeController:attack()    
                                                 end)
+                                                game:GetService("VirtualUser"):CaptureController()
+												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 												FastAttack = true
 												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
                                                 PosMon = v.HumanoidRootPart.CFrame
@@ -1601,10 +1604,13 @@ Rig.activeController:attack()
 												EquipWeapon(set.PickedWeapon)
 												BringMob()
                                                 spawn(function()
-												Rig.activeController.hitSound = nil
-Rig.activeController.hitboxMagnitude = 60
-Rig.activeController:attack()
+                                                    Rig.activeController.timeToNextAttack = 0
+                                                    Rig.activeController.hitSound = nil
+                                                    Rig.activeController.hitboxMagnitude = 60
+                                                    Rig.activeController:attack() 
                                                 end)
+                                                game:GetService("VirtualUser"):CaptureController()
+												game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
 												PosMon = v.HumanoidRootPart.CFrame
 												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
