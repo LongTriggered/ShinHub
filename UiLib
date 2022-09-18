@@ -2184,6 +2184,26 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 end)()
             end
 
+             function Elements:Line()
+                local Line1 = Instance.new("Frame")
+				local Line2 = Instance.new("Frame")
+
+				Line1.Name = "Line1"
+				Line1.Parent = sectionInners
+				Line1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)--PresetColor
+				Line1.BackgroundTransparency = 1.000
+				Line1.Position = UDim2.new(0, 0, 0.350318581, 0)
+				Line1.Size = UDim2.new(0, 100, 0, 8)
+
+				Line2.Name = "Line2"
+				Line2.Parent = Line1
+				Line2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)--PresetColor
+				Line2.BorderSizePixel = 0
+				Line2.Position = UDim2.new(0, 0, 0, 4)
+				Line2.Size = UDim2.new(0, 401, 0, 1)
+			--	ChannelHolder.CanvasSize = UDim2.new(0, 0, 0, ChannelHolderLayout.AbsoluteContentSize.Y) 
+             end
+
             function Elements:NewColorPicker(colText, colInf, defcolor, callback)
                 colText = colText or "ColorPicker"
                 callback = callback or function() end
