@@ -28,6 +28,9 @@ local SaveSettingName = "ShinHubData.txt"
         AutoObservationHaki = false,
         AutoRandomFruit = false,
         LawPickedWeapons,
+        KatakuriPickedWeapons,
+        StopTP = true,
+        AutoSave = true
 
         }
         local set
@@ -36,34 +39,37 @@ local SaveSettingName = "ShinHubData.txt"
         
         set = game:service'HttpService':JSONDecode(readfile(SaveSettingName))
         
-        --[[
+        local function click(x, y, button)
+            button -= 1
+            game:GetService("VirtualInputManager"):SendMouseButtonEvent(x, y, button, true, game, 0)
+            game:GetService("VirtualInputManager"):SendMouseButtonEvent(x, y, button, false, game, 0)
+          end
+
         repeat wait()
-            if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main").ChooseTeam.Visible == true then
+            if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main"):FindFirstChild('ChooseTeam') then
                 if set.Pirate then
-                    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Size = UDim2.new(0, 10000, 0, 10000)
+                    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Size = UDim2.new(1000, 10000, 1000, 10000)
                     game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Position = UDim2.new(-4, 0, -5, 0)
                     game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.BackgroundTransparency = 1
                     wait(.5)
-                    game:GetService'VirtualUser':Button1Down(Vector2.new(99,99))
-                    game:GetService'VirtualUser':Button1Up(Vector2.new(99,99))
+                    
+                    click(200, 500, 1) -- Clicks pixel 200, 500 with mouse button 1
                 elseif set.Marine then
-                    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Size = UDim2.new(0, 10000, 0, 10000)
+                    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Size = UDim2.new(1000, 10000, 1000, 10000)
                     game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Position = UDim2.new(-4, 0, -5, 0)
                     game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.BackgroundTransparency = 1
                     wait(.5)
-                    game:GetService'VirtualUser':Button1Down(Vector2.new(99,99))
-                    game:GetService'VirtualUser':Button1Up(Vector2.new(99,99))
+                   click(200, 500, 1)
                 else
-                    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Size = UDim2.new(0, 10000, 0, 10000)
+                    game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Size = UDim2.new(1000, 10000, 1000, 10000)
                     game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Position = UDim2.new(-4, 0, -5, 0)
                     game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.BackgroundTransparency = 1
                     wait(.5)
-                    game:GetService'VirtualUser':Button1Down(Vector2.new(99,99))
-                    game:GetService'VirtualUser':Button1Up(Vector2.new(99,99))
+                    click(200, 500, 1)
                 end
             end
-        until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded() 
-]]
+        until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded() and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild('ChooseTeam') 
+
 local hackxin = false
 if not KRNL_LOADED then
 if setfflag then
@@ -76,9 +82,9 @@ require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 
 local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
-    if Clip or set.AutoFarmLevel or AutoFarmLaw or NextIsland or AutoRaid or AutoFarmSelectedMob and hackxin == true then
+    if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == true then
         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-    elseif Clip or set.AutoFarmLevel or AutoFarmLaw or NextIsland or AutoRaid or AutoFarmSelectedMob and hackxin == false then
+    elseif Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == false then
         for i = 1, #CharParts do
             CharParts[i].CanCollide = false
         end
@@ -87,7 +93,7 @@ end)
 
 spawn(function()
     while wait() do
-         if Clip or set.AutoFarmLevel or AutoFarmLaw or NextIsland or AutoRaid or AutoFarmSelectedMob and hackxin == false then
+         if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == false then
              pcall(function()
             if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
         local BV = Instance.new('BodyVelocity')
@@ -160,8 +166,8 @@ function TP(P1)
  pcall(function()
 if Safe() then
 Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-if Distance <= 340 then
-Speed = 99999
+if Distance <= 300 then
+Speed = 2e9
 -- elseif Distance < 500 and Distance > 250 then
 -- Speed = 400
 elseif Distance < 1000 then
@@ -229,6 +235,7 @@ end
 
 local Weapons = {}
 local LawWeapons = {}
+local KatakuriWeapons = {}
 for i,v in pairs(game:GetService('Players').LocalPlayer.Backpack:GetChildren()) do  
 	if v:IsA("Tool") then
 	   table.insert(Weapons ,v.Name)
@@ -250,12 +257,22 @@ for i,v in pairs(game:GetService('Players').LocalPlayer.Character:GetChildren())
 	   table.insert(LawWeapons, v.Name)
 	end
 end
+for i,v in pairs(game:GetService('Players').LocalPlayer.Backpack:GetChildren()) do  
+	if v:IsA("Tool") then
+	   table.insert(KatakuriWeapons ,v.Name)
+	end
+end
+for i,v in pairs(game:GetService('Players').LocalPlayer.Character:GetChildren()) do  
+	if v:IsA("Tool") then
+	   table.insert(KatakuriWeapons, v.Name)
+	end
+end
 
 local combat = getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))
 local Rig = combat[2]
 
 --Library--
-local Library = loadstring(game:HttpGet("https://pastebin.com/raw/ZJzdGXxN"))()
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/PzwpcGqj"))()
 local Notification = loadstring(game:HttpGet("https://pastebin.com/raw/SzAsegaR"))()
 --Library--
 local Window = Library.CreateLib("SHIN HUB 🔥🔥🔥", "GrapeTheme")
@@ -264,6 +281,7 @@ local Section = Tab:NewSection("Auto Farm")
 WeaponSection = Section:NewDropdown("Select Weapons","", Weapons, function(Value)
   set.PickedWeapon = Value
   end)
+
   Section:NewButton("Refresh Weapons", "Refreshes Dropdown", function()
     for k in pairs (Weapons) do
         Weapons [k] = nil
@@ -278,6 +296,7 @@ WeaponSection = Section:NewDropdown("Select Weapons","", Weapons, function(Value
            table.insert(Weapons, v.Name)
         end
     end
+   WeaponSection:Refresh(Weapons)
    -- dropdown:Refresh(Weapons)
   end)
 
@@ -286,8 +305,8 @@ WeaponSection = Section:NewDropdown("Select Weapons","", Weapons, function(Value
 end
 Section:Line()
   Section:NewToggle("Auto Farm Level", "ToggleInfo", set.AutoFarmLevel, function(state)
-    if state and set.PickedWeapon == nil then
-        Notification.Notify(" Auto Farm ", "Please Select Weapon", "rbxassetid://2484550853", {
+    if state and set.PickedWeapon == nil or set.PickedWeapon == "" then
+        Notification.Notify(" Auto Farm Level ", "Please Select Weapon", "rbxassetid://2484550853", {
             Duration = 3,
             
             TitleSettings = {
@@ -305,7 +324,8 @@ Section:Line()
     else
         HighestLevelToFarm = 0
         set.AutoFarmLevel = state
-        if state == false then
+        if not set.AutoFarmLevel then
+            wait(1)
             TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
             game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
         end
@@ -349,7 +369,74 @@ Section:NewToggle("Auto Farm Elite Hunter", "ToggleInfo", function(state)
 end)
 end
 Section:Line()
+if Sea3 then
+    Katakuri = Section:NewLabel2("Loading..")
+    Section:NewToggle("Auto Farm Katakuri", "ToggleInfo",AutoFarmKatakuri, function(state)
+        if state and set.KatakuriPickedWeapons == nil or set.KatakuriPickedWeapons == "" then
+            Notification.Notify(" Auto Farm Katakuri ", "Please Select Weapon", "rbxassetid://2484550853", {
+                Duration = 3,
+                
+                TitleSettings = {
+                    TextXAlignment = Enum.TextXAlignment.Center,
+                    Font = Enum.Font.SourceSansSemibold,
+                },
+            
+                GradientSettings = {
+                    GradientEnabled = false,
+                    SolidColorEnabled = true,
+                    SolidColor = Color3.fromRGB(124, 83, 240),
+                    Retract = true
+                }
+            })
+        else
+            AutoFarmKatakuri = state
+        end
+        if not AutoFarmKatakuri then
+            wait(1)
+            TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+    game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+        end
+    end)
+end
 
+spawn(function()
+	while wait(2) do
+	    local args = {
+            [1] = "CakePrinceSpawner",
+            [2] = true
+         }
+local KatakuriKill2 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
+local KatakuriKill1 = tonumber(KatakuriKill2)
+        Katakuri:UpdateLabel2("Need to kill "..tostring(KatakuriKill1).." mobs to spawn Katakuri")
+	end
+end)
+
+KatakuriSection = Section:NewDropdown("Select Weapons","", KatakuriWeapons, function(Value)
+    set.KatakuriPickedWeapons = Value
+    end)
+  
+    Section:NewButton("Refresh Weapons", "Refreshes Dropdown", function()
+      for k in pairs (KatakuriWeapons) do
+        KatakuriWeapons [k] = nil
+      end
+      for i,v in pairs(game:GetService('Players').LocalPlayer.Backpack:GetChildren()) do  
+          if v:IsA("Tool") then
+             table.insert(KatakuriWeapons ,v.Name)
+          end
+      end
+      for i,v in pairs(game:GetService('Players').LocalPlayer.Character:GetChildren()) do  
+          if v:IsA("Tool") then
+             table.insert(KatakuriWeapons, v.Name)
+          end
+      end
+     KatakuriSection:Refresh(KatakuriWeapons)
+    end)
+  
+    if set.KatakuriPickedWeapons ~= nil then
+      KatakuriSection:UpdateDrop(set.KatakuriPickedWeapons)
+  end
+
+Section:Line()
     EnemiesTable1 = {"Bandit [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","Pirate [Lv. 35]","Brute [Lv. 45]","Desert Bandit [Lv. 60]","Desert Officer [Lv. 70]","Snow Bandit [Lv. 90]","Snowman [Lv. 100]","Chief Petty Officer [Lv. 120]","Sky Bandit [Lv. 150]","Dark Master [Lv. 175]","Toga Warrior [Lv. 225]","Gladiator [Lv. 275]","Military Soldier [Lv. 300]","Military Spy [Lv. 330]","Fishman Warrior [Lv. 375]","Fishman Commando [Lv. 400]","God's Guard [Lv. 450]","Shanda [Lv. 475]","Royal Squad [Lv. 525]","Royal Soldier [Lv. 550]","Galley Pirate [Lv. 625]","Galley Captain [Lv. 650]"}
     EnemiesTable2 = {"Raider [Lv. 700]","Mercenary [Lv. 725]","Swan Pirate [Lv. 775]","Factory Staff [Lv. 800]","Marine Lieutenant [Lv. 875]","Marine Captain [Lv. 900]","Zombie [Lv. 950]","Vampire [Lv. 975]","Snow Trooper [Lv. 1000]","Winter Warrior [Lv. 1050]","Lab Subordinate [Lv. 1100]","Horned Warrior [Lv. 1125]","Magma Ninja [Lv. 1175]","Lava Pirate [Lv. 1200]","Ship Deckhand [Lv. 1250]","Ship Engineer [Lv. 1275]","Ship Steward [Lv. 1300]","Ship Officer [Lv. 1325]","Arctic Warrior [Lv. 1350]","Snow Lurker [Lv. 1375]","Sea Soldier [Lv. 1425]","Water Fighter [Lv. 1450]"}
     EnemiesTable3 = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]","Cookie Crafter [Lv. 2200]","Cake Guard [Lv. 2225]","Baking Staff [Lv. 2250]","Head Baker [Lv. 2275]","Cocoa Warrior [Lv. 2300]","Chocolate Bar Battler [Lv. 2325]","Sweet Thief [Lv. 2350]","Candy Rebel [Lv. 2375]"}
@@ -370,6 +457,11 @@ elseif Sea2 then
 Section:NewToggle("Auto Farm Selected Mob", "ToggleInfo",AutoFarmSelectedMob, function(state)
     AutoFarmSelectedMob = state
    GetLevel()
+   if not AutoFarmSelectedMob then
+    wait(1)
+    TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+    game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+   end
 end)
 
 spawn(function()
@@ -1057,6 +1149,51 @@ end
 
 local Tab = Window:NewTab("Players - ESP")
 local Section = Tab:NewSection("Players - ESP")
+
+PlayerName = {}
+for i,v in pairs(game:GetService("Players"):GetChildren()) do
+    if v.Name ~= game.Players.LocalPlayer.Name then
+    table.insert(PlayerName ,v.Name)
+end
+end
+
+PlayerSection = Section:NewDropdown("Select Player","", PlayerName, function(Value)
+    SelectedPlayer = Value
+     end)
+
+     Section:NewButton("Refresh Players", "Refreshes Dropdown", function()
+        for k in pairs (PlayerName) do
+            PlayerName [k] = nil
+        end
+        for i,v in pairs(game:GetService("Players"):GetChildren()) do
+            if v.Name ~= game.Players.LocalPlayer.Name then
+            table.insert(PlayerName ,v.Name)
+        end
+    end
+       PlayerSection:Refresh(PlayerName)
+      end)
+Section:Line()
+
+Section:NewToggle("Teleport to Player", "ToggleInfo",TeleportToPlayer, function(state)
+    TeleportToPlayer = state
+end)
+Section:NewToggle("Spectate Player", "ToggleInfo",false ,function(state)
+    if state then
+        game.Workspace.Camera.CameraSubject = game.Players:FindFirstChild(SelectedPlayer).Character.Humanoid
+        else
+    game.Workspace.Camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if TeleportToPlayer then
+        TP(game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart.CFrame)
+        end
+end
+end)
+
+
 Section:NewToggle("Player ESP", "ToggleInfo",PlayerESP, function(state)
     PlayerESP = state
     if PlayerESP == false then
@@ -1125,6 +1262,11 @@ Section:NewDropdown("Select Raid Chip", "DropdownInf", {"Flame","Ice","Quake","L
 end)
 Section:NewToggle("Auto Raid", "ToggleInfo",AutoRaid, function(state)
     AutoRaid = state
+    if not AutoRaid then
+        wait(1)
+        TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+        game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+    end
 end)
 
 Section:NewToggle("Auto Buy Raid Chip", "ToggleInfo",A, function(state)
@@ -1135,6 +1277,11 @@ Section:NewToggle("Kill Aura", "ToggleInfo",KillAura, function(state)
 end)
 Section:NewToggle("Auto Next Island", "ToggleInfo",NextIsland, function(state)
     NextIsland = state
+    if not set.AutoFarmLevel then
+        wait(1)
+        TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+        game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+    end
 end)
 Section:NewToggle("Auto Awaken Fruit", "ToggleInfo",AutoAwaken, function(state)
     AutoAwaken = state
@@ -1142,7 +1289,25 @@ end)
 if Sea2 then
     Section:Line()
     Section:NewToggle("Auto Raid Law/Order", "ToggleInfo",AutoFarmLaw, function(state)
-        AutoFarmLaw = state
+        if state and set.LawPickedWeapons == nil or set.LawPickedWeapons == "" then
+            Notification.Notify(" Auo Raid Law/Order ", "Please Select Weapon", "rbxassetid://2484550853", {
+                Duration = 3,
+                
+                TitleSettings = {
+                    TextXAlignment = Enum.TextXAlignment.Center,
+                    Font = Enum.Font.SourceSansSemibold,
+                },
+            
+                GradientSettings = {
+                    GradientEnabled = false,
+                    SolidColorEnabled = true,
+                    SolidColor = Color3.fromRGB(124, 83, 240),
+                    Retract = true
+                }
+            })
+        else
+            AutoFarmLaw = state
+        end
     end)
     Section:NewToggle("Auto Buy Raid Law Chip", "ToggleInfo",AutoBuyChipLaw, function(state)
        AutoBuyChipLaw = state
@@ -1249,7 +1414,7 @@ spawn(function()
 		while game:GetService("RunService").Heartbeat:wait() do
 			if NextIsland or AutoRaid then
 				if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == true and game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 4") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 3") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 2") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
-		             wait(1)
+		             wait(3)
 		             if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") then
 		             for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
 		                 if v.Name == "Island 5" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 8000 then
@@ -1822,9 +1987,158 @@ Section:Line()
 
 local Settings = Window:NewTab("Settings/Server")
 local Section = Settings:NewSection("Settings/Server")
-Section:NewButton("Save Settings", "ButtonInfo", function()
-    writefile(SaveSettingName,game:service'HttpService':JSONEncode(set))
+Section:NewButton("Rejoin Current Server", "ButtonInfo", function()
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, tostring(game.JobId), game.Players.LocalPlayer)
+  end)
+  local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local S_T = game:GetService("TeleportService")
+local S_H = game:GetService("HttpService")
+
+local File = pcall(function()
+	AllIDs = S_H:JSONDecode(readfile("server-hop-temp.json"))
 end)
+if not File then
+	table.insert(AllIDs, actualHour)
+	pcall(function()
+		writefile("server-hop-temp.json", S_H:JSONEncode(AllIDs))
+	end)
+
+end
+local function TPReturner(placeId)
+	local Site;
+	if foundAnything == "" then
+		Site = S_H:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeId .. '/servers/Public?sortOrder=Asc&limit=100'))
+	else
+		Site = S_H:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. placeId .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+	end
+	local ID = ""
+	if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+		foundAnything = Site.nextPageCursor
+	end
+	local num = 0;
+	for i,v in pairs(Site.data) do
+		local Possible = true
+		ID = tostring(v.id)
+		if tonumber(v.maxPlayers) > tonumber(v.playing) then
+			for _,Existing in pairs(AllIDs) do
+				if num ~= 0 then
+					if ID == tostring(Existing) then
+						Possible = false
+					end
+				else
+					if tonumber(actualHour) ~= tonumber(Existing) then
+						local delFile = pcall(function()
+							delfile("server-hop-temp.json")
+							AllIDs = {}
+							table.insert(AllIDs, actualHour)
+						end)
+					end
+				end
+				num = num + 1
+			end
+			if Possible == true then
+				table.insert(AllIDs, ID)
+				wait()
+				pcall(function()
+					writefile("server-hop-temp.json", S_H:JSONEncode(AllIDs))
+					wait()
+					S_T:TeleportToPlaceInstance(placeId, ID, game.Players.LocalPlayer)
+				end)
+				wait(4)
+			end
+		end
+	end
+end
+local module = {}
+function module:Teleport(placeId)
+	while wait() do
+		pcall(function()
+			TPReturner(placeId)
+			if foundAnything ~= "" then
+				TPReturner(placeId)
+			end
+		end)
+	end
+    return module
+end
+Section:NewButton("Server Hop", "ButtonInfo", function()
+    module:Teleport(game.PlaceId)
+end)
+Section:NewButton("Hop to low Player Server", "ButtonInfo", function()
+    local PlaceID = game.PlaceId
+    local AllIDs = {}
+    local foundAnything = ""
+    local actualHour = os.date("!*t").hour
+    local Deleted = false
+    function TPReturner()
+        local Site;
+        if foundAnything == "" then
+            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+        else
+            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+        end
+        local ID = ""
+        if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+            foundAnything = Site.nextPageCursor
+        end
+        local num = 0;
+        for i,v in pairs(Site.data) do
+            local Possible = true
+            ID = tostring(v.id)
+            if tonumber(2) > tonumber(v.playing) then
+                for _,Existing in pairs(AllIDs) do
+                    if num ~= 0 then
+                        if ID == tostring(Existing) then
+                            Possible = false
+                        end
+                    else
+                        if tonumber(actualHour) ~= tonumber(Existing) then
+                            local delFile = pcall(function()
+                                -- delfile("NotSameServers.json")
+                                AllIDs = {}
+                                table.insert(AllIDs, actualHour)
+                            end)
+                        end
+                    end
+                    num = num + 1
+                end
+                if Possible == true then
+                    table.insert(AllIDs, ID)
+                    wait()
+                    pcall(function()
+                        -- writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                        wait()
+                        game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                    end)
+                    wait(1)
+                end
+            end
+        end
+    end
+    function Teleport() 
+        while wait() do
+            pcall(function()
+                TPReturner()
+                if foundAnything ~= "" then
+                    TPReturner()
+                end
+            end)
+        end
+    end
+    Teleport()
+end)
+
+spawn(function()
+    while wait(1) do
+        if set.AutoSave then
+        writefile(Name,game:service'HttpService':JSONEncode(set))
+        end
+    end
+end)
+Section:Line()
 local drop = Section:NewDropdown("Auto Join:", "DropdownInf", {"Pirate", "Marine"}, function(currentOption)
 
     if currentOption == "Pirate" then
@@ -1841,21 +2155,37 @@ if set.Pirate == true then
 elseif set.Marine == true then
     drop:UpdateDrop("Auto Join: Marine")
 end
+Section:Line()
+Section:NewToggle("Press P to stop Teleport","ToggleInfo",set.StopTP, function(state)
+    set.StopTP = state
+    end)
 
+    Section:NewToggle("Auto Active Buso Haki", "ToggleInfo",set.AutoBusoHaki, function(state)
+        set.AutoBusoHaki = state
+    end)
+    
+    Section:NewToggle("Auto Active Observation Haki", "ToggleInfo",set.AutoObservationHaki, function(state)
+        set.AutoObservationHaki = state
+    end)
+
+    game:GetService("UserInputService").InputBegan:connect(function(inputObject, gameProcessedEvent)
+        if inputObject.KeyCode == Enum.KeyCode.P and set.StopTP then --Also, could be written as [[inputObject.KeyCode == "R"]]
+            TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+        game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+        end 
+    end)
 Section:NewSlider("Farm Distance", "SliderInfo", 60, 30, function(s) -- 500 (MaxValue) | 0 (MinValue)
 	set.Y = s
 end)
-
-Section:NewButton("Rejoin Current Server", "ButtonInfo", function()
-  game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, tostring(game.JobId), game.Players.LocalPlayer)
+Section:Line()
+Section:NewButton("Save Settings", "ButtonInfo", function()
+    writefile(SaveSettingName,game:service'HttpService':JSONEncode(set))
 end)
-
-Section:NewToggle("Auto Active Buso Haki", "ToggleInfo",set.AutoBusoHaki, function(state)
-    set.AutoBusoHaki = state
-end)
-
-Section:NewToggle("Auto Active Observation Haki", "ToggleInfo",set.AutoObservationHaki, function(state)
-    set.AutoObservationHaki = state
+Section:NewToggle("Auto Save Settings","ToggleInfo",set.AutoSave, function (state)
+    writefile(Name,game:service'HttpService':JSONEncode(set))
+    set.AutoSave = state 
+    wait(1)
+    writefile(Name,game:service'HttpService':JSONEncode(set))
 end)
 
 local HighestLevelToFarm = 0
@@ -2625,6 +2955,139 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint"
 end
 end
 end)
+--local KatakuriKill4 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
+--local KatakuriKill3 = tonumber(KatakuriKill4)
+BringKata1 = false
+BringKata2 = false
+BringKata3 = false
+BringKata4 = false
+spawn(function()
+    while wait() do
+ if AutoFarmKatakuri then
+     pcall(function()
+     spawn(function()
+                                for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
+                                    if v.Name == "Baking Staff [Lv. 2250]" or v.Name == "Cake Guard [Lv. 2225]" or v.Name == "Cookie Crafter [Lv. 2200]" or v.Name == "Head Baker [Lv. 2275]" then
+                                        v.Parent = game:GetService('Workspace').Enemies
+                                    end
+                            end
+     end)
+
+local KatakuriKill4 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner",true), "%D", "")
+local KatakuriKill3 = tonumber(KatakuriKill4)
+              if string.find(tostring(KatakuriKill3),'nil') or game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') or game:GetService('ReplicatedStorage'):FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') then
+         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")
+         	if game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') then
+							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+								if v.Name == 'Cake Prince [Lv. 2300] [Raid Boss]' then
+									repeat game:GetService("RunService").Heartbeat:wait()
+                                        EquipWeapon(set.KatakuriPickedWeapons)
+										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,50))
+										v.HumanoidRootPart.Size = Vector3.new(120,120,120)
+										v.HumanoidRootPart.CanCollide = false
+                                        spawn(function()
+                                            Rig.activeController.timeToNextAttack = 0
+                                            Rig.activeController.hitSound = nil
+                                            Rig.activeController.hitboxMagnitude = 60
+                                            Rig.activeController:attack() 
+                                        end)
+								        game:GetService("VirtualUser"):CaptureController()
+										game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
+									until not AutoFarmKatakuri or not v.Parent or v.Humanoid.Health <= 0
+								end
+							end
+						else
+							TP(CFrame.new(-2148.307861328125, 70.00884246826172, -12403.2294921875))
+						end
+         else 
+            if game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') or game.Workspace.Enemies:FindFirstChild('Cookie Crafter [Lv. 2200]') or game.Workspace.Enemies:FindFirstChild('Cake Guard [Lv. 2225]') or game.Workspace.Enemies:FindFirstChild('Baking Staff [Lv. 2250]')then
+            for i,v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v.Name == "Head Baker [Lv. 2275]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                                EquipWeapon(set.KatakuriPickedWeapons)
+                                BringKata1 = true
+                                BringKata2 = false
+                                BringKata3 = false
+                                BringKata4 = false
+                                BringMob()
+                                spawn(function()
+                                    Rig.activeController.timeToNextAttack = 0
+                                    Rig.activeController.hitSound = nil
+                                    Rig.activeController.hitboxMagnitude = 60
+                                    Rig.activeController:attack() 
+                                end)
+                                game:GetService("VirtualUser"):CaptureController()
+                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+							    PosMon = v.HumanoidRootPart.CFrame
+                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                        elseif v.Name == "Cookie Crafter [Lv. 2200]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                                EquipWeapon(set.KatakuriPickedWeapons)
+                                BringKata1 = false
+                                BringKata2 = true
+                                BringKata3 = false
+                                BringKata4 = false
+                                BringMob()
+                                spawn(function()
+                                    Rig.activeController.timeToNextAttack = 0
+                                    Rig.activeController.hitSound = nil
+                                    Rig.activeController.hitboxMagnitude = 60
+                                    Rig.activeController:attack() 
+                                end)
+                                game:GetService("VirtualUser"):CaptureController()
+                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+							    PosMon = v.HumanoidRootPart.CFrame
+                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                       elseif v.Name == "Cake Guard [Lv. 2225]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                                EquipWeapon(set.KatakuriPickedWeapons)
+                                BringKata1 = false
+                                BringKata2 = false
+                                BringKata3 = true
+                                BringKata4 = false
+                                BringMob()
+                                spawn(function()
+                                    Rig.activeController.timeToNextAttack = 0
+                                    Rig.activeController.hitSound = nil
+                                    Rig.activeController.hitboxMagnitude = 60
+                                    Rig.activeController:attack() 
+                                end)
+                                game:GetService("VirtualUser"):CaptureController()
+                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+							    PosMon = v.HumanoidRootPart.CFrame
+                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                        elseif v.Name == "Baking Staff [Lv. 2250]" then
+                            repeat game:GetService("RunService").Heartbeat:wait()
+                                EquipWeapon(set.KatakuriPickedWeapons)
+                                BringKata1 = false
+                                BringKata2 = false
+                                BringKata3 = false
+                                BringKata4 = true
+                                BringMob()
+                                spawn(function()
+                                    Rig.activeController.timeToNextAttack = 0
+                                    Rig.activeController.hitSound = nil
+                                    Rig.activeController.hitboxMagnitude = 60
+                                    Rig.activeController:attack() 
+                                end)
+                                game:GetService("VirtualUser"):CaptureController()
+                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+							    PosMon = v.HumanoidRootPart.CFrame
+                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                        end
+                        end
+                    else
+                        TP(CFrame.new(-2139.533203125, 70.00886535644531, -12308.591796875))
+                    end
+ end
+            end)
+           end
+end
+end)
 
 spawn(function()
 while wait(1) do
@@ -2749,7 +3212,7 @@ function BringMob()
                             v.HumanoidRootPart.CFrame = PosMon
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
-                    elseif AutoCandy and CandyMagnet and set.Magnet then
+                    elseif AutoFarmKatakuri and BringKata1 then
                 if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
@@ -2757,7 +3220,7 @@ function BringMob()
                             v.HumanoidRootPart.CFrame = PosMon
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
-                        elseif AutoCandy and CandyMagnet2 and set.Magnet then
+                        elseif AutoFarmKatakuri and BringKata2 then
                 if v.Name == "Cookie Crafter [Lv. 2200]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
@@ -2765,7 +3228,7 @@ function BringMob()
                             v.HumanoidRootPart.CFrame = PosMon
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
-                        elseif AutoCandy and CandyMagnet3 and set.Magnet then
+                        elseif AutoFarmKatakuri and BringKata3 then
                 if v.Name == "Cake Guard [Lv. 2225]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
@@ -2773,7 +3236,7 @@ function BringMob()
                             v.HumanoidRootPart.CFrame = PosMon
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
-                        elseif AutoCandy and CandyMagnet4 and set.Magnet then
+                        elseif AutoFarmKatakuri and BringKata4 then
                 if v.Name == "Baking Staff [Lv. 2250]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
