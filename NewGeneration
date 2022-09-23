@@ -30,7 +30,8 @@ local SaveSettingName = "ShinHubData.txt"
         LawPickedWeapons,
         KatakuriPickedWeapons,
         StopTP = true,
-        AutoSave = true
+        AutoSave = true,
+        AutoGetQuest = true
 
         }
         local set
@@ -79,6 +80,7 @@ hackxin = true
 end
 end
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
+require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play=function(...)end
 
 local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
@@ -184,6 +186,19 @@ end
 end)
  end
 
+ spawn(function()
+    local LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+    while task.wait() do
+        if tping then
+            if (LastPos-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 400 then
+                tping:Cancel()
+                wait(0.5)
+            end
+           LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+        end
+    end
+end)
+
 function TP2(P1)
     pcall(function()
         if Safe() then
@@ -194,32 +209,21 @@ function TP2(P1)
 	elseif Distance >= 1000 then
 		Speed = 250
 	end
-    tping = game:GetService("TweenService"):Create(
+    tpingz = game:GetService("TweenService"):Create(
         game.Players.LocalPlayer.Character.HumanoidRootPart,
         TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
         {CFrame = P1 * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))}
     )
-    tping:Play()
+    tpingz:Play()
     Clip = true
-    tping.Completed:wait()
+    tpingz.Completed:wait()
     Clip = false
     game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
 end
 end)
 end
 --[[
-spawn(function()
-    local LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-    while task.wait() do
-        if Clip then
-            if (LastPos-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 350 then
-                tping:Cancel()
-                wait(0.5)
-            end
-           LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-        end
-    end
-end)
+
 ]]
 Sea1 = false
 Sea2 = false
@@ -397,7 +401,6 @@ if Sea3 then
     game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
         end
     end)
-end
 
 spawn(function()
 	while wait(2) do
@@ -437,6 +440,7 @@ KatakuriSection = Section:NewDropdown("Select Weapons","", KatakuriWeapons, func
   end
 
 Section:Line()
+end
     EnemiesTable1 = {"Bandit [Lv. 5]","Monkey [Lv. 14]","Gorilla [Lv. 20]","Pirate [Lv. 35]","Brute [Lv. 45]","Desert Bandit [Lv. 60]","Desert Officer [Lv. 70]","Snow Bandit [Lv. 90]","Snowman [Lv. 100]","Chief Petty Officer [Lv. 120]","Sky Bandit [Lv. 150]","Dark Master [Lv. 175]","Toga Warrior [Lv. 225]","Gladiator [Lv. 275]","Military Soldier [Lv. 300]","Military Spy [Lv. 330]","Fishman Warrior [Lv. 375]","Fishman Commando [Lv. 400]","God's Guard [Lv. 450]","Shanda [Lv. 475]","Royal Squad [Lv. 525]","Royal Soldier [Lv. 550]","Galley Pirate [Lv. 625]","Galley Captain [Lv. 650]"}
     EnemiesTable2 = {"Raider [Lv. 700]","Mercenary [Lv. 725]","Swan Pirate [Lv. 775]","Factory Staff [Lv. 800]","Marine Lieutenant [Lv. 875]","Marine Captain [Lv. 900]","Zombie [Lv. 950]","Vampire [Lv. 975]","Snow Trooper [Lv. 1000]","Winter Warrior [Lv. 1050]","Lab Subordinate [Lv. 1100]","Horned Warrior [Lv. 1125]","Magma Ninja [Lv. 1175]","Lava Pirate [Lv. 1200]","Ship Deckhand [Lv. 1250]","Ship Engineer [Lv. 1275]","Ship Steward [Lv. 1300]","Ship Officer [Lv. 1325]","Arctic Warrior [Lv. 1350]","Snow Lurker [Lv. 1375]","Sea Soldier [Lv. 1425]","Water Fighter [Lv. 1450]"}
     EnemiesTable3 = {"Pirate Millionaire [Lv. 1500]","Dragon Crew Warrior [Lv. 1575]","Dragon Crew Archer [Lv. 1600]","Female Islander [Lv. 1625]","Giant Islander [Lv. 1650]","Marine Commodore [Lv. 1700]","Marine Rear Admiral [Lv. 1725]","Fishman Raider [Lv. 1775]","Fishman Captain [Lv. 1800]","Forest Pirate [Lv. 1825]","Mythological Pirate [Lv. 1850]","Jungle Pirate [Lv. 1900]","Musketeer Pirate [Lv. 1925]","Reborn Skeleton [Lv. 1975]","Living Zombie [Lv. 2000]","Demonic Soul [Lv. 2025]","Posessed Mummy [Lv. 2050]","Peanut Scout [Lv. 2075]","Peanut President [Lv. 2100]","Ice Cream Chef [Lv. 2125]","Ice Cream Commander [Lv. 2150]","Cookie Crafter [Lv. 2200]","Cake Guard [Lv. 2225]","Baking Staff [Lv. 2250]","Head Baker [Lv. 2275]","Cocoa Warrior [Lv. 2300]","Chocolate Bar Battler [Lv. 2325]","Sweet Thief [Lv. 2350]","Candy Rebel [Lv. 2375]"}
@@ -464,10 +468,16 @@ Section:NewToggle("Auto Farm Selected Mob", "ToggleInfo",AutoFarmSelectedMob, fu
    end
 end)
 
+Section:NewToggle("Auto Get Quest", "ToggleInfo",set.AutoGetQuest, function(state)
+set.AutoGetQuest = state
+end)
+
 spawn(function()
     while wait() do
         if AutoFarmSelectedMob then
             pcall(function()
+                spawn(function()
+                if set.AutoGetQuest then
 if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
     TP(CFrameQuest)
     if (CFrameQuest.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
@@ -477,17 +487,21 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false 
       else
       TP(CFrameQuest)
 end
-elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+elseif not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+end
+end
+end)
+if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true or not set.AutoGetQuest then
     if game:GetService("Workspace").Enemies:FindFirstChild(MobFarmName) then
 for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
           if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                   repeat game:GetService("RunService").Heartbeat:wait()
-                      if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
                               EquipWeapon(set.PickedWeapon)
                               BringMob()
                               spawn(function()
                                   Rig.activeController.timeToNextAttack = 0
-                                  Rig.activeController.hitSound = nil
+                                  
                                   Rig.activeController.hitboxMagnitude = 60
                                   Rig.activeController:attack() 
                               end)
@@ -498,10 +512,7 @@ for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                               v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                                v.HumanoidRootPart.CanCollide = false
                                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-                              else
-                              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-                          end
-                  until not v.Parent or v.Humanoid.Health <= 0 or AutoFarmSelectedMob == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
+                  until not v.Parent or v.Humanoid.Health <= 0 or AutoFarmSelectedMob == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
           end
 end
 else
@@ -638,10 +649,7 @@ elseif Sea2 then
            
     end)
     Section:NewButton("Café", "ButtonInfo", function()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Map.Dressrosa.TradeTable.P2.CFrame
-     game:GetService("Workspace").Map.Turtle.TradeTable.P1.Disabled = true
-     wait(5)
-     game:GetService("Workspace").Map.Turtle.TradeTable.P1.Disabled = false
+        TP2(CFrame.new(-379.1748352050781, 73.08592987060547, 267.8126220703125))
 	end)
     Section:NewButton("Sunflower Field", "ButtonInfo", function()
         TP2(CFrame.new(-1576.7171630859, 198.61849975586, 13.725157737732))
@@ -1176,6 +1184,11 @@ Section:Line()
 
 Section:NewToggle("Teleport to Player", "ToggleInfo",TeleportToPlayer, function(state)
     TeleportToPlayer = state
+    if not TeleportToPlayer then
+        wait(1)
+        TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+    end
 end)
 Section:NewToggle("Spectate Player", "ToggleInfo",false ,function(state)
     if state then
@@ -1193,6 +1206,7 @@ spawn(function()
 end
 end)
 
+Section:Line()
 
 Section:NewToggle("Player ESP", "ToggleInfo",PlayerESP, function(state)
     PlayerESP = state
@@ -1487,7 +1501,7 @@ spawn(function()
 									EquipWeapon(set.LawPickedWeapons)
                                     spawn(function()
                                         Rig.activeController.timeToNextAttack = 0
-                                        Rig.activeController.hitSound = nil
+                                        
                                         Rig.activeController.hitboxMagnitude = 300
                                         Rig.activeController:attack()    
                                         end)
@@ -2134,7 +2148,7 @@ end)
 spawn(function()
     while wait(1) do
         if set.AutoSave then
-        writefile(Name,game:service'HttpService':JSONEncode(set))
+        writefile(SaveSettingName,game:service'HttpService':JSONEncode(set))
         end
     end
 end)
@@ -2182,10 +2196,10 @@ Section:NewButton("Save Settings", "ButtonInfo", function()
     writefile(SaveSettingName,game:service'HttpService':JSONEncode(set))
 end)
 Section:NewToggle("Auto Save Settings","ToggleInfo",set.AutoSave, function (state)
-    writefile(Name,game:service'HttpService':JSONEncode(set))
+    writefile(SaveSettingName,game:service'HttpService':JSONEncode(set))
     set.AutoSave = state 
     wait(1)
-    writefile(Name,game:service'HttpService':JSONEncode(set))
+    writefile(SaveSettingName,game:service'HttpService':JSONEncode(set))
 end)
 
 local HighestLevelToFarm = 0
@@ -2883,7 +2897,7 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint"
                                                 BringMob()
                                                 spawn(function()
                                                 Rig.activeController.timeToNextAttack = 0
-												Rig.activeController.hitSound = nil
+												
                                                 Rig.activeController.hitboxMagnitude = 60
                                                 Rig.activeController:attack()    
                                                 end)
@@ -2926,7 +2940,7 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint"
 												BringMob()
                                                 spawn(function()
                                                     Rig.activeController.timeToNextAttack = 0
-                                                    Rig.activeController.hitSound = nil
+                                                    
                                                     Rig.activeController.hitboxMagnitude = 60
                                                     Rig.activeController:attack() 
                                                 end)
@@ -2987,7 +3001,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
 										v.HumanoidRootPart.CanCollide = false
                                         spawn(function()
                                             Rig.activeController.timeToNextAttack = 0
-                                            Rig.activeController.hitSound = nil
+                                            
                                             Rig.activeController.hitboxMagnitude = 60
                                             Rig.activeController:attack() 
                                         end)
@@ -3012,7 +3026,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 BringMob()
                                 spawn(function()
                                     Rig.activeController.timeToNextAttack = 0
-                                    Rig.activeController.hitSound = nil
+                                    
                                     Rig.activeController.hitboxMagnitude = 60
                                     Rig.activeController:attack() 
                                 end)
@@ -3031,7 +3045,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 BringMob()
                                 spawn(function()
                                     Rig.activeController.timeToNextAttack = 0
-                                    Rig.activeController.hitSound = nil
+                                    
                                     Rig.activeController.hitboxMagnitude = 60
                                     Rig.activeController:attack() 
                                 end)
@@ -3050,7 +3064,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 BringMob()
                                 spawn(function()
                                     Rig.activeController.timeToNextAttack = 0
-                                    Rig.activeController.hitSound = nil
+                                    
                                     Rig.activeController.hitboxMagnitude = 60
                                     Rig.activeController:attack() 
                                 end)
@@ -3069,7 +3083,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 BringMob()
                                 spawn(function()
                                     Rig.activeController.timeToNextAttack = 0
-                                    Rig.activeController.hitSound = nil
+                                    
                                     Rig.activeController.hitboxMagnitude = 60
                                     Rig.activeController:attack() 
                                 end)
