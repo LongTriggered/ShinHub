@@ -72,12 +72,10 @@ local SaveSettingName = "ShinHubData.txt"
         until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded() and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild('ChooseTeam') 
 
 local hackxin = false
-if not KRNL_LOADED then
-if setfflag then
+if setfflag and not not KRNL_LOADED then
     setfflag("HumanoidParallelRemoveNoPhysics", "False")
 setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
 hackxin = true
-end
 end
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play=function(...)end
@@ -86,7 +84,8 @@ local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
     if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == true then
         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-    elseif Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == false then
+    end
+    if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == false then
         for i = 1, #CharParts do
             CharParts[i].CanCollide = false
         end
@@ -529,8 +528,8 @@ local Defense = game.Players.LocalPlayer.Data.Stats.Defense.Level.Value
 local Sword = game.Players.LocalPlayer.Data.Stats.Sword.Level.Value
 local Gun = game.Players.LocalPlayer.Data.Stats.Gun.Level.Value
 local DemonFruit = game.Players.LocalPlayer.Data.Stats["Demon Fruit"].Level.Value
-local Stat = Window:NewTab("Auto Stat")
-local Section = Stat:NewSection("Auto Stat")
+local Stat = Window:NewTab("Auto Stats")
+local Section = Stat:NewSection("Auto Stats")
 
 UpdateMelee = Section:NewToggle("Melee", "ToggleInfo",set.AutoStatMelee, function(state)
     set.AutoStatMelee = state
@@ -1370,19 +1369,20 @@ spawn(function()
 				if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false then
 					if not game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
-					end
+                    else
                 if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
                     if Sea2 then
-                        fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector, 1)
+                        fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector, 1)
                     elseif Sea3 then
-                        fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector, 1)
+                        fireclickdetector(game:GetService('Workspace').Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector, 1)
                         wait(22)
                     end
-					end
-				end
-			end)
-		end
-	end
+                end
+                end
+			end
+	end)
+end
+end
 end)
 
 spawn(function()
@@ -1948,7 +1948,7 @@ platform.Parent = game.workspace
             pcall(function()
 			if WaterWalk then
 				platform.CanCollide = true
-				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -5, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
+				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -4.2, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
 			else
 				platform.CanCollide = false
 			--	platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -6, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
@@ -1995,8 +1995,7 @@ Section:Line()
     end)
     
     Section:NewButton("Open Awakening UI", "ButtonInfo", function()
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getTitles")
-        game.Players.localPlayer.PlayerGui.Main.Titles.Visible = true
+        game:GetService("Players")["LocalPlayer"].PlayerGui.Main.AwakeningToggler.Visible = true
         end)
 
 local Settings = Window:NewTab("Settings/Server")
