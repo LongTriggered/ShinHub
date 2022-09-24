@@ -72,7 +72,7 @@ local SaveSettingName = "ShinHubData.txt"
         until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded() and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild('ChooseTeam') 
 
 local hackxin = false
-if setfflag and not not KRNL_LOADED then
+if setfflag and not KRNL_LOADED then
     setfflag("HumanoidParallelRemoveNoPhysics", "False")
 setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
 hackxin = true
@@ -82,13 +82,16 @@ require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play=fu
 
 local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
-    if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == true then
+    if hackxin then
+    if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
     end
-    if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob and hackxin == false then
+elseif not hackxin then
+    if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
         for i = 1, #CharParts do
             CharParts[i].CanCollide = false
         end
+    end
     end
 end)
 
@@ -552,6 +555,32 @@ Section:NewSlider("Point", "SliderInfo", 500, 1, function(s) -- 500 (MaxValue) |
 end)
 local Teleport = Window:NewTab("Teleport")
 local Section = Teleport:NewSection("Teleport")
+if Sea1 then
+Section:NewButton("Teleport to Sea 2", "ButtonInfo", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
+end)
+Section:NewButton("Teleport to Sea 3", "ButtonInfo", function()
+
+end)
+elseif Sea2 then
+    Section:NewButton("Teleport to Sea 1", "ButtonInfo", function()
+
+    end)
+    Section:NewButton("Teleport to Sea 3", "ButtonInfo", function()
+
+    end)
+elseif Sea3 then
+    Section:NewButton("Teleport to Sea 1", "ButtonInfo", function()
+
+    end)
+    Section:NewButton("Teleport to Sea 2", "ButtonInfo", function()
+        
+    end)
+end
+
+Section:Line()
+
 
 Section:NewButton("Stop Teleporting", "ButtonInfo", function()
     TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -1366,20 +1395,20 @@ spawn(function()
 	while wait() do
 		if AutoRaid then
             pcall(function()
+                spawn(function()
 				if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false then
 					if not game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
 						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
-                    else
-                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
-                    if Sea2 then
-                        fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector, 1)
-                    elseif Sea3 then
-                        fireclickdetector(game:GetService('Workspace').Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector, 1)
-                        wait(22)
                     end
                 end
+                    end)
+                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
+                    if Sea2 then
+                        fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+                    elseif Sea3 then
+                        fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
+                    end
                 end
-			end
 	end)
 end
 end
@@ -1913,14 +1942,13 @@ if game.workspace:FindFirstChild("WaterWalk") then
 end
 platform = Instance.new("Part")
 platform.Name = "WaterWalk"
-platform.Size = Vector3.new(1, 1, 1)
-platform.Transparency = 1
+platform.Size = Vector3.new(10, 1, 10)
+platform.Transparency = 0
 platform.Anchored = true
 platform.Parent = game.workspace
-
-	Section:NewToggle("Walk on Water", "ToggleInfo",WaterWalk, function(state)
-		WaterWalk = state
-	end)
+Section:NewToggle("Walk on Water", "ToggleInfo",WaterWalk, function(state)
+    WaterWalk = state
+end)
 
     local BB = game.Players.LocalPlayer.VisionRadius.Value
     Section:NewToggle("Infinite Range Observation Haki", "ToggleInfo",InfRangeHaki, function(state)
@@ -1934,24 +1962,25 @@ platform.Parent = game.workspace
 
     Section:NewToggle("Auto Click", "ToggleInfo",AutoClick, function(state)
 		AutoClick = state
-        if Safe() then
+	end)
+    spawn(function()
+        while wait() do
+            if AutoClick and Safe() then
             game:GetService("VirtualUser"):CaptureController()
             game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-      end
-	end)
+    end
+    end
+end)
 
-    Section:NewToggle("Walk on Water", "ToggleInfo",WaterWalk, function(state)
-		WaterWalk = state
-	end)
     spawn(function()
 		while wait() do
             pcall(function()
 			if WaterWalk then
 				platform.CanCollide = true
-				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -4.2, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
+				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -4.5, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
 			else
 				platform.CanCollide = false
-			--	platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -6, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
+				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -6, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
 			end
 		end)
     end
@@ -1969,8 +1998,28 @@ Section:Line()
             end
         end
     end)
-    Section:NewButton("Redeem All x2 EXP codes", "ButtonInfo", function()
 
+    function Code(Text)
+game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer(Text)
+    end
+
+    Section:NewButton("Redeem All x2 EXP codes", "ButtonInfo", function()
+Code("Sub2Fer999")
+Code("Enyu_is_Pro")
+Code("JCWK")
+Code("StarcodeHEO")
+Code("MagicBUS")
+Code("KittGaming")
+Code("Sub2CaptainMaui")
+Code("Sub2OfficialNoobie")
+Code("TheGreatAce")
+Code("Sub2NoobMaster123")
+Code("Sub2Daigrock")
+Code("Axiore")
+Code("StrawHatMaine")
+Code("TantaiGaming")
+Code("Bluxxy")
+Code("SUB2GAMERROBOT_EXP1")
     end)
 
     Section:NewButton("FPS Boost", "ButtonInfo", function()
@@ -1995,6 +2044,7 @@ Section:Line()
     end)
     
     Section:NewButton("Open Awakening UI", "ButtonInfo", function()
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AwakeningChanger", "Check")
         game:GetService("Players")["LocalPlayer"].PlayerGui.Main.AwakeningToggler.Visible = true
         end)
 
