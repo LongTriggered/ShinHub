@@ -31,7 +31,7 @@ local SaveSettingName = "ShinHubData.txt"
         KatakuriPickedWeapons,
         StopTP = true,
         AutoSave = true,
-        AutoGetQuest = true
+        AutoGetQuest = true,
 
         }
         local set
@@ -561,21 +561,24 @@ Section:NewButton("Teleport to Sea 2", "ButtonInfo", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
 end)
 Section:NewButton("Teleport to Sea 3", "ButtonInfo", function()
-
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
 end)
 elseif Sea2 then
     Section:NewButton("Teleport to Sea 1", "ButtonInfo", function()
-
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
     end)
     Section:NewButton("Teleport to Sea 3", "ButtonInfo", function()
-
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou")
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
     end)
 elseif Sea3 then
     Section:NewButton("Teleport to Sea 1", "ButtonInfo", function()
-
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
     end)
     Section:NewButton("Teleport to Sea 2", "ButtonInfo", function()
-        
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
     end)
 end
 
@@ -1591,7 +1594,7 @@ Section:NewButton("Random Devil Fruit", "ButtonInfo", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin","Buy")
 end)
 
-Section:NewToggle("Auto Random Devil Fruit", "ToggleInfo",AutoStoreFruit, function(state)
+Section:NewToggle("Auto Random Devil Fruit", "ToggleInfo",set.AutoRandomFruit, function(state)
     set.AutoRandomFruit = state
 end)
 Section:NewToggle("Auto Store Devil Fruit", "ToggleInfo",AutoStoreFruit , function(state)
