@@ -1614,6 +1614,12 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                             c:Destroy()
                         else
                             opened = true
+                            local buttons = dropFrame:GetDescendants() -- all of the buttons
+                        for _, button in pairs(buttons) do -- loops through the buttons
+                            if button:IsA("TextButton") and button.Name ~= "dropOpen" then -- if it's a button
+                                    button.Visible = true -- shows button
+                            end
+                        end
                             dropFrame:TweenSize(UDim2.new(0, 352, 0, UIListLayout.AbsoluteContentSize.Y), "InOut", "Linear", 0.08, true)
                             wait(0.1)
                             updateSectionFrame()
@@ -1805,27 +1811,6 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                     Utility:TweenObject(moreInfo, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
                 end 
 
-                viewInfo.MouseButton1Click:Connect(function()
-                    if not viewDe then
-                        viewDe = true
-                        focusing = true
-                        for i,v in next, infoContainer:GetChildren() do
-                            if v ~= moreInfo then
-                                Utility:TweenObject(v, {Position = UDim2.new(0,0,2,0)}, 0.2)
-                            end
-                        end
-                        Utility:TweenObject(moreInfo, {Position = UDim2.new(0,0,0,0)}, 0.2)
-                        Utility:TweenObject(blurFrame, {BackgroundTransparency = 0.5}, 0.2)
-                        Utility:TweenObject(btn, {BackgroundColor3 = themeList.ElementColor}, 0.2)
-                        wait(1.5)
-                        focusing = false
-                        Utility:TweenObject(moreInfo, {Position = UDim2.new(0,0,2,0)}, 0.2)
-                        Utility:TweenObject(blurFrame, {BackgroundTransparency = 1}, 0.2)
-                        wait(0)
-                        viewDe = false
-                    end
-                end)     
-
                 for i,v in next, list do
                     local optionSelect = Instance.new("TextButton")
                     local UICorner_2 = Instance.new("UICorner")
@@ -1856,9 +1841,9 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                     optionSelect.ClipsDescendants = true
                     optionSelect.MouseButton1Click:Connect(function()
                         if not focusing then
-                            opened = false
                             callback(v)
                             dropbox.Text = v
+                            opened = false
                             dropFrame:TweenSize(UDim2.new(0, 352, 0, 33), 'InOut', 'Linear', 0.08)
                             wait(0.1)
                             updateSectionFrame()
