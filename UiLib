@@ -1581,7 +1581,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 dropOpen.Name = "dropOpen"
                 dropOpen.Parent = MainSearch
                 dropOpen.BackgroundColor3 = themeList.ElementColor
-                dropOpen.Size = UDim2.new(0, 33, 0, 33)
+                dropOpen.Size = UDim2.new(0, 30, 0, 33)
                 dropOpen.AutoButtonColor = false
                 dropOpen.Font = Enum.Font.SourceSans
                 dropOpen.Text = ""
@@ -1649,8 +1649,8 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 listImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 listImg.BackgroundTransparency = 1.000
                 listImg.BorderColor3 = Color3.fromRGB(27, 42, 53)
-                listImg.Position = UDim2.new(0.0199999996, 0, 0.180000007, 0)
-                listImg.Size = UDim2.new(0, 21, 0, 21)
+                listImg.Position = UDim2.new(0, 6, 0, 5)
+                listImg.Size = UDim2.new(0, 25, 0, 25)
                 listImg.Image = "rbxassetid://3926305904"
                 listImg.ImageColor3 = themeList.SchemeColor
                 listImg.ImageRectOffset = Vector2.new(644, 364)
@@ -1671,7 +1671,6 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                             end
                         end
                     else -- if it's empty
-                        opened = false
                         local buttons = dropFrame:GetDescendants() -- all buttons
                         for _, button in pairs(buttons) do -- loops through buttons
                             if button:IsA("TextButton") then -- if it's a button
