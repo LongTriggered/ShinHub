@@ -309,7 +309,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
             ScreenGui.Enabled = true
             uitoggled = false
         end
-        Notification.Notify(" Ui Closed ", "Tap RightCtrl to reopen", "rbxassetid://2484550853", {
+        Notification.Notify(" UI Closed ", "Tap RightCtrl to reopen", "rbxassetid://2484550853", {
             Duration = 5,
             
             TitleSettings = {
@@ -1531,13 +1531,14 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
 
 
                 local dropFrame = Instance.new("Frame")
+                local dropbox = Instance.new("TextBox")
                 local dropOpen = Instance.new("TextButton")
                 local listImg = Instance.new("ImageLabel")
-                local itemTextbox = Instance.new("TextLabel")
                 local viewInfo = Instance.new("ImageButton")
                 local UICorner = Instance.new("UICorner")
                 local UIListLayout = Instance.new("UIListLayout")
                 local Sample = Instance.new("ImageLabel")
+                local MainSearch = Instance.new("ImageLabel")
 
                 local ms = game.Players.LocalPlayer:GetMouse()
                 Sample.Name = "Sample"
@@ -1548,6 +1549,26 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 Sample.ImageColor3 = themeList.SchemeColor
                 Sample.ImageTransparency = 0.600
                 
+                dropbox.Name = "dropbox"
+                dropbox.Text = dropname
+                dropbox.Parent = MainSearch
+                dropbox.BackgroundColor3 = themeList.ElementColor
+                dropbox.Size = UDim2.new(0, 352, 0, 33)
+                dropbox.Text = dropname
+                dropbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+                dropbox.TextSize = 14.000
+                dropbox.ClipsDescendants = true
+                dropbox.BorderColor3 = themeList.ElementColor
+                dropbox.Position = UDim2.new(0, 36,0, 0)
+                dropbox.TextXAlignment = Enum.TextXAlignment.Left
+                dropbox.Font = Enum.Font.GothamSemibold
+                dropbox.TextColor3 = Color3.fromRGB(255,255,255)
+
+                MainSearch.Name = "MainSearch"
+                MainSearch.Parent = dropFrame
+                MainSearch.BackgroundColor3 = themeList.ElementColor
+                MainSearch.Size = UDim2.new(0, 352, 0, 33)
+
                 dropFrame.Name = "dropFrame"
                 dropFrame.Parent = sectionInners
                 dropFrame.BackgroundColor3 = themeList.Background
@@ -1558,9 +1579,9 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 local sample = Sample
                 local btn = dropOpen
                 dropOpen.Name = "dropOpen"
-                dropOpen.Parent = dropFrame
+                dropOpen.Parent = MainSearch
                 dropOpen.BackgroundColor3 = themeList.ElementColor
-                dropOpen.Size = UDim2.new(0, 352, 0, 33)
+                dropOpen.Size = UDim2.new(0, 33, 0, 33)
                 dropOpen.AutoButtonColor = false
                 dropOpen.Font = Enum.Font.SourceSans
                 dropOpen.Text = ""
@@ -1634,12 +1655,57 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 listImg.ImageColor3 = themeList.SchemeColor
                 listImg.ImageRectOffset = Vector2.new(644, 364)
                 listImg.ImageRectSize = Vector2.new(36, 36)
-
+                dropbox:GetPropertyChangedSignal("Text"):Connect(function()
+                    opened = true
+                    local search = string.lower(dropbox.Text) -- lowercase search bar text
+                    if search ~= "" then -- if it has text
+                        local buttons = dropFrame:GetDescendants() -- all of the buttons
+                        for _, button in pairs(buttons) do -- loops through the buttons
+                            if button:IsA("TextButton") and button.Name ~= "dropOpen" then -- if it's a button
+                                local item = string.lower(button.Text) -- lowercase button text
+                                if string.find(item, search) then -- if search bar text is found in the button's text
+                                    button.Visible = true -- shows button
+                                else -- otherwise
+                                    button.Visible = false -- hides button
+                                end
+                            end
+                        end
+                    else -- if it's empty
+                        opened = false
+                        local buttons = dropFrame:GetDescendants() -- all buttons
+                        for _, button in pairs(buttons) do -- loops through buttons
+                            if button:IsA("TextButton") then -- if it's a button
+                                button.Visible = true -- shows button
+                                dropFrame:TweenSize(UDim2.new(0, 352, 0, UIListLayout.AbsoluteContentSize.Y), "InOut", "Linear", 0.08, true)
+                            wait(0.01)
+                            updateSectionFrame()
+                            UpdateSize()
+                            local c = sample:Clone()
+                            c.Parent = btn
+                            local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                            c.Position = UDim2.new(0, x, 0, y)
+                            local len, size = 0.35, nil
+                            if btn.AbsoluteSize.X >= btn.AbsoluteSize.Y then
+                                size = (btn.AbsoluteSize.X * 1.5)
+                            else
+                                size = (btn.AbsoluteSize.Y * 1.5)
+                            end
+                            c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                            for i = 1, 10 do
+                                c.ImageTransparency = c.ImageTransparency + 0.05
+                           --     wait(len / 12)
+                            end
+                            c:Destroy()
+                            end
+                        end
+                    end
+                end)
+--[[
                 itemTextbox.Name = "itemTextbox"
-                itemTextbox.Parent = dropOpen
+                itemTextbox.Parent = dropbox
                 itemTextbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 itemTextbox.BackgroundTransparency = 1.000
-                itemTextbox.Position = UDim2.new(0.0970000029, 0, 0.273000002, 0)
+                itemTextbox.Position = UDim2.new(0, 36,0, 0)
                 itemTextbox.Size = UDim2.new(0, 138, 0, 14)
                 itemTextbox.Font = Enum.Font.GothamSemibold
                 itemTextbox.Text = dropname
@@ -1647,7 +1713,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 itemTextbox.TextColor3 = themeList.TextColor
                 itemTextbox.TextSize = 14.000
                 itemTextbox.TextXAlignment = Enum.TextXAlignment.Left
-
+]]
                 viewInfo.Name = "viewInfo"
                 viewInfo.Parent = dropOpen
                 viewInfo.BackgroundTransparency = 1.000
@@ -1725,7 +1791,6 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                         Sample.ImageColor3 = themeList.SchemeColor
                         dropFrame.BackgroundColor3 = themeList.Background
                         listImg.ImageColor3 = themeList.SchemeColor
-                        itemTextbox.TextColor3 = themeList.TextColor
                         viewInfo.ImageColor3 = themeList.SchemeColor
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         moreInfo.TextColor3 = themeList.TextColor
@@ -1794,7 +1859,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                         if not focusing then
                             opened = false
                             callback(v)
-                            itemTextbox.Text = v
+                            dropbox.Text = v
                             dropFrame:TweenSize(UDim2.new(0, 352, 0, 33), 'InOut', 'Linear', 0.08)
                             wait(0.1)
                             updateSectionFrame()
@@ -1856,7 +1921,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 end
                 function DropFunction:UpdateDrop(newText)
                     if newText ~= nil then 
-                        itemTextbox.Text = newText
+                        dropbox.Text = newText
                     end
                 end
                 function DropFunction:Refresh(newList)
@@ -1899,7 +1964,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                             if not focusing then
                                 opened = false
                                 callback(v)
-                                itemTextbox.Text = v
+                                dropbox.Text = v
                                 dropFrame:TweenSize(UDim2.new(0, 352, 0, 33), 'InOut', 'Linear', 0.08)
                                 wait(0.1)
                                 updateSectionFrame()
@@ -2678,18 +2743,19 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
             	local UICorner = Instance.new("UICorner")
             	label.Name = "label"
             	label.Parent = sectionInners
-            	label.BackgroundColor3 = themeList.SchemeColor
+            	label.BackgroundColor3 = themeList.ElementColor
             	label.BorderSizePixel = 0
 				label.ClipsDescendants = true
             	label.Text = title
            		label.Size = UDim2.new(0, 352, 0, 33)
-	            label.Font = Enum.Font.Gotham
+	            label.Font = Enum.Font.GothamSemibold
 	            label.Text = "  "..title
 	            label.RichText = true
 	            label.TextColor3 = themeList.TextColor
 	            Objects[label] = "TextColor3"
 	            label.TextSize = 14.000
 	            label.TextXAlignment = Enum.TextXAlignment.Left
+                --    togName.Size = UDim2.new(0, 288, 0, 14)
 	            
 	           	UICorner.CornerRadius = UDim.new(0, 4)
                 UICorner.Parent = label
@@ -2703,7 +2769,7 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
 
 		        coroutine.wrap(function()
 		            while wait() do
-		                label.BackgroundColor3 = themeList.SchemeColor
+		                label.BackgroundColor3 = themeList.ElementColor
 		                label.TextColor3 = themeList.TextColor
 		            end
 		        end)()
@@ -2715,6 +2781,52 @@ Main:TweenSize(UDim2.new(0, 525, 0, 318), Enum.EasingDirection.Out, Enum.EasingS
                 	end
                 end	
                 return labelFunctions
+            end	
+
+            function Elements:NewLabel2(title)
+            	local labelFunctions2 = {}
+            	local label = Instance.new("TextLabel")
+            	local UICorner = Instance.new("UICorner")
+            	label.Name = "label"
+            	label.Parent = sectionInners
+            	label.BackgroundColor3 = themeList.Background
+            	label.BorderSizePixel = 0
+				label.ClipsDescendants = true
+            	label.Text = title
+           		label.Size = UDim2.new(0, 352, 0, 33)
+	            label.Font = Enum.Font.GothamSemibold
+	            label.Text = "  "..title
+	            label.RichText = true
+	            label.TextColor3 = themeList.TextColor
+	            Objects[label] = "TextColor3"
+	            label.TextSize = 14.000
+	            label.TextXAlignment = Enum.TextXAlignment.Left
+                --    togName.Size = UDim2.new(0, 288, 0, 14)
+	            
+	           	UICorner.CornerRadius = UDim.new(0, 4)
+                UICorner.Parent = label
+            	
+	            if themeList.SchemeColor == Color3.fromRGB(255,255,255) then
+	                Utility:TweenObject(label, {TextColor3 = Color3.fromRGB(0,0,0)}, 0.2)
+	            end 
+	            if themeList.SchemeColor == Color3.fromRGB(0,0,0) then
+	                Utility:TweenObject(label, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
+	            end 
+
+		        coroutine.wrap(function()
+		            while wait() do
+		                label.BackgroundColor3 = themeList.Background
+		                label.TextColor3 = themeList.TextColor
+		            end
+		        end)()
+                updateSectionFrame()
+                UpdateSize()
+                function labelFunctions2:UpdateLabel2(newText)
+                	if label.Text ~= "  "..newText then
+                		label.Text = "  "..newText
+                	end
+                end	
+                return labelFunctions2
             end	
             return Elements
         end
