@@ -32,6 +32,7 @@ local SaveSettingName = "ShinHubData.txt"
         StopTP = true,
         AutoSave = true,
         AutoGetQuest = true,
+        OriginalKeyCode = "F"
 
         }
         local set
@@ -278,7 +279,7 @@ local combat = getupvalues(require(game.Players.LocalPlayer.PlayerScripts.Combat
 local Rig = combat[2]
 
 --Library--
-local Library = loadstring(game:HttpGet("https://pastebin.com/raw/PzwpcGqj"))()
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/B29hHbNU"))()
 local Notification = loadstring(game:HttpGet("https://pastebin.com/raw/SzAsegaR"))()
 --Library--
 local Window = Library.CreateLib("SHIN HUB 🔥🔥🔥", "GrapeTheme")
@@ -1790,7 +1791,7 @@ end)
 local Tab = Window:NewTab("Shop")
 local Section = Tab:NewSection("Shop")
 
-Section:NewButton("Reset Stat [2500 F]", "ButtonInfo", function()
+Section:NewButton("Reset Stats [2500 F]", "ButtonInfo", function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Refund","1")
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Refund","2")
 end)
@@ -2252,16 +2253,18 @@ Section:NewToggle("Press P to stop Teleport","ToggleInfo",set.StopTP, function(s
     Section:NewToggle("Auto Active Buso Haki", "ToggleInfo",set.AutoBusoHaki, function(state)
         set.AutoBusoHaki = state
     end)
-    
+
     Section:NewToggle("Auto Active Observation Haki", "ToggleInfo",set.AutoObservationHaki, function(state)
         set.AutoObservationHaki = state
     end)
 
     game:GetService("UserInputService").InputBegan:connect(function(inputObject, gameProcessedEvent)
+        pcall(function()
         if inputObject.KeyCode == Enum.KeyCode.P and set.StopTP then --Also, could be written as [[inputObject.KeyCode == "R"]]
             TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
         game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
         end 
+    end)
     end)
 Section:NewSlider("Farm Distance", "SliderInfo", 60, 30, function(s) -- 500 (MaxValue) | 0 (MinValue)
 	set.Y = s
