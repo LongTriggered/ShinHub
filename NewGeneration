@@ -83,15 +83,19 @@ require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play=fu
 
 local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
-    if hackxin then
+    if hackxin and not NoclipMisc then
     if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
     end
-elseif not hackxin then
+elseif not hackxin and not NoclipMisc then
     if Clip or set.AutoFarmLevel or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
         for i = 1, #CharParts do
             CharParts[i].CanCollide = false
         end
+    end
+elseif hackxin or not hackxin and NoclipMisc then
+    for i = 1, #CharParts do
+        CharParts[i].CanCollide = false
     end
     end
 end)
