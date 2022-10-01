@@ -3077,6 +3077,7 @@ BringKata4 = false
 spawn(function()
     while wait() do
  if AutoFarmKatakuri then
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
      pcall(function()
      spawn(function()
                                 for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
@@ -3214,8 +3215,10 @@ BringBone4 = false
 spawn(function()
     while wait() do
  if AutoFarmBones then
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
      pcall(function()
      spawn(function()
+
                                 for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
                                     if v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Domenic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]" then
                                         v.Parent = game:GetService('Workspace').Enemies
@@ -3307,7 +3310,7 @@ spawn(function()
                         end
                         end
                     else
-                        TP(CFrame.new(-2139.533203125, 70.00886535644531, -12308.591796875))
+                        TP(CFrame.new(-9505.4072265625, 172.1306610107422, 6058.17919921875))
                     end
             end)
            end
@@ -3532,20 +3535,8 @@ end)
 end
 end
 end)
-
-local GC = getconnections or get_signal_cons
-	if GC then
-		for i,v in pairs(GC(game:GetService("Players").LocalPlayer.Idled)) do
-			if v["Disable"] then
-				v["Disable"](v)
-			elseif v["Disconnect"] then
-				v["Disconnect"](v)
-			end
-		end
-	else
 		game:GetService("Players").LocalPlayer.Idled:Connect(function()
 			local VirtualUser = game:GetService("VirtualUser")
 			VirtualUser:CaptureController()
 			VirtualUser:ClickButton2(Vector2.new())
 		end)
-	end
