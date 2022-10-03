@@ -32,7 +32,6 @@ local SaveSettingName = "ShinHubData.txt"
         StopTP = true,
         AutoSave = true,
         AutoGetQuest = true,
-        OriginalKeyCode = "F"
 
         }
         local set
@@ -1429,17 +1428,17 @@ spawn(function()
 	while wait() do
 		if AutoRaid then
             pcall(function()
-					if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false and not game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
-						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
+                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 4") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 3") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 2") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
+                    if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then    
+                        if Sea2 then
+                            fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+                        elseif Sea3 then
+                            fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
+                        end
+                        wait(16)
                     end
-                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
-                    if Sea2 then
-                        fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
-                        wait(60)
-                    elseif Sea3 then
-                        fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
-                        wait(60)
-                    end
+                else
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
                 end
 	end)
 end
@@ -3535,8 +3534,14 @@ end)
 end
 end
 end)
+if getconnections then
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+    v:Disable()
+    end
+else
 		game:GetService("Players").LocalPlayer.Idled:Connect(function()
 			local VirtualUser = game:GetService("VirtualUser")
 			VirtualUser:CaptureController()
 			VirtualUser:ClickButton2(Vector2.new())
 		end)
+    end
