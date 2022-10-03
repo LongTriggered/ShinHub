@@ -3219,12 +3219,12 @@ spawn(function()
      spawn(function()
 
                                 for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
-                                    if v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Domenic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]" then
+                                    if v.Name == "Reborn Skeleton [Lv. 1975]" or v.Name == "Living Zombie [Lv. 2000]" or v.Name == "Demonic Soul [Lv. 2025]" or v.Name == "Posessed Mummy [Lv. 2050]" then
                                         v.Parent = game:GetService('Workspace').Enemies
                                     end
                             end
      end)
-            if game.Workspace.Enemies:FindFirstChild("Reborn Skeleton [Lv. 1975]") or game.Workspace.Enemies:FindFirstChild("Living Zombie [Lv. 2000]") or game.Workspace.Enemies:FindFirstChild("Domenic Soul [Lv. 2025]") or game.Workspace.Enemies:FindFirstChild("Posessed Mummy [Lv. 2050]") then
+            if game.Workspace.Enemies:FindFirstChild("Reborn Skeleton [Lv. 1975]") or game.Workspace.Enemies:FindFirstChild("Living Zombie [Lv. 2000]") or game.Workspace.Enemies:FindFirstChild("Demonic Soul [Lv. 2025]") or game.Workspace.Enemies:FindFirstChild("Posessed Mummy [Lv. 2050]") then
             for i,v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == "Posessed Mummy [Lv. 2050]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
@@ -3266,7 +3266,7 @@ spawn(function()
 							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
 							    PosMon = v.HumanoidRootPart.CFrame
                             until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
-                       elseif v.Name == "Domenic Soul [Lv. 2025]" then
+                       elseif v.Name == "Demonic Soul [Lv. 2025]" then
                             repeat game:GetService("RunService").Heartbeat:wait()
                                 EquipWeapon(set.KatakuriPickedWeapons)
                                 BringBone1 = false
