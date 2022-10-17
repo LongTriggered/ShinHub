@@ -1267,25 +1267,18 @@ Mousez.Button1Down:Connect(function()
 p = Mousez.Target
 end)
 ]]
-spawn(function()
-    local gg = getrawmetatable(game)
-		local old = gg.__namecall
-		setreadonly(gg,false)
-		gg.__namecall = newcclosure(function(...)
-			local method = getnamecallmethod()
-			local args = {...}
-			if tostring(method) == "InvokeServer" then
-				if tostring(args[1]) == "RemoteFunctionShoot" then
-					if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
-						if AimbotGun then
-							args[2] = game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart.Position
-							return old(unpack(args))
-						end
-					end
-				end
-			end
-			return old(...)
-		end)
+local mt = getrawmetatable(game)
+local oldindex = mt.__index
+setreadonly(mt, false)
+mt.__index = newcclosure(function(t, k)
+   if t:IsA("Mouse") and (k == "Hit") then
+     if AimbotGun and GunName ~= "" and game.Players.LocalPlayer.Character:FindFirstChild(GunName) and SelectedPlayer ~= "SHINgamer5" then 
+           if game.Players:FindFirstChild(SelectedPlayer).Character and game.Players:FindFirstChild(SelectedPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedPlayer).Character:FindFirstChild("Humanoid").Health > 0 then
+              return (k == "Hit" and game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart.CFrame or game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart)
+           end
+        end
+   end
+   return oldindex(t, k)
 end)
 
 Section:NewToggle("Teleport to Player", "ToggleInfo",TeleportToPlayer, function(state)
