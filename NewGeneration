@@ -79,7 +79,6 @@ hackxin = true
 end
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play=function(...)end
-
 local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
     if hackxin and not NoclipMisc then
@@ -829,19 +828,19 @@ Event:InvokeServer(A_1, A_2)
         TP2(CFrame.new(-9515.07324, 142.130615, 5537.58398))
           
     end)
-    Section:NewButton("Candy Island 1", "ButtonInfo", function()
+    Section:NewButton("Sea of Treats 1", "ButtonInfo", function()
         TP2(CFrame.new(-2074.5751953125, 38.129039764404, -10188.518554688))
            
     end)
-    Section:NewButton("Candy Island 2", "ButtonInfo", function()
+    Section:NewButton("Sea of Treats 2", "ButtonInfo", function()
         TP2(CFrame.new(-899.2344970703125, 58.97154235839844, -10876.599609375))
            
     end)
-    Section:NewButton("Candy Island 3", "ButtonInfo", function()
+    Section:NewButton("Sea of Treats 3", "ButtonInfo", function()
         TP2(CFrame.new(-1945.0286865234375, 37.82406997680664, -11867.9140625))
           
     end)
-    Section:NewButton("Candy Island 4", "ButtonInfo", function()
+    Section:NewButton("Sea of Treats 4", "ButtonInfo", function()
         TP2(CFrame.new(514.1964721679688, 24.760112762451172, -12448.912109375))
           
     end)
@@ -1119,7 +1118,7 @@ function UpdatePlayer()
 						local Textlb = Instance.new("TextLabel", Bb)
 						Textlb.Font = "GothamBold"
 						Textlb.FontSize = "Size14"
-						Textlb.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(v.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
+						Textlb.Text = v.Name.." | HP: "..math.round(v.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
 						Textlb.Size = UDim2.new(1,0,1,0)
 						Textlb.BackgroundTransparency = 1
 						Textlb.TextStrokeTransparency = 0.5
@@ -1129,7 +1128,7 @@ function UpdatePlayer()
 							Textlb.TextColor3 = Color3.new(0, 191, 255)
 						end
 					else
-						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Team.Name.."\n"..v.Name.." | HP: "..math.round(v.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
+						v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Name.." | HP: "..math.round(v.Character:FindFirstChildOfClass('Humanoid').Health, 1).." | "..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
 					end
 				else
 					if v.Character.Head:FindFirstChild("PlayerESP"..Number) then
@@ -1245,6 +1244,50 @@ PlayerSection = Section:NewDropdown("Select Player","", PlayerName, function(Val
       end)
 Section:Line()
 
+Section:NewToggle("Aimbot Gun", "ToggleInfo", false, function(state)
+    AimbotGun = state
+    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do  
+     if v:IsA("Tool") then
+        if v:FindFirstChild("RemoteFunctionShoot") then 
+           GunName = v.Name
+        end
+     end
+  end
+  for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
+     if v:IsA("Tool") then
+        if v:FindFirstChild("RemoteFunctionShoot") then 
+           GunName = v.Name
+        end
+     end
+  end
+end)
+--[[
+Mousez = game:GetService("Players").LocalPlayer:GetMouse()
+Mousez.Button1Down:Connect(function()
+p = Mousez.Target
+end)
+]]
+spawn(function()
+    local gg = getrawmetatable(game)
+		local old = gg.__namecall
+		setreadonly(gg,false)
+		gg.__namecall = newcclosure(function(...)
+			local method = getnamecallmethod()
+			local args = {...}
+			if tostring(method) == "InvokeServer" then
+				if tostring(args[1]) == "RemoteFunctionShoot" then
+					if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
+						if AimbotGun then
+							args[2] = game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart.Position
+							return old(unpack(args))
+						end
+					end
+				end
+			end
+			return old(...)
+		end)
+end)
+
 Section:NewToggle("Teleport to Player", "ToggleInfo",TeleportToPlayer, function(state)
     TeleportToPlayer = state
     if not TeleportToPlayer then
@@ -1346,7 +1389,7 @@ Section:NewToggle("Auto Raid", "ToggleInfo",AutoRaid, function(state)
     end
 end)
 
-Section:NewToggle("Auto Buy Raid Chip", "ToggleInfo",A, function(state)
+Section:NewToggle("Auto Buy Raid Chip", "ToggleInfo",AutoBuyChip, function(state)
     AutoBuyChip = state
 end)
 Section:NewToggle("Kill Aura", "ToggleInfo",KillAura, function(state)
@@ -1437,7 +1480,7 @@ spawn(function()
                         end
                         wait(16)
                     end
-                else
+                elseif not game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then    
                     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
                 end
 	end)
@@ -2362,210 +2405,210 @@ end
 end
 elseif Lv <= LevelMax then
     AutoUpdate = false
-    if Lv == 1500 or Lv <= 1524 or SelectedMob == "Pirate Millionaire [Lv. 1500]" then -- Pirate Millionaire
+    if Lv == 1500 or Lv <= 1524 or AutoFarmSelectedMob and SelectedMob == "Pirate Millionaire [Lv. 1500]" then -- Pirate Millionaire
 			MobFarmName = "Pirate Millionaire [Lv. 1500]"
 			CurrentQuest = "PiratePortQuest"
 			CurrentQuestLv = 1
 			MobName = "Pirate Millionaire"
 			CFrameQuest = CFrame.new(-289.61752319336, 43.819011688232, 5580.0903320313)
 			FarmCFrame = CFrame.new(-435.68109130859, 189.69866943359, 5551.0756835938)
-		elseif Lv == 1525 or Lv <= 1574 or SelectedMob == "Pistol Billionaire [Lv. 1525]" then -- Pistol Billoonaire
+		elseif Lv == 1525 or Lv <= 1574 or AutoFarmSelectedMob and SelectedMob == "Pistol Billionaire [Lv. 1525]" then -- Pistol Billoonaire
 			MobFarmName = "Pistol Billionaire [Lv. 1525]"
 			CurrentQuest = "PiratePortQuest"
 			CurrentQuestLv = 2
 			MobName = "Pistol Billionaire"
 			CFrameQuest = CFrame.new(-289.61752319336, 43.819011688232, 5580.0903320313)
 			FarmCFrame = CFrame.new(-236.53652954102, 217.46676635742, 6006.0883789063)
-		elseif Lv == 1575 or Lv <= 1599 or SelectedMob == "Dragon Crew Warrior [Lv. 1575]" then -- Dragon Crew Warrior
+		elseif Lv == 1575 or Lv <= 1599 or AutoFarmSelectedMob and SelectedMob == "Dragon Crew Warrior [Lv. 1575]" then -- Dragon Crew Warrior
 			MobFarmName = "Dragon Crew Warrior [Lv. 1575]"
 			CurrentQuest = "AmazonQuest"
 			CurrentQuestLv = 1
 			MobName = "Dragon Crew Warrior"
 			CFrameQuest = CFrame.new(5833.1147460938, 51.60498046875, -1103.0693359375)
 			FarmCFrame = CFrame.new(6301.9975585938, 104.77153015137, -1082.6075439453)
-		elseif Lv == 1600 or Lv <= 1624 or SelectedMob == "Dragon Crew Archer [Lv. 1600]" then -- Dragon Crew Archer
+		elseif Lv == 1600 or Lv <= 1624 or AutoFarmSelectedMob and SelectedMob == "Dragon Crew Archer [Lv. 1600]" then -- Dragon Crew Archer
 			MobFarmName = "Dragon Crew Archer [Lv. 1600]"
 			CurrentQuest = "AmazonQuest"
 			CurrentQuestLv = 2
 			MobName = "Dragon Crew Archer"
 			CFrameQuest = CFrame.new(5833.1147460938, 51.60498046875, -1103.0693359375)
 			FarmCFrame = CFrame.new(6831.1171875, 441.76708984375, 446.58615112305)
-		elseif Lv == 1625 or Lv <= 1649 or SelectedMob == "Female Islander [Lv. 1625]" then -- Female Islander
+		elseif Lv == 1625 or Lv <= 1649 or AutoFarmSelectedMob and SelectedMob == "Female Islander [Lv. 1625]" then -- Female Islander
 			MobFarmName = "Female Islander [Lv. 1625]"
 			CurrentQuest = "AmazonQuest2"
 			CurrentQuestLv = 1
 			MobName = "Female Islander"
 			CFrameQuest = CFrame.new(5446.8793945313, 601.62945556641, 749.45672607422)
 			FarmCFrame = CFrame.new(5792.5166015625, 848.14392089844, 1084.1818847656)
-		elseif Lv == 1650 or Lv <= 1699 or SelectedMob == "Giant Islander [Lv. 1650]" then -- Giant Islander
+		elseif Lv == 1650 or Lv <= 1699 or AutoFarmSelectedMob and SelectedMob == "Giant Islander [Lv. 1650]" then -- Giant Islander
 			MobFarmName = "Giant Islander [Lv. 1650]"
 			CurrentQuest = "AmazonQuest2"
 			CurrentQuestLv = 2
 			MobName = "Giant Islander"
 			CFrameQuest = CFrame.new(5446.8793945313, 601.62945556641, 749.45672607422)
 			FarmCFrame =CFrame.new(5009.5068359375, 664.11071777344, -40.960144042969)
-		elseif Lv == 1700 or Lv <= 1724 or SelectedMob == "Marine Commodore [Lv. 1700]" then -- Marine Commodore
+		elseif Lv == 1700 or Lv <= 1724 or AutoFarmSelectedMob and SelectedMob == "Marine Commodore [Lv. 1700]" then -- Marine Commodore
 			MobFarmName = "Marine Commodore [Lv. 1700]"
 			CurrentQuest = "MarineTreeIsland"
 			CurrentQuestLv = 1
 			MobName = "Marine Commodore"
 			CFrameQuest = CFrame.new(2179.98828125, 28.731239318848, -6740.0551757813)
 			FarmCFrame =CFrame.new(2198.0063476563, 128.71075439453, -7109.5043945313)
-		elseif Lv == 1725 or Lv <= 1774 or SelectedMob == "Marine Rear Admiral [Lv. 1725]" then -- Marine Rear Admiral
+		elseif Lv == 1725 or Lv <= 1774 or AutoFarmSelectedMob and SelectedMob == "Marine Rear Admiral [Lv. 1725]" then -- Marine Rear Admiral
 			MobFarmName = "Marine Rear Admiral [Lv. 1725]"
 			CurrentQuest = "MarineTreeIsland"
 			CurrentQuestLv = 2
 			MobName = "Marine Rear Admiral"
 			CFrameQuest = CFrame.new(2179.98828125, 28.731239318848, -6740.0551757813)
 			FarmCFrame = CFrame.new(3294.3142089844, 385.41125488281, -7048.6342773438)
-		elseif Lv == 1775 or Lv <= 1799 or SelectedMob == "Fishman Raider [Lv. 1775]" then -- Fishman Raide
+		elseif Lv == 1775 or Lv <= 1799 or AutoFarmSelectedMob and SelectedMob == "Fishman Raider [Lv. 1775]" then -- Fishman Raide
 			MobFarmName = "Fishman Raider [Lv. 1775]"
 			CurrentQuest = "DeepForestIsland3"
 			CurrentQuestLv = 1
 			MobName = "Fishman Raider"
 			CFrameQuest = CFrame.new(-10582.759765625, 331.78845214844, -8757.666015625)
 			FarmCFrame = CFrame.new(-10553.268554688, 521.38439941406, -8176.9458007813)
-		elseif Lv == 1800 or Lv <= 1824 or SelectedMob == "Fishman Captain [Lv. 1800]" then -- Fishman Captain
+		elseif Lv == 1800 or Lv <= 1824 or AutoFarmSelectedMob and SelectedMob == "Fishman Captain [Lv. 1800]" then -- Fishman Captain
 			MobFarmName = "Fishman Captain [Lv. 1800]"
 			CurrentQuest = "DeepForestIsland3"
 			CurrentQuestLv = 2
 			MobName = "Fishman Captain"
 			CFrameQuest = CFrame.new(-10583.099609375, 331.78845214844, -8759.4638671875)
 			FarmCFrame = CFrame.new(-10789.401367188, 427.18637084961, -9131.4423828125)
-		elseif Lv == 1825 or Lv <= 1849 or SelectedMob == "Forest Pirate [Lv. 1825]" then -- Forest Pirate
+		elseif Lv == 1825 or Lv <= 1849 or AutoFarmSelectedMob and SelectedMob == "Forest Pirate [Lv. 1825]" then -- Forest Pirate
 			MobFarmName = "Forest Pirate [Lv. 1825]"
 			CurrentQuest = "DeepForestIsland"
 			CurrentQuestLv = 1
 			MobName = "Forest Pirate"
 			CFrameQuest = CFrame.new(-13232.662109375, 332.40396118164, -7626.4819335938)
 			FarmCFrame = CFrame.new(-13489.397460938, 400.30349731445, -7770.251953125)
-		elseif Lv == 1850 or Lv <= 1899 or SelectedMob == "Mythological Pirate [Lv. 1850]" then -- Mythological Pirate
+		elseif Lv == 1850 or Lv <= 1899 or AutoFarmSelectedMob and SelectedMob == "Mythological Pirate [Lv. 1850]" then -- Mythological Pirate
 			MobFarmName = "Mythological Pirate [Lv. 1850]"
 			CurrentQuest = "DeepForestIsland"
 			CurrentQuestLv = 2
 			MobName = "Mythological Pirate"
 			CFrameQuest = CFrame.new(-13232.662109375, 332.40396118164, -7626.4819335938)
 			FarmCFrame = CFrame.new(-13508.616210938, 582.46228027344, -6985.3037109375)
-		elseif Lv == 1900 or Lv <= 1924 or SelectedMob == "Jungle Pirate [Lv. 1900]" then -- Jungle Pirate
+		elseif Lv == 1900 or Lv <= 1924 or AutoFarmSelectedMob and SelectedMob == "Jungle Pirate [Lv. 1900]" then -- Jungle Pirate
 			MobFarmName = "Jungle Pirate [Lv. 1900]"
 			CurrentQuest = "DeepForestIsland2"
 			CurrentQuestLv = 1
 			MobName = "Jungle Pirate"
 			CFrameQuest = CFrame.new(-12682.096679688, 390.88653564453, -9902.1240234375)
 			FarmCFrame = CFrame.new(-12267.103515625, 459.75262451172, -10277.200195313)
-		elseif Lv == 1925 or Lv <= 1974 or SelectedMob == "Musketeer Pirate [Lv. 1925]" then -- Musketeer Pirate
+		elseif Lv == 1925 or Lv <= 1974 or AutoFarmSelectedMob and SelectedMob == "Musketeer Pirate [Lv. 1925]" then -- Musketeer Pirate
 			MobFarmName = "Musketeer Pirate [Lv. 1925]"
 			CurrentQuest = "DeepForestIsland2"
 			CurrentQuestLv = 2
 			MobName = "Musketeer Pirate"
 			CFrameQuest = CFrame.new(-12682.096679688, 390.88653564453, -9902.1240234375)
 			FarmCFrame = CFrame.new(-13291.5078125, 520.47338867188, -9904.638671875)
-		elseif Lv == 1975 or Lv <= 1999 or SelectedMob == "Reborn Skeleton [Lv. 1975]" then
+		elseif Lv == 1975 or Lv <= 1999 or AutoFarmSelectedMob and SelectedMob == "Reborn Skeleton [Lv. 1975]" then
 			MobFarmName = "Reborn Skeleton [Lv. 1975]"
 			CurrentQuest = "HauntedQuest1"
 			CurrentQuestLv = 1
 			MobName = "Reborn Skeleton"
 			CFrameQuest = CFrame.new(-9480.80762, 142.130661, 5566.37305, -0.00655503059, 4.52954225e-08, -0.999978542, 2.04920472e-08, 1, 4.51620679e-08, 0.999978542, -2.01955679e-08, -0.00655503059)
 			FarmCFrame = CFrame.new(-8761.77148, 183.431747, 6168.33301, 0.978073597, -1.3950732e-05, -0.208259016, -1.08073925e-06, 1, -7.20630269e-05, 0.208259016, 7.07080399e-05, 0.978073597)
-		elseif Lv == 2000 or Lv <= 2024 or SelectedMob == "Living Zombie [Lv. 2000]" then
+		elseif Lv == 2000 or Lv <= 2024 or AutoFarmSelectedMob and SelectedMob == "Living Zombie [Lv. 2000]" then
 			MobFarmName = "Living Zombie [Lv. 2000]"
 			CurrentQuest = "HauntedQuest1"
 			CurrentQuestLv = 2
 			MobName = "Living Zombie"
 			CFrameQuest = CFrame.new(-9480.80762, 142.130661, 5566.37305, -0.00655503059, 4.52954225e-08, -0.999978542, 2.04920472e-08, 1, 4.51620679e-08, 0.999978542, -2.01955679e-08, -0.00655503059)
 			FarmCFrame = CFrame.new(-10103.7529, 238.565979, 6179.75977, 0.999474227, 2.77547141e-08, 0.0324240364, -2.58006327e-08, 1, -6.06848474e-08, -0.0324240364, 5.98163865e-08, 0.999474227)
-		elseif Lv == 2025 or Lv <= 2049 or SelectedMob == "Demonic Soul [Lv. 2025]" then
+		elseif Lv == 2025 or Lv <= 2049 or AutoFarmSelectedMob and SelectedMob == "Demonic Soul [Lv. 2025]" then
 			MobFarmName = "Demonic Soul [Lv. 2025]"
 			CurrentQuest = "HauntedQuest2"
 			CurrentQuestLv = 1
 			MobName = "Demonic Soul"
 			CFrameQuest = CFrame.new(-9515.39551, 172.266037, 6078.89746, 0.0121199936, -9.78649624e-08, 0.999926567, 2.30358754e-08, 1, 9.75929382e-08, -0.999926567, 2.18513581e-08, 0.0121199936)
 			FarmCFrame = CFrame.new(-9709.30762, 204.695892, 6044.04688, -0.845798075, -3.4587876e-07, -0.533503294, -4.46235369e-08, 1, -5.77571257e-07, 0.533503294, -4.64701827e-07, -0.845798075)
-		elseif Lv == 2050 or Lv <= 2074 or SelectedMob == "Posessed Mummy [Lv. 2050]" then
+		elseif Lv == 2050 or Lv <= 2074 or AutoFarmSelectedMob and SelectedMob == "Posessed Mummy [Lv. 2050]" then
 			MobFarmName = "Posessed Mummy [Lv. 2050]"
 			CurrentQuest = "HauntedQuest2"
 			CurrentQuestLv = 2
 			MobName = "Posessed Mummy"
 			CFrameQuest = CFrame.new(-9515.39551, 172.266037, 6078.89746, 0.0121199936, -9.78649624e-08, 0.999926567, 2.30358754e-08, 1, 9.75929382e-08, -0.999926567, 2.18513581e-08, 0.0121199936)
 			FarmCFrame = CFrame.new(-9554.11035, 65.6141663, 6041.73584, -0.877069294, 5.33355795e-08, -0.480364174, 2.06420765e-08, 1, 7.33423562e-08, 0.480364174, 5.44105987e-08, -0.877069294)
-        elseif Lv == 2075 or Lv <= 2099 or SelectedMob == "Peanut Scout [Lv. 2075]" then
+        elseif Lv == 2075 or Lv <= 2099 or AutoFarmSelectedMob and SelectedMob == "Peanut Scout [Lv. 2075]" then
             MobFarmName = "Peanut Scout [Lv. 2075]"
             CurrentQuest = "NutsIslandQuest"
             CurrentQuestLv = 1
             MobName = "Peanut Scout"
             CFrameQuest = CFrame.new(-2103.6381835938, 38.129978179932, -10193.395507812)
             FarmCFrame = CFrame.new(-2265.7272949219, 89.776420593262, -10271.989257812)
-        elseif Lv == 2100 or Lv <= 2124 or SelectedMob == "Peanut President [Lv. 2100]" then
+        elseif Lv == 2100 or Lv <= 2124 or AutoFarmSelectedMob and SelectedMob == "Peanut President [Lv. 2100]" then
             MobFarmName = "Peanut President [Lv. 2100]"
             CurrentQuest = "NutsIslandQuest"
             CurrentQuestLv = 2
             MobName = "Peanut President"
             CFrameQuest = CFrame.new(-2103.6381835938, 38.129978179932, -10193.395507812)
             FarmCFrame = CFrame.new(-2265.7272949219, 89.776420593262, -10271.989257812)
-        elseif Lv == 2125 or Lv <= 2149 or SelectedMob == "Ice Cream Chef [Lv. 2125]" then
+        elseif Lv == 2125 or Lv <= 2149 or AutoFarmSelectedMob and SelectedMob == "Ice Cream Chef [Lv. 2125]" then
             MobFarmName = "Ice Cream Chef [Lv. 2125]"
             CurrentQuest = "IceCreamIslandQuest"
             CurrentQuestLv = 1
             MobName = "Ice Cream Chef"
             CFrameQuest = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938)
             FarmCFrame = CFrame.new(-610.87945556641, 179.32225036621, -11146.975585938)
-        elseif Lv == 2150 or Lv <= 2199 or SelectedMob == "Ice Cream Commander [Lv. 2150]" then
+        elseif Lv == 2150 or Lv <= 2199 or AutoFarmSelectedMob and SelectedMob == "Ice Cream Commander [Lv. 2150]" then
             MobFarmName = "Ice Cream Commander [Lv. 2150]"
             CurrentQuest = "IceCreamIslandQuest"
             CurrentQuestLv = 2
             MobName = "Ice Cream Commander"
             CFrameQuest = CFrame.new(-821.13775634766, 65.845329284668, -10965.038085938)
             FarmCFrame = CFrame.new(-610.87945556641, 179.32225036621, -11146.975585938)
-        elseif Lv == 2200 or Lv <= 2224 or SelectedMob == "Cookie Crafter [Lv. 2200]" then
+        elseif Lv == 2200 or Lv <= 2224 or AutoFarmSelectedMob and SelectedMob == "Cookie Crafter [Lv. 2200]" then
             MobFarmName = "Cookie Crafter [Lv. 2200]"
             CurrentQuest = "CakeQuest1"
             CurrentQuestLv = 1
             MobName = "Cookie Crafter"
             CFrameQuest = CFrame.new(-2021.7838134765625, 37.82400894165039, -12029.1328125)
             FarmCFrame = CFrame.new(-2271.1982421875, 146.5656280517578, -12187.7890625)
-        elseif Lv == 2225 or Lv <= 2249 or SelectedMob == "Cake Guard [Lv. 2225]" then
+        elseif Lv == 2225 or Lv <= 2249 or AutoFarmSelectedMob and SelectedMob == "Cake Guard [Lv. 2225]" then
             MobFarmName = "Cake Guard [Lv. 2225]"
             CurrentQuest = "CakeQuest1"
             CurrentQuestLv = 2
             MobName = "Cake Guard"
             CFrameQuest = CFrame.new(-2021.7838134765625, 37.82400894165039, -12029.1328125)
             FarmCFrame = CFrame.new(-1595.721923828125, 195.68417358398438, -12356.916015625)
-        elseif Lv == 2250 or Lv <= 2274 or SelectedMob == "Baking Staff [Lv. 2250]" then
+        elseif Lv == 2250 or Lv <= 2274 or AutoFarmSelectedMob and SelectedMob == "Baking Staff [Lv. 2250]" then
             MobFarmName = "Baking Staff [Lv. 2250]"
             CurrentQuest = "CakeQuest2"
             CurrentQuestLv = 1
             MobName = "Baking Staff"
             CFrameQuest = CFrame.new(-1927.1634521484375, 37.82392501831055, -12843.0634765625)
             FarmCFrame = CFrame.new(-1837.031494140625, 136.5231170654297, -12957.4716796875)
-        elseif Lv == 2275 or Lv <= 2299 or SelectedMob == "Head Baker [Lv. 2275]" then
+        elseif Lv == 2275 or Lv <= 2299 or AutoFarmSelectedMob and SelectedMob == "Head Baker [Lv. 2275]" then
             MobFarmName = "Head Baker [Lv. 2275]"
             CurrentQuest = "CakeQuest2"
             CurrentQuestLv = 2
             MobName = "Head Baker"
             CFrameQuest = CFrame.new(-1927.1634521484375, 37.82392501831055, -12843.0634765625)
             FarmCFrame = CFrame.new(-2293.04052734375, 108.80238342285156, -12810.4853515625)
-        elseif Lv == 2300 or Lv <= 2324 or SelectedMob == "Cocoa Warrior [Lv. 2300]" then
+        elseif Lv == 2300 or Lv <= 2324 or AutoFarmSelectedMob and SelectedMob == "Cocoa Warrior [Lv. 2300]" then
             MobFarmName = "Cocoa Warrior [Lv. 2300]"
             CurrentQuest = "ChocQuest1"
             CurrentQuestLv = 1
             MobName = "Cocoa Warrior"
             CFrameQuest = CFrame.new(231.83404541015625, 24.760040283203125, -12198.775390625)
             FarmCFrame = CFrame.new(-94.08122253417969, 91.01761627197266, -12230.935546875)
-        elseif Lv == 2325 or Lv <= 2349 or SelectedMob == "Chocolate Bar Battler [Lv. 2325]" then
+        elseif Lv == 2325 or Lv <= 2349 or AutoFarmSelectedMob and SelectedMob == "Chocolate Bar Battler [Lv. 2325]" then
             MobFarmName = "Chocolate Bar Battler [Lv. 2325]"
             CurrentQuest = "ChocQuest1"
             CurrentQuestLv = 2
             MobName = "Chocolate Bar Battler"
             CFrameQuest = CFrame.new(231.83404541015625, 24.760040283203125, -12198.775390625)
             FarmCFrame = CFrame.new(621.0936889648438, 81.4298095703125, -12574.095703125)
-        elseif Lv == 2350 or Lv <= 2374 or SelectedMob == "Sweet Thief [Lv. 2350]" then
+        elseif Lv == 2350 or Lv <= 2374 or AutoFarmSelectedMob and SelectedMob == "Sweet Thief [Lv. 2350]" then
             MobFarmName = "Sweet Thief [Lv. 2350]"
             CurrentQuest = "ChocQuest2"
             CurrentQuestLv = 1
             MobName = "Sweet Thief"
             CFrameQuest = CFrame.new(149.3335418701172, 24.819625854492188, -12775.22265625)
             FarmCFrame = CFrame.new(-22.027713775634766, 66.95449829101562, -12689.94921875)
-        elseif Lv == 2375 or Lv < 2401 or SelectedMob == "Candy Rebel [Lv. 2375]" then
+        elseif Lv == 2375 or Lv < 2401 or AutoFarmSelectedMob and SelectedMob == "Candy Rebel [Lv. 2375]" then
             MobFarmName = "Candy Rebel [Lv. 2375]"
             CurrentQuest = "ChocQuest2"
             CurrentQuestLv = 2
@@ -2583,126 +2626,126 @@ Lv = game.Players.LocalPlayer.Data.Level.Value
             MobName = "Bandit"
             CFrameQuest = CFrame.new(1060.9383544922, 16.455066680908, 1547.7841796875)
             FarmCFrame = CFrame.new(1038.5533447266, 41.296249389648, 1576.5098876953)
-        elseif Lv == 10 or Lv <= 14 or SelectedMob == "Monkey [Lv. 14]" then -- Monkey
+        elseif Lv == 10 or Lv <= 14 or AutoFarmSelectedMob and SelectedMob == "Monkey [Lv. 14]" then -- Monkey
             MobFarmName = "Monkey [Lv. 14]"
             CurrentQuest = "JungleQuest"
             CurrentQuestLv = 1
             MobName = "Monkey"
             CFrameQuest = CFrame.new(-1600.003662109375, 36.85213851928711, 153.6071014404297)
             FarmCFrame = CFrame.new(-1448.1446533203, 50.851993560791, 63.60718536377)
-        elseif Lv == 15 or Lv <= 29 or SelectedMob == "Gorilla [Lv. 20]" then -- Gorilla
+        elseif Lv == 15 or Lv <= 29 or AutoFarmSelectedMob and SelectedMob == "Gorilla [Lv. 20]" then -- Gorilla
             MobFarmName = "Gorilla [Lv. 20]"
             CurrentQuest = "JungleQuest"
             CurrentQuestLv = 2
             MobName = "Gorilla"
             CFrameQuest = CFrame.new(-1601.6553955078, 36.85213470459, 153.38809204102)
             FarmCFrame = CFrame.new(-1142.6488037109, 40.462348937988, -515.39227294922)
-        elseif Lv == 30 or Lv <= 39 or SelectedMob == "Pirate [Lv. 35]" then -- Pirate
+        elseif Lv == 30 or Lv <= 39 or AutoFarmSelectedMob and SelectedMob == "Pirate [Lv. 35]" then -- Pirate
             MobFarmName = "Pirate [Lv. 35]"
             CurrentQuest = "BuggyQuest1"
             CurrentQuestLv = 1
             MobName = "Pirate"
             CFrameQuest = CFrame.new(-1140.1761474609, 4.752049446106, 3827.4057617188)
             FarmCFrame = CFrame.new(-1201.0881347656, 40.628940582275, 3857.5966796875)
-        elseif Lv == 40 or Lv <= 59 or SelectedMob == "Brute [Lv. 45]" then -- Brute
+        elseif Lv == 40 or Lv <= 59 or AutoFarmSelectedMob and SelectedMob == "Brute [Lv. 45]" then -- Brute
             MobFarmName = "Brute [Lv. 45]"
             CurrentQuest = "BuggyQuest1"
             CurrentQuestLv = 2
             MobName = "Brute"
             CFrameQuest = CFrame.new(-1140.1761474609, 4.752049446106, 3827.4057617188)
             FarmCFrame = CFrame.new(-1387.5324707031, 24.592035293579, 4100.9575195313)
-        elseif Lv == 60 or Lv <= 74 or SelectedMob == "Desert Bandit [Lv. 60]" then -- Desert Bandit
+        elseif Lv == 60 or Lv <= 74 or AutoFarmSelectedMob and SelectedMob == "Desert Bandit [Lv. 60]" then -- Desert Bandit
             MobFarmName = "Desert Bandit [Lv. 60]"
             CurrentQuest = "DesertQuest"
             CurrentQuestLv = 1
             MobName = "Desert Bandit"
             CFrameQuest = CFrame.new(896.51721191406, 6.4384617805481, 4390.1494140625)
             FarmCFrame = CFrame.new(984.99896240234, 16.109552383423, 4417.91015625)
-        elseif Lv == 75 or Lv <= 89 or SelectedMob == "Desert Officer [Lv. 70]" then -- Desert Officer
+        elseif Lv == 75 or Lv <= 89 or AutoFarmSelectedMob and SelectedMob == "Desert Officer [Lv. 70]" then -- Desert Officer
             MobFarmName = "Desert Officer [Lv. 70]"
             CurrentQuest = "DesertQuest"
             CurrentQuestLv = 2
             MobName = "Desert Officer"
             CFrameQuest = CFrame.new(896.51721191406, 6.4384617805481, 4390.1494140625)
             FarmCFrame = CFrame.new(1547.1510009766, 14.452038764954, 4381.8002929688)
-        elseif Lv == 90 or Lv <= 99 or SelectedMob == "Snow Bandit [Lv. 90]" then -- Snow Bandit
+        elseif Lv == 90 or Lv <= 99 or AutoFarmSelectedMob and SelectedMob == "Snow Bandit [Lv. 90]" then -- Snow Bandit
             MobFarmName = "Snow Bandit [Lv. 90]"
             CurrentQuest = "SnowQuest"
             CurrentQuestLv = 1
             MobName = "Snow Bandit"
             CFrameQuest = CFrame.new(1386.8073730469, 87.272789001465, -1298.3576660156)
             FarmCFrame = CFrame.new(1356.3028564453, 105.76865386963, -1328.2418212891)
-        elseif Lv == 100 or Lv <= 119 or SelectedMob == "Snowman [Lv. 100]" then -- Snowman
+        elseif Lv == 100 or Lv <= 119 or AutoFarmSelectedMob and SelectedMob == "Snowman [Lv. 100]" then -- Snowman
             MobFarmName = "Snowman [Lv. 100]"
             CurrentQuest = "SnowQuest"
             CurrentQuestLv = 2
             MobName = "Snowman"
             CFrameQuest = CFrame.new(1386.8073730469, 87.272789001465, -1298.3576660156)
             FarmCFrame = CFrame.new(1218.7956542969, 138.01184082031, -1488.0262451172)
-        elseif Lv == 120 or Lv <= 149 or SelectedMob == "Chief Petty Officer [Lv. 120]" then -- Chief Petty Officer
+        elseif Lv == 120 or Lv <= 149 or AutoFarmSelectedMob and SelectedMob == "Chief Petty Officer [Lv. 120]" then -- Chief Petty Officer
             MobFarmName = "Chief Petty Officer [Lv. 120]"
             CurrentQuest = "MarineQuest2"
             CurrentQuestLv = 1
             MobName = "Chief Petty Officer"
             CFrameQuest = CFrame.new(-5035.49609375, 28.677835464478, 4324.1840820313)
             FarmCFrame = CFrame.new(-4931.1552734375, 65.793113708496, 4121.8393554688)
-        elseif Lv == 150 or Lv <= 174 or SelectedMob == "Sky Bandit [Lv. 150]" then -- Sky Bandit
+        elseif Lv == 150 or Lv <= 174 or AutoFarmSelectedMob and SelectedMob == "Sky Bandit [Lv. 150]" then -- Sky Bandit
             MobFarmName = "Sky Bandit [Lv. 150]"
             CurrentQuest = "SkyQuest"
             CurrentQuestLv = 1
             MobName = "Sky Bandit"
             CFrameQuest = CFrame.new(-4842.1372070313, 717.69543457031, -2623.0483398438)
             FarmCFrame = CFrame.new(-4955.6411132813, 365.46365356445, -2908.1865234375)
-        elseif Lv == 175 or Lv <= 189 or SelectedMob == "Dark Master [Lv. 175]" then -- Dark Master
+        elseif Lv == 175 or Lv <= 189 or AutoFarmSelectedMob and SelectedMob == "Dark Master [Lv. 175]" then -- Dark Master
             MobFarmName = "Dark Master [Lv. 175]"
             CurrentQuest = "SkyQuest"
             CurrentQuestLv = 2
             MobName = "Dark Master"
             CFrameQuest = CFrame.new(-4842.1372070313, 717.69543457031, -2623.0483398438)
             FarmCFrame = CFrame.new(-5148.1650390625, 439.04571533203, -2332.9611816406)
-        elseif Lv == 190 or Lv <= 209 or SelectedMob == "Prisoner [Lv. 190]" then 
+        elseif Lv == 190 or Lv <= 209 or AutoFarmSelectedMob and SelectedMob == "Prisoner [Lv. 190]" then 
          MobFarmName = "Prisoner [Lv. 190]"
          CurrentQuest = "PrisonerQuest"
          CurrentQuestLv = 1
          MobName = "Prisoner"
          CFrameQuest = CFrame.new(5311.4677734375, 1.6553531885147095, 478.103271484375)
          FarmCFrame = CFrame.new(5311.4677734375, 20.6553531885147095, 478.103271484375)
-        elseif Lv == 210 or Lv <= 249 or SelectedMob == "Dangerous Prisoner [Lv. 210]" then 
+        elseif Lv == 210 or Lv <= 249 or AutoFarmSelectedMob and SelectedMob == "Dangerous Prisoner [Lv. 210]" then 
          MobFarmName = "Dangerous Prisoner [Lv. 210]"
          CurrentQuest = "PrisonerQuest"
          CurrentQuestLv = 2
          MobName = "Dangerous Prisoner"
          CFrameQuest = CFrame.new(5311.4677734375, 1.6553531885147095, 478.103271484375)
          FarmCFrame = CFrame.new(5311.4677734375, 20.6553531885147095, 478.103271484375)
-        elseif Lv == 250 or Lv <= 274 or SelectedMob == "Toga Warrior [Lv. 250]" then -- Toga Warrior
+        elseif Lv == 250 or Lv <= 274 or AutoFarmSelectedMob and SelectedMob == "Toga Warrior [Lv. 250]" then -- Toga Warrior
              MobFarmName = "Toga Warrior [Lv. 250]"
             CurrentQuest = "ColosseumQuest"
             CurrentQuestLv = 1
             MobName = "Toga Warrior"
             CFrameQuest = CFrame.new(-1577.7890625, 7.4151420593262, -2984.4838867188)
             FarmCFrame = CFrame.new(-1872.5166015625, 49.080215454102, -2913.810546875)
-        elseif Lv == 275 or Lv <= 299 or SelectedMob == "Gladiator [Lv. 275]" then -- Gladiator
+        elseif Lv == 275 or Lv <= 299 or AutoFarmSelectedMob and SelectedMob == "Gladiator [Lv. 275]" then -- Gladiator
             MobFarmName = "Gladiator [Lv. 275]"
             CurrentQuest = "ColosseumQuest"
             CurrentQuestLv = 2
             MobName = "Gladiator"
             CFrameQuest = CFrame.new(-1577.7890625, 7.4151420593262, -2984.4838867188)
             FarmCFrame = CFrame.new(-1521.3740234375, 81.203170776367, -3066.3139648438)
-        elseif Lv == 300 or Lv <= 324 or SelectedMob == "Military Soldier [Lv. 300]" then -- Military Soldier
+        elseif Lv == 300 or Lv <= 324 or AutoFarmSelectedMob and SelectedMob == "Military Soldier [Lv. 300]" then -- Military Soldier
              MobFarmName = "Military Soldier [Lv. 300]"
             CurrentQuest = "MagmaQuest"
             CurrentQuestLv = 1
             MobName = "Military Soldier"
             CFrameQuest = CFrame.new(-5316.1157226563, 12.262831687927, 8517.00390625)
             FarmCFrame = CFrame.new(-5369.0004882813, 61.24352645874, 8556.4921875)
-        elseif Lv == 325 or Lv <= 374 or SelectedMob == "Military Spy [Lv. 325]" then -- Military Spy
+        elseif Lv == 325 or Lv <= 374 or AutoFarmSelectedMob and SelectedMob == "Military Spy [Lv. 325]" then -- Military Spy
             MobFarmName = "Military Spy [Lv. 325]"
             CurrentQuest = "MagmaQuest"
             CurrentQuestLv = 2
             MobName = "Military Spy"
             CFrameQuest = CFrame.new(-5316.1157226563, 12.262831687927, 8517.00390625)
             FarmCFrame = CFrame.new(-5984.0532226563, 82.14656829834, 8753.326171875)
-        elseif Lv == 375 or Lv <= 399 or SelectedMob == "Fishman Warrior [Lv. 375]" then -- Fishman Warrior 
+        elseif Lv == 375 or Lv <= 399 or AutoFarmSelectedMob and SelectedMob == "Fishman Warrior [Lv. 375]" then -- Fishman Warrior 
             MobFarmName = "Fishman Warrior [Lv. 375]"
             CurrentQuest = "FishmanQuest"
             CurrentQuestLv = 1
@@ -2712,7 +2755,7 @@ Lv = game.Players.LocalPlayer.Data.Level.Value
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
 			end
-        elseif Lv == 400 or Lv <= 449 or SelectedMob == "Fishman Commando [Lv. 400]" then -- Fishman Commando
+        elseif Lv == 400 or Lv <= 449 or AutoFarmSelectedMob and SelectedMob == "Fishman Commando [Lv. 400]" then -- Fishman Commando
             MobFarmName = "Fishman Commando [Lv. 400]"
             CurrentQuest = "FishmanQuest"
             CurrentQuestLv = 2
@@ -2722,7 +2765,7 @@ Lv = game.Players.LocalPlayer.Data.Level.Value
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
 			end
-        elseif Lv == 450 or Lv <= 474 or SelectedMob == "God's Guard [Lv. 450]" then -- God's Guard
+        elseif Lv == 450 or Lv <= 474 or AutoFarmSelectedMob and SelectedMob == "God's Guard [Lv. 450]" then -- God's Guard
             MobFarmName = "God's Guard [Lv. 450]"
             CurrentQuest = "SkyExp1Quest"
             CurrentQuestLv = 1
@@ -2732,7 +2775,7 @@ Lv = game.Players.LocalPlayer.Data.Level.Value
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-4607.82275, 872.54248, -1667.55688))
 			end
-        elseif Lv == 475 or Lv <= 524 or SelectedMob == "Shanda [Lv. 475]" then -- Shanda
+        elseif Lv == 475 or Lv <= 524 or AutoFarmSelectedMob and SelectedMob == "Shanda [Lv. 475]" then -- Shanda
             MobFarmName = "Shanda [Lv. 475]"
             CurrentQuest = "SkyExp1Quest"
             CurrentQuestLv = 2
@@ -2742,28 +2785,28 @@ Lv = game.Players.LocalPlayer.Data.Level.Value
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-7894.6176757813, 5547.1416015625, -380.29119873047))
 			end
-        elseif Lv == 525 or Lv <= 549 or SelectedMob == "Royal Squad [Lv. 525]" then -- Royal Squad
+        elseif Lv == 525 or Lv <= 549 or AutoFarmSelectedMob and SelectedMob == "Royal Squad [Lv. 525]" then -- Royal Squad
             MobFarmName = "Royal Squad [Lv. 525]"
             CurrentQuest = "SkyExp2Quest"
             CurrentQuestLv = 1
             MobName = "Royal Squad"
             CFrameQuest = CFrame.new(-7903.3828125, 5635.9897460938, -1410.923828125)
             FarmCFrame = CFrame.new(-7654.2514648438, 5637.1079101563, -1407.7550048828)
-        elseif Lv == 550 or Lv <= 624 or SelectedMob == "Royal Soldier [Lv. 550]" then -- Royal Soldier
+        elseif Lv == 550 or Lv <= 624 or AutoFarmSelectedMob and SelectedMob == "Royal Soldier [Lv. 550]" then -- Royal Soldier
             MobFarmName = "Royal Soldier [Lv. 550]"
             CurrentQuest = "SkyExp2Quest"
             CurrentQuestLv = 2
             MobName = "Royal Soldier"
             CFrameQuest = CFrame.new(-7903.3828125, 5635.9897460938, -1410.923828125)
             FarmCFrame = CFrame.new(-7760.4106445313, 5679.9077148438, -1884.8112792969)
-        elseif Lv == 625 or Lv <= 649 or SelectedMob == "Galley Pirate [Lv. 625]" then -- Galley Pirate
+        elseif Lv == 625 or Lv <= 649 or AutoFarmSelectedMob and SelectedMob == "Galley Pirate [Lv. 625]" then -- Galley Pirate
             MobFarmName = "Galley Pirate [Lv. 625]"
             CurrentQuest = "FountainQuest"
             CurrentQuestLv = 1
             MobName = "Galley Pirate"
             CFrameQuest = CFrame.new(5258.2788085938, 38.526931762695, 4050.044921875)
             FarmCFrame = CFrame.new(5557.1684570313, 152.32717895508, 3998.7758789063)
-        elseif Lv >= 650 or SelectedMob == "Galley Captain [Lv. 650]" then -- Galley Captain
+        elseif Lv >= 650 or AutoFarmSelectedMob and SelectedMob == "Galley Captain [Lv. 650]" then -- Galley Captain
             MobFarmName = "Galley Captain [Lv. 650]"
             CurrentQuest = "FountainQuest"
             CurrentQuestLv = 2
@@ -2773,105 +2816,105 @@ Lv = game.Players.LocalPlayer.Data.Level.Value
         end
 elseif Sea2 then
     Lv = game.Players.LocalPlayer.Data.Level.Value
-    if Lv == 700 or Lv <= 724 or SelectedMob == "Raider [Lv. 700]" then -- Raider
+    if Lv == 700 or Lv <= 724 or AutoFarmSelectedMob and SelectedMob == "Raider [Lv. 700]" then -- Raider
             MobFarmName = "Raider [Lv. 700]"
             CurrentQuest = "Area1Quest"
             CurrentQuestLv = 1
             MobName = "Raider"
             CFrameQuest = CFrame.new(-427.72567749023, 72.99634552002, 1835.9426269531)
             FarmCFrame = CFrame.new(68.874565124512, 93.635643005371, 2429.6752929688)
-        elseif Lv == 725 or Lv <= 774 or SelectedMob == "Mercenary [Lv. 725]" then -- Mercenary
+        elseif Lv == 725 or Lv <= 774 or AutoFarmSelectedMob and SelectedMob == "Mercenary [Lv. 725]" then -- Mercenary
             MobFarmName = "Mercenary [Lv. 725]"
             CurrentQuest = "Area1Quest"
             CurrentQuestLv = 2
             MobName = "Mercenary"
             CFrameQuest = CFrame.new(-427.72567749023, 72.99634552002, 1835.9426269531)
             FarmCFrame = CFrame.new(-864.85009765625, 122.47104644775, 1453.1505126953)
-        elseif Lv == 775 or Lv <= 799 or SelectedMob == "Swan Pirate [Lv. 775]" then -- Swan Pirate
+        elseif Lv == 775 or Lv <= 799 or AutoFarmSelectedMob and SelectedMob == "Swan Pirate [Lv. 775]" then -- Swan Pirate
             MobFarmName = "Swan Pirate [Lv. 775]"
             CurrentQuest = "Area2Quest"
             CurrentQuestLv = 1
             MobName = "Swan Pirate"
             CFrameQuest = CFrame.new(635.61151123047, 73.096351623535, 917.81298828125)
             FarmCFrame = CFrame.new(1065.3669433594, 137.64012145996, 1324.3798828125)
-        elseif Lv == 800 or Lv <= 874 or SelectedMob == "Factory Staff [Lv. 800]" then -- Factory Staff
+        elseif Lv == 800 or Lv <= 874 or AutoFarmSelectedMob and SelectedMob == "Factory Staff [Lv. 800]" then -- Factory Staff
             MobFarmName = "Factory Staff [Lv. 800]"
             CurrentQuest = "Area2Quest"
             CurrentQuestLv = 2
             MobName = "Factory Staff"
             CFrameQuest = CFrame.new(635.61151123047, 73.096351623535, 917.81298828125)
             FarmCFrame = CFrame.new(533.22045898438, 128.46876525879, 355.62615966797)
-        elseif Lv == 875 or Lv <= 899 or SelectedMob == "Marine Lieutenant [Lv. 875]" then -- Marine Lieutenant
+        elseif Lv == 875 or Lv <= 899 or AutoFarmSelectedMob and SelectedMob == "Marine Lieutenant [Lv. 875]" then -- Marine Lieutenant
             MobFarmName = "Marine Lieutenant [Lv. 875]"
             CurrentQuest = "MarineQuest3"
             CurrentQuestLv = 1
             MobName = "Marine Lieutenant"
             CFrameQuest = CFrame.new(-2440.9934082031, 73.04190826416, -3217.7082519531)
             FarmCFrame = CFrame.new(-2489.2622070313, 84.613594055176, -3151.8830566406)
-        elseif Lv == 900 or Lv <= 949 or SelectedMob == "Marine Captain [Lv. 900]" then -- Marine Captain
+        elseif Lv == 900 or Lv <= 949 or AutoFarmSelectedMob and SelectedMob == "Marine Captain [Lv. 900]" then -- Marine Captain
             MobFarmName = "Marine Captain [Lv. 900]"
             CurrentQuest = "MarineQuest3"
             CurrentQuestLv = 2
             MobName = "Marine Captain"
             CFrameQuest = CFrame.new(-2440.9934082031, 73.04190826416, -3217.7082519531)
             FarmCFrame = CFrame.new(-2335.2026367188, 79.786659240723, -3245.8674316406)
-        elseif Lv == 950 or Lv <= 974 or SelectedMob == "Zombie [Lv. 950]" then -- Zombie
+        elseif Lv == 950 or Lv <= 974 or AutoFarmSelectedMob and SelectedMob == "Zombie [Lv. 950]" then -- Zombie
             MobFarmName = "Zombie [Lv. 950]"
             CurrentQuest = "ZombieQuest"
             CurrentQuestLv = 1
             MobName = "Zombie"
             CFrameQuest = CFrame.new(-5494.3413085938, 48.505931854248, -794.59094238281)
             FarmCFrame = CFrame.new(-5536.4970703125, 101.08577728271, -835.59075927734)
-        elseif Lv == 975 or Lv <= 999 or SelectedMob == "Vampire [Lv. 975]" then -- Vampire
+        elseif Lv == 975 or Lv <= 999 or AutoFarmSelectedMob and SelectedMob == "Vampire [Lv. 975]" then -- Vampire
             MobFarmName = "Vampire [Lv. 975]"
             CurrentQuest = "ZombieQuest"
             CurrentQuestLv = 2
             MobName = "Vampire"
             CFrameQuest = CFrame.new(-5494.3413085938, 48.505931854248, -794.59094238281)
             FarmCFrame = CFrame.new(-5806.1098632813, 16.722528457642, -1164.4384765625)
-        elseif Lv == 1000 or Lv <= 1049 or SelectedMob == "Snow Trooper [Lv. 1000]" then -- Snow Trooper
+        elseif Lv == 1000 or Lv <= 1049 or AutoFarmSelectedMob and SelectedMob == "Snow Trooper [Lv. 1000]" then -- Snow Trooper
             MobFarmName = "Snow Trooper [Lv. 1000]"
             CurrentQuest = "SnowMountainQuest"
             CurrentQuestLv = 1
             MobName = "Snow Trooper"
             CFrameQuest = CFrame.new(607.05963134766, 401.44781494141, -5370.5546875)
             FarmCFrame = CFrame.new(535.21051025391, 432.74209594727, -5484.9165039063)
-        elseif Lv == 1050 or Lv <= 1099 or SelectedMob == "Winter Warrior [Lv. 1050]" then -- Winter Warrior
+        elseif Lv == 1050 or Lv <= 1099 or AutoFarmSelectedMob and SelectedMob == "Winter Warrior [Lv. 1050]" then -- Winter Warrior
             MobFarmName = "Winter Warrior [Lv. 1050]"
             CurrentQuest = "SnowMountainQuest"
             CurrentQuestLv = 2
             MobName = "Winter Warrior"
             CFrameQuest = CFrame.new(607.05963134766, 401.44781494141, -5370.5546875)
             FarmCFrame = CFrame.new(1234.4449462891, 456.95419311523, -5174.130859375)
-        elseif Lv == 1100 or Lv <= 1124 or SelectedMob == "Lab Subordinate [Lv. 1100]" then -- Lab Subordinate
+        elseif Lv == 1100 or Lv <= 1124 or AutoFarmSelectedMob and SelectedMob == "Lab Subordinate [Lv. 1100]" then -- Lab Subordinate
             MobFarmName = "Lab Subordinate [Lv. 1100]"
             CurrentQuest = "IceSideQuest"
             CurrentQuestLv = 1
             MobName = "Lab Subordinate"
             CFrameQuest = CFrame.new(-6061.841796875, 15.926671981812, -4902.0385742188)
             FarmCFrame = CFrame.new(-5720.5576171875, 63.309471130371, -4784.6103515625)
-        elseif Lv == 1125 or Lv <= 1174 or SelectedMob == "Horned Warrior [Lv. 1125]" then -- Horned Warrior
+        elseif Lv == 1125 or Lv <= 1174 or AutoFarmSelectedMob and SelectedMob == "Horned Warrior [Lv. 1125]" then -- Horned Warrior
             MobFarmName = "Horned Warrior [Lv. 1125]"
             CurrentQuest = "IceSideQuest"
             CurrentQuestLv = 2
             MobName = "Horned Warrior"
             CFrameQuest = CFrame.new(-6061.841796875, 15.926671981812, -4902.0385742188)
             FarmCFrame = CFrame.new(-6292.751953125, 91.181983947754, -5502.6499023438)
-        elseif Lv == 1175 or Lv <= 1199 or SelectedMob == "Magma Ninja [Lv. 1175]" then -- Magma Ninja
+        elseif Lv == 1175 or Lv <= 1199 or AutoFarmSelectedMob and SelectedMob == "Magma Ninja [Lv. 1175]" then -- Magma Ninja
             MobFarmName = "Magma Ninja [Lv. 1175]"
             CurrentQuest = "FireSideQuest"
             CurrentQuestLv = 1
             MobName = "Magma Ninja"
             CFrameQuest = CFrame.new(-5429.0473632813, 15.977565765381, -5297.9614257813)
             FarmCFrame = CFrame.new(-5461.8388671875, 130.36347961426, -5836.4702148438)
-        elseif Lv == 1200 or Lv <= 1249 or SelectedMob == "Lava Pirate [Lv. 1200]" then -- Lava Pirate
+        elseif Lv == 1200 or Lv <= 1249 or AutoFarmSelectedMob and SelectedMob == "Lava Pirate [Lv. 1200]" then -- Lava Pirate
             MobFarmName = "Lava Pirate [Lv. 1200]"
             CurrentQuest = "FireSideQuest"
             CurrentQuestLv = 2
             MobName = "Lava Pirate"
             CFrameQuest = CFrame.new(-5429.0473632813, 15.977565765381, -5297.9614257813)
             FarmCFrame = CFrame.new(-5251.1889648438, 55.164535522461, -4774.4096679688)
-        elseif Lv == 1250 or Lv <= 1274 or SelectedMob == "Ship Deckhand [Lv. 1250]" then -- Ship Deckhand
+        elseif Lv == 1250 or Lv <= 1274 or AutoFarmSelectedMob and SelectedMob == "Ship Deckhand [Lv. 1250]" then -- Ship Deckhand
             MobFarmName = "Ship Deckhand [Lv. 1250]"
             CurrentQuest = "ShipQuest1"
             CurrentQuestLv = 1
@@ -2881,7 +2924,7 @@ elseif Sea2 then
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
-        elseif Lv == 1275 or Lv <= 1299 or SelectedMob == "Ship Engineer [Lv. 1275]" then -- Ship Engineer
+        elseif Lv == 1275 or Lv <= 1299 or AutoFarmSelectedMob and SelectedMob == "Ship Engineer [Lv. 1275]" then -- Ship Engineer
             MobFarmName = "Ship Engineer [Lv. 1275]"
             CurrentQuest = "ShipQuest1"
             CurrentQuestLv = 2
@@ -2891,7 +2934,7 @@ elseif Sea2 then
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
-        elseif Lv == 1300 or Lv <= 1324 or SelectedMob == "Ship Steward [Lv. 1300]" then -- Ship Steward
+        elseif Lv == 1300 or Lv <= 1324 or AutoFarmSelectedMob and SelectedMob == "Ship Steward [Lv. 1300]" then -- Ship Steward
             MobFarmName = "Ship Steward [Lv. 1300]"
             CurrentQuest = "ShipQuest2"
             CurrentQuestLv = 1
@@ -2901,7 +2944,7 @@ elseif Sea2 then
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
-        elseif Lv == 1325 or Lv <= 1349 or SelectedMob == "Ship Officer [Lv. 1325]" then -- Ship Officer
+        elseif Lv == 1325 or Lv <= 1349 or AutoFarmSelectedMob and SelectedMob == "Ship Officer [Lv. 1325]" then -- Ship Officer
             MobFarmName = "Ship Officer [Lv. 1325]"
             CurrentQuest = "ShipQuest2"
             CurrentQuestLv = 2
@@ -2911,7 +2954,7 @@ elseif Sea2 then
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
 			end
-        elseif Lv == 1350 or Lv <= 1374 or SelectedMob == "Arctic Warrior [Lv. 1350]" then -- Arctic Warrior
+        elseif Lv == 1350 or Lv <= 1374 or AutoFarmSelectedMob and SelectedMob == "Arctic Warrior [Lv. 1350]" then -- Arctic Warrior
             MobFarmName = "Arctic Warrior [Lv. 1350]"
             CurrentQuest = "FrostQuest"
             CurrentQuestLv = 1
@@ -2921,21 +2964,21 @@ elseif Sea2 then
 			if set.AutoFarmLevel and (FarmCFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 20000 then
 				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-6508.5581054688, 89.034996032715, -132.83953857422))
 			end
-        elseif Lv == 1375 or Lv <= 1424 or SelectedMob == "Snow Lurker [Lv. 1375]" then -- Snow Lurker
+        elseif Lv == 1375 or Lv <= 1424 or AutoFarmSelectedMob and SelectedMob == "Snow Lurker [Lv. 1375]" then -- Snow Lurker
             MobFarmName = "Snow Lurker [Lv. 1375]"
             CurrentQuest = "FrostQuest"
             CurrentQuestLv = 2
             MobName = "Snow Lurker"
             CFrameQuest = CFrame.new(5668.1372070313, 28.202531814575, -6484.6005859375)
             FarmCFrame = CFrame.new(5628.482421875, 57.574996948242, -6618.3481445313)
-        elseif Lv == 1425 or Lv <= 1449 or SelectedMob == "Sea Soldier [Lv. 1425]" then -- Sea Soldier
+        elseif Lv == 1425 or Lv <= 1449 or AutoFarmSelectedMob and SelectedMob == "Sea Soldier [Lv. 1425]" then -- Sea Soldier
             MobFarmName = "Sea Soldier [Lv. 1425]"
             CurrentQuest = "ForgottenQuest"
             CurrentQuestLv = 1
             MobName = "Sea Soldier"
             CFrameQuest = CFrame.new(-3054.5827636719, 236.87213134766, -10147.790039063)
             FarmCFrame = CFrame.new(-3185.0153808594, 58.789089202881, -9663.6064453125)
-        elseif Lv >= 1450 or SelectedMob == "Water Fighter [Lv. 1450]" then -- Water Fighter
+        elseif Lv >= 1450 or AutoFarmSelectedMob and SelectedMob == "Water Fighter [Lv. 1450]" then -- Water Fighter
             MobFarmName = "Water Fighter [Lv. 1450]"
             CurrentQuest = "ForgottenQuest"
             CurrentQuestLv = 2
@@ -3043,6 +3086,10 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint"
                                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
                                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
                                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
                                                     end)
                                                 end)
                                                 game:GetService("VirtualUser"):CaptureController()
@@ -3079,11 +3126,13 @@ spawn(function()
     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
      pcall(function()
      spawn(function()
+        pcall(function()
                                 for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
                                     if v.Name == "Baking Staff [Lv. 2250]" or v.Name == "Cake Guard [Lv. 2225]" or v.Name == "Cookie Crafter [Lv. 2200]" or v.Name == "Head Baker [Lv. 2275]" then
                                         v.Parent = game:GetService('Workspace').Enemies
                                     end
                             end
+                        end)
      end)
 
 local KatakuriKill4 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner",true), "%D", "")
@@ -3113,18 +3162,46 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
 						else
 							TP(CFrame.new(-2148.307861328125, 70.00884246826172, -12403.2294921875))
 						end
-         else 
-            if game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') or game.Workspace.Enemies:FindFirstChild('Cookie Crafter [Lv. 2200]') or game.Workspace.Enemies:FindFirstChild('Cake Guard [Lv. 2225]') or game.Workspace.Enemies:FindFirstChild('Baking Staff [Lv. 2250]')then
-            for i,v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Head Baker [Lv. 2275]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringKata1 = true
-                                BringKata2 = false
-                                BringKata3 = false
-                                BringKata4 = false
-                                BringMob()
-                                spawn(function()
+                    else
+                        if game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') or game.Workspace.Enemies:FindFirstChild("Cookie Crafter [Lv. 2200]") or game.Workspace.Enemies:FindFirstChild("Cake Guard [Lv. 2225]") or game.Workspace.Enemies:FindFirstChild("Baking Staff [Lv. 2250]") then
+                        if game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') then
+                            BringKata1 = true
+                            BringKata2 = false
+                            BringKata3 = false
+                            BringKata4 = false
+                  for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                      if v.Name == "Head Baker [Lv. 2275]" then
+                          repeat game:GetService("RunService").Heartbeat:wait()
+                            EquipWeapon(set.KatakuriPickedWeapons)
+                              BringMob()
+                              TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                              PosMon = v.HumanoidRootPart.CFrame
+                              spawn(function()
+                                    pcall(function()
+                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
+                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
+                                   getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                                    end)
+                                end)
+                                game:GetService("VirtualUser"):CaptureController()
+                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                          until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                      end
+                      end
+                  end
+                        if not game.Workspace.Enemies:FindFirstChild('Head Baker [Lv. 2275]') then
+                            BringKata1 = false
+                            BringKata2 = true
+                            BringKata3 = false
+                            BringKata4 = false
+                      for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                      if v.Name == "Cookie Crafter [Lv. 2200]" then
+                          repeat game:GetService("RunService").Heartbeat:wait()
+                            EquipWeapon(set.KatakuriPickedWeapons)
+                               BringMob()
+                              TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                              PosMon = v.HumanoidRootPart.CFrame
+                              spawn(function()
                                     pcall(function()
                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
@@ -3133,18 +3210,23 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 end)
                                 game:GetService("VirtualUser"):CaptureController()
                                 game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
-                        elseif v.Name == "Cookie Crafter [Lv. 2200]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringKata1 = false
-                                BringKata2 = true
-                                BringKata3 = false
-                                BringKata4 = false
-                                BringMob()
-                                spawn(function()
+                          until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                      end
+                      end
+                      end
+                        if not game.Workspace.Enemies:FindFirstChild('Cookie Crafter [Lv. 2200]') then
+                            BringKata1 = false
+                            BringKata2 = false
+                            BringKata3 = true
+                            BringKata4 = false
+                      for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                      if v.Name == "Cake Guard [Lv. 2225]" then
+                          repeat game:GetService("RunService").Heartbeat:wait()
+                              BringMob()
+                              EquipWeapon(set.KatakuriPickedWeapons)
+                              TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                              PosMon = v.HumanoidRootPart.CFrame
+                              spawn(function()
                                     pcall(function()
                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
@@ -3153,18 +3235,23 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 end)
                                 game:GetService("VirtualUser"):CaptureController()
                                 game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
-                       elseif v.Name == "Cake Guard [Lv. 2225]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringKata1 = false
-                                BringKata2 = false
-                                BringKata3 = true
-                                BringKata4 = false
-                                BringMob()
-                                spawn(function()
+                          until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
+                      end
+                      end
+                      end
+                        if not game.Workspace.Enemies:FindFirstChild('Cake Guard [Lv. 2225]') then
+                            BringKata1 = false
+                            BringKata2 = false
+                            BringKata3 = false
+                            BringKata4 = true
+                      for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                      if v.Name == "Baking Staff [Lv. 2250]" then
+                          repeat game:GetService("RunService").Heartbeat:wait()
+                              BringMob()
+                              EquipWeapon(set.KatakuriPickedWeapons)
+                              TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                              PosMon = v.HumanoidRootPart.CFrame
+                              spawn(function()
                                     pcall(function()
                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
                                     getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
@@ -3173,39 +3260,19 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 end)
                                 game:GetService("VirtualUser"):CaptureController()
                                 game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
-                        elseif v.Name == "Baking Staff [Lv. 2250]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringKata1 = false
-                                BringKata2 = false
-                                BringKata3 = false
-                                BringKata4 = true
-                                BringMob()
-                                spawn(function()
-                                    pcall(function()
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
-                                    end)
-                                end)
-                                game:GetService("VirtualUser"):CaptureController()
-                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri
-                        end
+                          until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmKatakuri               
+                      end
+                      end
                         end
                     else
-                        TP(CFrame.new(-2139.533203125, 70.00886535644531, -12308.591796875))
-                    end
- end
-            end)
-           end
-end
+                        TP(CFrame.new(-2139.533203125, 70.00886535644531, -12308.591796875))     
+                  end
+                end
 end)
+          end
+         end
+end)
+
 
 BringBone1 = false
 BringBone2 = false
@@ -3225,95 +3292,114 @@ spawn(function()
                             end
      end)
             if game.Workspace.Enemies:FindFirstChild("Reborn Skeleton [Lv. 1975]") or game.Workspace.Enemies:FindFirstChild("Living Zombie [Lv. 2000]") or game.Workspace.Enemies:FindFirstChild("Demonic Soul [Lv. 2025]") or game.Workspace.Enemies:FindFirstChild("Posessed Mummy [Lv. 2050]") then
-            for i,v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == "Posessed Mummy [Lv. 2050]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringBone1 = true
-                                BringBone2 = false
-                                BringBone3 = false
-                                BringBone4 = false
-                                BringMob()
-                                spawn(function()
-                                    pcall(function()
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
-                                    end)
-                                end)
-                                game:GetService("VirtualUser"):CaptureController()
-                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
-                        elseif v.Name == "Reborn Skeleton [Lv. 1975]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringBone1 = false
-                                BringBone2 = true
-                                BringBone3 = false
-                                BringBone4 = false
-                                BringMob()
-                                spawn(function()
-                                    pcall(function()
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
-                                    end)
-                                end)
-                                game:GetService("VirtualUser"):CaptureController()
-                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
-                       elseif v.Name == "Demonic Soul [Lv. 2025]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringBone1 = false
-                                BringBone2 = false
-                                BringBone3 = true
-                                BringBone4 = false
-                                BringMob()
-                                spawn(function()
-                                    pcall(function()
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
-                                    end)
-                                end)
-                                game:GetService("VirtualUser"):CaptureController()
-                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
-                        elseif v.Name == "Living Zombie [Lv. 2000]" then
-                            repeat game:GetService("RunService").Heartbeat:wait()
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                BringBone1 = false
-                                BringBone2 = false
-                                BringBone3 = false
-                                BringBone4 = true
-                                BringMob()
-                                spawn(function()
-                                    pcall(function()
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
-                                    getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
-                                    end)
-                                end)
-                                game:GetService("VirtualUser"):CaptureController()
-                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-							    TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
-							    PosMon = v.HumanoidRootPart.CFrame
-                            until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
-                        end
-                        end
-                    else
-                        TP(CFrame.new(-9505.4072265625, 172.1306610107422, 6058.17919921875))
-                    end
-            end)
-           end
-end
+            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if game.Workspace.Enemies:FindFirstChild("Posessed Mummy [Lv. 2050]") then
+                    BringBone1 = true
+                    BringBone2 = false
+                    BringBone3 = false
+                    BringBone4 = false
+          for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+              if v.Name == "Posessed Mummy [Lv. 2050]" then
+                  repeat game:GetService("RunService").Heartbeat:wait()
+                    EquipWeapon(set.KatakuriPickedWeapons)
+                      BringMob()
+                      TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                      PosMon = v.HumanoidRootPart.CFrame
+                      spawn(function()
+                            pcall(function()
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
+                           getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                            end)
+                        end)
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                  until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
+              end
+              end
+          end
+                if not game.Workspace.Enemies:FindFirstChild("Posessed Mummy [Lv. 2050]") then
+                    BringBone1 = false
+                    BringBone2 = true
+                    BringBone3 = false
+                    BringBone4 = false
+              for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+              if v.Name == "Living Zombie [Lv. 2000]" then
+                  repeat game:GetService("RunService").Heartbeat:wait()
+                    EquipWeapon(set.KatakuriPickedWeapons)
+                       BringMob()
+                      TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                      PosMon = v.HumanoidRootPart.CFrame
+                      spawn(function()
+                            pcall(function()
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                            end)
+                        end)
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                  until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
+              end
+              end
+              end
+                if not game.Workspace.Enemies:FindFirstChild("Living Zombie [Lv. 2000]") then
+                    BringBone1 = false
+                    BringBone2 = false
+                    BringBone3 = true
+                    BringBone4 = false
+              for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+              if v.Name == "Demonic Soul [Lv. 2025]" then
+                  repeat game:GetService("RunService").Heartbeat:wait()
+                      BringMob()
+                      EquipWeapon(set.KatakuriPickedWeapons)
+                      TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                      PosMon = v.HumanoidRootPart.CFrame
+                      spawn(function()
+                            pcall(function()
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                            end)
+                        end)
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                  until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones
+              end
+              end
+              end
+                if not game.Workspace.Enemies:FindFirstChild("Demonic Soul [Lv. 2025]") then
+                    BringBone1 = false
+                    BringBone2 = false
+                    BringBone3 = false
+                    BringBone4 = true
+              for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+              if v.Name == "Reborn Skeleton [Lv. 1975]" then
+                  repeat game:GetService("RunService").Heartbeat:wait()
+                      BringMob()
+                      EquipWeapon(set.KatakuriPickedWeapons)
+                      TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
+                      PosMon = v.HumanoidRootPart.CFrame
+                      spawn(function()
+                            pcall(function()
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.timeToNextAttack = 0                                                    
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController.hitboxMagnitude = 60
+                            getupvalues(require(game.Players.LocalPlayer.PlayerScripts.CombatFramework))[2].activeController:attack() 
+                            end)
+                        end)
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+                  until not v.Parent or v.Humanoid.Health <= 0 or not AutoFarmBones             
+              end
+              end
+                end
+            end
+        else
+            TP(CFrame.new(-9505.4072265625, 172.1306610107422, 6058.17919921875))
+          end
+end)
+  end
+ end
 end)
 
 spawn(function()
@@ -3439,8 +3525,8 @@ function BringMob()
                             v.HumanoidRootPart.CFrame = PosMon
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
-                    elseif AutoFarmKatakuri and BringKata1 then
-                if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
+            elseif AutoFarmKatakuri and BringKata1 then
+                if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
                             v.HumanoidRootPart.Size = Vector3.new(60,60,60)
@@ -3448,7 +3534,7 @@ function BringMob()
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
                         elseif AutoFarmKatakuri and BringKata2 then
-                if v.Name == "Cookie Crafter [Lv. 2200]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
+                if v.Name == "Cookie Crafter [Lv. 2200]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
                             v.HumanoidRootPart.Size = Vector3.new(60,60,60)
@@ -3456,7 +3542,7 @@ function BringMob()
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
                         elseif AutoFarmKatakuri and BringKata3 then
-                if v.Name == "Cake Guard [Lv. 2225]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
+                if v.Name == "Cake Guard [Lv. 2225]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
                             v.HumanoidRootPart.Size = Vector3.new(60,60,60)
@@ -3464,7 +3550,7 @@ function BringMob()
                             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                 end
                         elseif AutoFarmKatakuri and BringKata4 then
-                if v.Name == "Baking Staff [Lv. 2250]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
+                if v.Name == "Baking Staff [Lv. 2250]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
                             v.HumanoidRootPart.CanCollide = false
                             v.Humanoid.PlatformStand = true
                             v.HumanoidRootPart.Size = Vector3.new(60,60,60)
@@ -3480,7 +3566,7 @@ function BringMob()
                                         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                             end
                         elseif AutoFarmBones and BringBone2 then
-                if v.Name == "Reborn Skeleton [Lv. 1975]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
+                if v.Name == "Living Zombie [Lv. 2000]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
                                         v.HumanoidRootPart.CanCollide = false
                                         v.Humanoid.PlatformStand = true
                                         v.HumanoidRootPart.Size = Vector3.new(60,60,60)
@@ -3496,7 +3582,7 @@ function BringMob()
                                         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                             end
                             elseif AutoFarmBones and BringBone4 then
-                if v.Name == "Living Zombie [Lv. 2000]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
+                if v.Name == "Reborn Skeleton [Lv. 1975]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 325 then
                                         v.HumanoidRootPart.CanCollide = false
                                         v.Humanoid.PlatformStand = true
                                         v.HumanoidRootPart.Size = Vector3.new(60,60,60)
@@ -3534,9 +3620,16 @@ end)
 end
 end
 end)
+
+spawn(function()
 if getconnections then
+    print('getconnections')
 for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
-    v:Disable()
+    if v["Disable"] then
+        v["Disable"](v)
+    elseif v["Disconnect"] then
+        v["Disconnect"](v)
+    end
     end
 else
 		game:GetService("Players").LocalPlayer.Idled:Connect(function()
@@ -3545,3 +3638,4 @@ else
 			VirtualUser:ClickButton2(Vector2.new())
 		end)
     end
+end)
