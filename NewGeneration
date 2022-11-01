@@ -282,7 +282,7 @@ local combat = getupvalues(require(game.Players.LocalPlayer.PlayerScripts.Combat
 local Rig = combat[2]
 
 --Library--
-local Library = loadstring(game:HttpGet("https://pastebin.com/raw/B29hHbNU"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LongTriggered/ShinHub/main/UiLib"))()
 local Notification = loadstring(game:HttpGet("https://pastebin.com/raw/SzAsegaR"))()
 --Library--
 local Window = Library.CreateLib("SHIN HUB 🔥🔥🔥", "Ocean")
