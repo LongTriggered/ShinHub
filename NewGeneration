@@ -11,6 +11,7 @@ until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LoadingSc
 if game:GetService("CoreGui"):FindFirstChild("Gui") then
 	game:GetService("CoreGui"):FindFirstChild("Gui"):Destroy()
 end
+
 local LevelMax = 2400
 local SaveSettingName = "ShinHubData.txt"
     local DefaultSettings = {
@@ -284,7 +285,7 @@ local Rig = combat[2]
 local Library = loadstring(game:HttpGet("https://pastebin.com/raw/B29hHbNU"))()
 local Notification = loadstring(game:HttpGet("https://pastebin.com/raw/SzAsegaR"))()
 --Library--
-local Window = Library.CreateLib("SHIN HUB 🔥🔥🔥", "GrapeTheme")
+local Window = Library.CreateLib("SHIN HUB 🔥🔥🔥", "Ocean")
 local Tab = Window:NewTab("Auto Farm")
 local Section = Tab:NewSection("Auto Farm")
 WeaponSection = Section:NewDropdown("Select Weapons","", Weapons, function(Value)
@@ -1628,6 +1629,7 @@ local Section = Tab:NewSection("Devil Fruit")
 SelectDF = ""
 Section:NewDropdown("Select Devil Fruit", "DropdownInf", FruitTable, function(currentOption)
     SelectDF = currentOption
+    print(currentOption)
 end)
 
 spawn(function()
@@ -3130,11 +3132,11 @@ spawn(function()
 
 local KatakuriKill4 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner",true), "%D", "")
 local KatakuriKill3 = tonumber(KatakuriKill4)
-              if string.find(tostring(KatakuriKill3),'nil') or game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') or game:GetService('ReplicatedStorage'):FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') then
+              if string.find(tostring(KatakuriKill3),'nil') or game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') or game:GetService('ReplicatedStorage'):FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') or game:GetService("Workspace").Enemies:FindFirstChild('Dough King [Lv. 2300] [Raid Boss]') or game:GetService('ReplicatedStorage'):FindFirstChild('Dough King [Lv. 2300] [Raid Boss]') then
          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")
-         	if game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') then
+         	if game:GetService("Workspace").Enemies:FindFirstChild('Cake Prince [Lv. 2300] [Raid Boss]') or game:GetService("Workspace").Enemies:FindFirstChild('Dough King [Lv. 2300] [Raid Boss]') then
 							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-								if v.Name == 'Cake Prince [Lv. 2300] [Raid Boss]' then
+								if v.Name == 'Cake Prince [Lv. 2300] [Raid Boss]' or v.Name == 'Dough King [Lv. 2300] [Raid Boss]' then
 									repeat game:GetService("RunService").Heartbeat:wait()
                                         EquipWeapon(set.KatakuriPickedWeapons)
 										TP(v.HumanoidRootPart.CFrame * CFrame.new(0,30,50))
