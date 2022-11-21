@@ -1531,27 +1531,31 @@ spawn(function()
 		end
 	end
 end)
-
+CanBuyChip = true
 spawn(function()
 	while wait() do
 		if AutoRaid then
             pcall(function()
-                    for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-                        if v.Name == "Island 5" or v.Name == "Island 1" or v.Name == "Island 2" or v.Name == "Island 3" or v.Name == "Island 4" then
-                if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 3000 then
-                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
-                        if Sea2 then
-                            fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
-                        elseif Sea3 then
-                            fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
-                        end
-                        wait(16)
-                elseif not game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude > 3000 then    
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
+                spawn(function()
+                    if CanBuyChip then
+                        if game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
+                        if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip") then
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select",SelectedRaid)
+                    end
                 end
             end
+                end)
+                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then						
+                    if Sea2 then
+                        fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+                        CanBuyChip = false
+                    elseif Sea3 then
+                        fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
+                        CanBuyChip = false
+                    end
+                    wait(16)
+                    CanBuyChip = true
         end
-    end
 	end)
 end
 end
@@ -1602,31 +1606,31 @@ spawn(function()
 				if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == true and game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 4") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 3") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 2") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
 		             if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") then
 		             for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-		                 if v.Name == "Island 5" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 4000 then
+		                 if v.Name == "Island 5" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 3000 then
 		                     TP(v.CFrame*CFrame.new(0,80,0))
 		                 end
 		             end
 		              elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 4") then
                 for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-		                 if v.Name == "Island 4" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 4000 then
+		                 if v.Name == "Island 4" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 3000 then
 		                     TP(v.CFrame*CFrame.new(0,80,0))
 		                 end
 		             end
                 elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 3") then
                     for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-		                 if v.Name == "Island 3" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 4000 then
+		                 if v.Name == "Island 3" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 3000 then
 		                     TP(v.CFrame*CFrame.new(0,80,0))
 		                 end
 		             end
                 elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 2") then
                     for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-		                 if v.Name == "Island 2" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 4000 then
+		                 if v.Name == "Island 2" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 3000 then
 		                     TP(v.CFrame*CFrame.new(0,80,0))
 		                 end
 		             end
                 elseif game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
                     for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-		                 if v.Name == "Island 1" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude < 4000 then
+		                 if v.Name == "Island 1" and (v.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 3000 then
 		                     TP(v.CFrame*CFrame.new(0,80,0))
 		                 end
 		             end
