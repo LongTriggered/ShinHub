@@ -11,11 +11,11 @@ until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LoadingSc
 if game:GetService("CoreGui"):FindFirstChild("Gui") then
 	game:GetService("CoreGui"):FindFirstChild("Gui"):Destroy()
 end
-
+--[[
 game.NetworkClient.ChildRemoved:Connect(function()
     game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
  end)
-
+]]
 local LevelMax = 2400
 local SaveSettingName = "ShinHubData.txt"
     local DefaultSettings = {
@@ -1531,31 +1531,23 @@ spawn(function()
 		end
 	end
 end)
-CanBuyChip = true
+
 spawn(function()
-	while wait() do
+	while wait(2) do
 		if AutoRaid then
             pcall(function()
-                spawn(function()
-                    if CanBuyChip then
-                        if game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
-                        if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip") then
-                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select",SelectedRaid)
+                if game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
+                    if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
+                        if Sea2 then
+                            fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
+                        elseif Sea3 then
+                            fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
+                        end
+                        wait(20)
+                    else
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
                     end
                 end
-            end
-                end)
-                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") and game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then						
-                    if Sea2 then
-                        fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
-                        CanBuyChip = false
-                    elseif Sea3 then
-                        fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
-                        CanBuyChip = false
-                    end
-                    wait(16)
-                    CanBuyChip = true
-        end
 	end)
 end
 end
@@ -3157,7 +3149,7 @@ end
 GetLevel()
 
 spawn(function()
-while task.wait(.09) do
+while task.wait(.15) do
     if set.FastAttack then
 if set.AutoFarmLevel or AutoFarmKatakuri then
     pcall(function()
