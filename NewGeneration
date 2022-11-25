@@ -120,9 +120,8 @@ spawn(function()
          end
              end)
      end
-    end
          end
- 
+        end
  end)
 
 function SetupCharCollide(Char)
@@ -139,7 +138,7 @@ if game.Players.LocalPlayer.Character then
     SetupCharCollide(game.Players.LocalPlayer.Character)
 end
 game.Players.LocalPlayer.CharacterAdded:connect(function(Ch)
-    if hackxin == false then
+    if not hackxin then
     SetupCharCollide(Ch)
     end
 end)
@@ -1533,21 +1532,25 @@ spawn(function()
 end)
 
 spawn(function()
-	while wait(2) do
+	while wait() do
 		if AutoRaid then
             pcall(function()
-                if game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then
+                if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 5") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 4") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 3") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 2") or game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") then
+                    if game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then    
                     if game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
                         if Sea2 then
                             fireclickdetector(game:GetService('Workspace').Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
                         elseif Sea3 then
                             fireclickdetector(game:GetService('Workspace').Map:FindFirstChild('Boat Castle').RaidSummon2.Button.Main.ClickDetector)
                         end
-                        wait(20)
-                    else
-                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
+                        wait(22)
                     end
                 end
+                elseif not game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or not game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") then
+                    if game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == false then   
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsNpc", "Select", SelectedRaid)
+                end
+            end
 	end)
 end
 end
@@ -3149,7 +3152,7 @@ end
 GetLevel()
 
 spawn(function()
-while task.wait(.15) do
+while task.wait(.17) do
     if set.FastAttack then
 if set.AutoFarmLevel or AutoFarmKatakuri then
     pcall(function()
