@@ -493,7 +493,7 @@ spawn(function()
          }
 local KatakuriKill2 = string.gsub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args)), "%D", "")
 local KatakuriKill1 = tonumber(KatakuriKill2)
-if tostring(KatakuriKill1) ~= nil then
+if tostring(KatakuriKill1) ~= "nil" then
         Katakuri:UpdateLabel2(tostring(KatakuriKill1).."/500 mobs to spawn Katakuri")
 else
     Katakuri:UpdateLabel2("0/500 to spawn Katakuri")
