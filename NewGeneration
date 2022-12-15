@@ -263,7 +263,7 @@ end
 tping = game:GetService("TweenService"):Create(
  game.Players.LocalPlayer.Character.HumanoidRootPart,
 TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
-{CFrame = P1 * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))})
+{CFrame = P1 * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
 tping:Play()
 end
 end)
