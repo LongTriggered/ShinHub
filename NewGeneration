@@ -3547,7 +3547,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                 Attack()  
                                 spawn(function()
                                     pcall(function()
-                                    wait(3)
+                                        wait(5)
                                     if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                         v.Humanoid.Health = 0
                                     end
@@ -3572,7 +3572,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                             Attack()  
                             spawn(function()
                                 pcall(function()
-                                wait(3)
+                                    wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
@@ -3597,7 +3597,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                             Attack()  
                             spawn(function()
                                 pcall(function()
-                                wait(3)
+                                    wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
@@ -3621,7 +3621,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                             Attack()  
                             spawn(function()
                                 pcall(function()
-                                wait(3)
+                                wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
@@ -3680,7 +3680,7 @@ spawn(function()
                                 Attack()  
                                 spawn(function()
                                     pcall(function()
-                                    wait(3)
+                                        wait(5)
                                     if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                         v.Humanoid.Health = 0
                                     end
@@ -3705,7 +3705,7 @@ spawn(function()
                             Attack()  
                             spawn(function()
                                 pcall(function()
-                                wait(3)
+                                    wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
@@ -3730,7 +3730,7 @@ spawn(function()
                             Attack()  
                             spawn(function()
                                 pcall(function()
-                                wait(3)
+                                    wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
@@ -3754,7 +3754,7 @@ spawn(function()
                             Attack()  
                             spawn(function()
                                 pcall(function()
-                                wait(3)
+                                    wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
