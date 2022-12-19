@@ -190,7 +190,6 @@ pcall(function()
     
     function Attack()
                 local AC = CbFw2.activeController
-                for i = 1, 1 do 
                     local bladehit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
                         plr.Character,
                         {plr.Character.HumanoidRootPart},
@@ -227,11 +226,10 @@ pcall(function()
                                 AC.animator.anims.basic[1]:Play(0.01,0.01,0.01)
                                 game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(GetCurrentBlade()))
                                 game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
-                                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, i, "")
+                                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, 2, "")
                             end
                         end)
             end
-        end
     end
 
 
@@ -3540,7 +3538,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                      BringKata4 = false
                            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                                if v.Name == "Head Baker [Lv. 2275]" and AutoFarmKatakuri then
-                            repeat wait(0.09)
+                            repeat wait(0.07)
                                 PosMon1 = v.HumanoidRootPart.CFrame 
                                 BringMob()
                                 
@@ -3565,7 +3563,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                             BringKata4 = false
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Cookie Crafter [Lv. 2200]" and AutoFarmKatakuri then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                             PosMon2 = v.HumanoidRootPart.CFrame 
                             BringMob()
                           
@@ -3590,7 +3588,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                         BringKata4 = false
                   for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                   if v.Name == "Cake Guard [Lv. 2225]" and AutoFarmKatakuri then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                             PosMon3 = v.HumanoidRootPart.CFrame 
                             BringMob()
                           
@@ -3615,7 +3613,7 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                         BringKata4 = true
                   for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                   if v.Name == "Baking Staff [Lv. 2250]" and AutoFarmKatakuri then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                             PosMon4 = v.HumanoidRootPart.CFrame 
                             BringMob()
                             EquipWeapon(set.KatakuriPickedWeapons)
@@ -3673,7 +3671,7 @@ spawn(function()
                         BringBone4 = false
                   for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Posessed Mummy [Lv. 2050]" and AutoFarmBones then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                                 PosMon1 = v.HumanoidRootPart.CFrame  
                                 BringMob()
                                 
@@ -3698,7 +3696,7 @@ spawn(function()
                         BringBone4 = false
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Living Zombie [Lv. 2000]" and AutoFarmBones then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                             PosMon2 = v.HumanoidRootPart.CFrame 
                             BringMob()
                           
@@ -3723,7 +3721,7 @@ spawn(function()
                         BringBone4 = false
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Demonic Soul [Lv. 2025]" and AutoFarmBones then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                             PosMon3 = v.HumanoidRootPart.CFrame 
                             BringMob()
                           
@@ -3748,7 +3746,7 @@ spawn(function()
                         BringBone4 = true
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Reborn Skeleton [Lv. 1975]" and AutoFarmBones then
-                        repeat wait(0.09)
+                        repeat wait(0.07)
                             PosMon4 = v.HumanoidRootPart.CFrame 
                             BringMob()
                             EquipWeapon(set.KatakuriPickedWeapons)
@@ -3816,10 +3814,10 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", "De
 end
 end)
 
-game:GetService('RunService').RenderStepped:connect(function()
+game:GetService('RunService').Stepped:connect(function()
     pcall(function()
-    sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
-    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  9e20)
+    --sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
+    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  math.huge)
 end)
 end)
 
