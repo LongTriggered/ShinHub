@@ -258,6 +258,25 @@ if Safe() then
        end
     end
 end
+if not set.BypassTP then
+    Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance <= 300 then
+    Speed = 2e9
+    -- elseif Distance < 500 and Distance > 250 then
+    -- Speed = 400
+    elseif Distance < 500 and Distance > 300  then
+        Speed = 650
+    elseif Distance < 1000 then
+        Speed = 350
+    elseif Distance >= 1000 then
+        Speed = 250
+    end
+    tping = game:GetService("TweenService"):Create(
+     game.Players.LocalPlayer.Character.HumanoidRootPart,
+    TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+    {CFrame = P1 * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
+    tping:Play()
+end
 if not CanBypass then
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
     if Distance <= 300 then
@@ -324,29 +343,80 @@ end)
 function TP2(P1)
     pcall(function()
         if Safe() then
-            LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-	Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-	if Distance < 1000 then
-		Speed = 400
-	elseif Distance >= 1000 then
-		Speed = 250
-	end
-    tpingz = game:GetService("TweenService"):Create(
-        game.Players.LocalPlayer.Character.HumanoidRootPart,
-        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
-        {CFrame = P1 * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))}
-    )
-    tpingz:Play()
-    Clip = true
-    tpingz.Completed:wait()
-    Clip = false
-    game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
-end
-end)
-end
---[[
-
-]]
+            for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                for b,c in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+               if not v:FindFirstChild("EatRemote") and not c:FindFirstChild("EatRemote") and not game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") and not game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") and not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip") then
+                            CanBypass = true
+               else
+                CanBypass = false
+               end
+            end
+        end
+        if not set.BypassTP then
+            Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+            if Distance < 1000 then
+                Speed = 400
+            elseif Distance >= 1000 then
+                Speed = 250
+            end
+            tpingz = game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+                {CFrame = P1 * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))}
+            )
+            tpingz:Play()
+            Clip = true
+            tpingz.Completed:wait()
+            Clip = false
+            game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+        end
+        if not CanBypass then
+            Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+            if Distance < 1000 then
+                Speed = 400
+            elseif Distance >= 1000 then
+                Speed = 250
+            end
+            tpingz = game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+                {CFrame = P1 * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))}
+            )
+            tpingz:Play()
+            Clip = true
+            tpingz.Completed:wait()
+            Clip = false
+            game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+        end
+        if set.BypassTP and CanBypass then
+            if (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude >= 3000 then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = P1
+            wait()
+            game.Players.LocalPlayer.Character:BreakJoints()
+        elseif (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
+            Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+            if Distance < 1000 then
+                Speed = 400
+            elseif Distance >= 1000 then
+                Speed = 250
+            end
+            tpingz = game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+                {CFrame = P1 * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))}
+            )
+            tpingz:Play()
+            Clip = true
+            tpingz.Completed:wait()
+            Clip = false
+            game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
+            end
+        end
+        
+        end
+        end)
+         end
+         
 Sea1 = false
 Sea2 = false
 Sea3 = false
@@ -2248,9 +2318,11 @@ end
 platform = Instance.new("Part")
 platform.Name = "WaterWalk"
 platform.Size = Vector3.new(10, 1, 10)
-platform.Transparency = 0
+platform.Transparency = 1
 platform.Anchored = true
 platform.Parent = game.workspace
+platform.CanCollide = true
+
 Section:NewToggle("Walk on Water", "ToggleInfo",WaterWalk, function(state)
     WaterWalk = state
 end)
@@ -2281,15 +2353,12 @@ end)
 		while wait() do
             pcall(function()
 			if WaterWalk then
-				platform.CanCollide = true
 				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -4.5, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
-			else
-				platform.CanCollide = false
-				platform.Position = Vector3.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.X,game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Y * 0 -6, game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position.Z)
 			end
 		end)
     end
 	end)
+
 Section:Line()
 WhiteScreen = false
 Section:NewToggle("Whitescreen", "ToggleInfo",false, function(state)
@@ -3751,7 +3820,6 @@ game:GetService('RunService').RenderStepped:connect(function()
     pcall(function()
     sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
     sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  9e20)
-   -- setsimulationradius(9e9,math.huge)
 end)
 end)
 
