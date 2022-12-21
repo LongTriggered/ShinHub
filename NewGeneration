@@ -1433,7 +1433,7 @@ mt.__index = newcclosure(function(t, k)
    if t:IsA("Mouse") and (k == "Hit") then
      if AimbotSkill and SelectedPlayer ~= "SHINgamer5" and SelectedPlayer ~= ""  then 
            if game.Players:FindFirstChild(SelectedPlayer) and game.Players:FindFirstChild(SelectedPlayer).Character and game.Players:FindFirstChild(SelectedPlayer).Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(SelectedPlayer).Character:FindFirstChild("Humanoid").Health > 0 then
-              return (k == "Hit" and game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart.CFrame or game.Players:FindFirstChild(SelectedPlayer).Character.HumanoidRootPart)
+              return (k == "Hit" and game.Players:FindFirstChild(SelectedPlayer).Character.UpperTorso.CFrame or game.Players:FindFirstChild(SelectedPlayer).Character.UpperTorso)
            end
         end
    end
@@ -3487,8 +3487,7 @@ spawn(function()
 end)
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if set.AutoFarmNearestMob and v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
-                repeat
-                    
+                repeat                   
                     if v and v.Humanoid and v.Humanoid.Health > 0 then
                         CanBringNearest = true
                         PosMon = v.HumanoidRootPart.CFrame                         
