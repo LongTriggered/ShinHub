@@ -3480,7 +3480,7 @@ if set.AutoFarmNearestMob and Safe() then
     pcall(function()
 spawn(function()
         for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
-            if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+            if v:IsA("Model") and v:FindFirstChild("Humanoid") and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
                 v.Parent = game:GetService('Workspace').Enemies
             end
     end
@@ -3960,7 +3960,7 @@ spawn(function()
                                 --sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                     end
                 elseif set.AutoFarmNearestMob and CanBringNearest then
-                    if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
+                    if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
                         v.HumanoidRootPart.CFrame = PosMon
                         if v.Humanoid:FindFirstChild("Animator") then
                             v.Humanoid.Animator:Destroy()
