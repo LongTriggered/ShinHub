@@ -35,7 +35,8 @@ local SaveSettingName = "ShinHubData.txt"
         AutoSave = true,
         AutoGetQuest = true,
         FastAttack = true,
-        BypassTP = true
+        BypassTP = true,
+        AutoFarmNearestMob,
         }
         local set
         
@@ -98,11 +99,11 @@ end)
 local CharParts = {}
 game:GetService("RunService").Stepped:connect(function()
     if hackxin and not NoclipMisc then
-    if Clip or set.AutoFarmLevel or AutoFarmBones or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
+    if set.AutoFarmNearestMob or Clip or set.AutoFarmLevel or AutoFarmBones or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
     end
 elseif not hackxin and not NoclipMisc then
-    if Clip or set.AutoFarmLevel or AutoFarmBones or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
+    if set.AutoFarmNearestMob or Clip or set.AutoFarmLevel or AutoFarmBones or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
         for i = 1, #CharParts do
             CharParts[i].CanCollide = false
         end
@@ -117,7 +118,7 @@ end)
 spawn(function()
     while wait() do
         if not hackxin then
-         if Clip or set.AutoFarmLevel or AutoFarmBones or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
+         if set.AutoFarmNearestMob or Clip or set.AutoFarmLevel or AutoFarmBones or AutoFarmKatakuri or AutoFarmLaw or NextIsland or TeleportToPlayer or AutoRaid or AutoFarmSelectedMob then
              pcall(function()
             if not game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity') then
         local BV = Instance.new('BodyVelocity')
@@ -466,12 +467,31 @@ Section:Line()
     end
 end)
   if Sea3 then
-Section:NewToggle("Auto get Electric Claw", "ToggleInfo", function(state)
-        if state then
-            print(SelectWeapon)
-        else
-            print("Toggle Off")
+Section:NewToggle("Auto Farm Nearest Mob", "ToggleInfo", set.AutoFarmNearestMob, function(state)
+    if state and set.PickedWeapon == nil or set.PickedWeapon == "" then
+        Notification.Notify(" Auto Farm Nearest Mob ", "Please Select Weapon", "rbxassetid://2484550853", {
+            Duration = 3,
+            
+            TitleSettings = {
+                TextXAlignment = Enum.TextXAlignment.Center,
+                Font = Enum.Font.SourceSansSemibold,
+            },
+        
+            GradientSettings = {
+                GradientEnabled = false,
+                SolidColorEnabled = true,
+                SolidColor = Color3.fromRGB(124, 83, 240),
+                Retract = true
+            }
+        })
+    else
+        set.AutoFarmNearestMob = state
+        if not set.AutoFarmNearestMob then
+            wait()
+            TP(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+            game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('BodyVelocity'):Destroy()
         end
+    end
     end)
 Section:NewToggle("Auto get Rainbow Haki", "ToggleInfo", function(state)
     if state then
@@ -3455,6 +3475,48 @@ end
 end)
 
 spawn(function()
+    while wait() do
+if set.AutoFarmNearestMob and Safe() then
+    pcall(function()
+spawn(function()
+        for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
+            if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+                v.Parent = game:GetService('Workspace').Enemies
+            end
+    end
+end)
+            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                if set.AutoFarmNearestMob and v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
+                repeat
+                    
+                    if v and v.Humanoid and v.Humanoid.Health > 0 then
+                        CanBringNearest = true
+                        PosMon = v.HumanoidRootPart.CFrame                         
+                        EquipWeapon(set.KatakuriPickedWeapons)
+                        spawn(function()
+                            Attack()  
+                            end) 
+                        TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))      
+                        spawn(function()
+                            pcall(function()
+                                wait(5)
+                            if v.Humanoid.Health == v.Humanoid.MaxHealth then
+                                v.Humanoid.Health = 0
+                            end
+                        end)
+                    end)
+                    wait(0.09)
+                end
+                until not set.AutoFarmNearestMob or v.Humanoid.Health <= 0 or not v.Parent 
+            else
+                CanBringNearest = false
+                end
+                end
+    end)
+    end
+end
+end)
+spawn(function()
 while wait(0.175) do
 if AutoFarmKatakuri and FastAttackBoss then
     Attack()
@@ -3822,7 +3884,7 @@ end)
 end)
 
 spawn(function()
-    while wait(0.08) do
+    while task.wait() do
         pcall(function()
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if set.AutoFarmLevel or AutoFarmSelectedMob and not AutoUpdate then
@@ -3897,6 +3959,15 @@ spawn(function()
                                 v.HumanoidRootPart.CFrame = PosMon
                                 --sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                     end
+                elseif set.AutoFarmNearestMob and CanBringNearest then
+                    if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
+                        v.HumanoidRootPart.CFrame = PosMon
+                        if v.Humanoid:FindFirstChild("Animator") then
+                            v.Humanoid.Animator:Destroy()
+                        end
+                        v.Humanoid:ChangeState(2)
+                        v.HumanoidRootPart.CanCollide = false
+                                end
                 elseif AutoFarmKatakuri and BringKata1 then
                     if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon1.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
                         v.HumanoidRootPart.CFrame = PosMon1
