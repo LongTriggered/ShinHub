@@ -244,29 +244,29 @@ function Safe()
                                        end
     return false
 						                end
-function TP(P1)
- pcall(function()
-if Safe() then    
-    Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-    if Distance <= 300 then
-    Speed = math.huge
-    -- elseif Distance < 500 and Distance > 250 then
-    -- Speed = 400
-    elseif Distance < 500 and Distance > 300  then
-        Speed = 650
-    elseif Distance < 1000 then
-        Speed = 350
-    elseif Distance >= 1000 then
-        Speed = 250
-    end
-    tping = game:GetService("TweenService"):Create(
-     game.Players.LocalPlayer.Character.HumanoidRootPart,
-    TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
-    {CFrame = P1 * CFrame.new(0,test,0) * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
-    tping:Play()
-end
-end)
- end
+                                        function TP(P1)
+                                            pcall(function()
+                                           if Safe() then    
+                                               Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+                                               if Distance <= 300 then
+                                               Speed = math.huge
+                                               -- elseif Distance < 500 and Distance > 250 then
+                                               -- Speed = 400
+                                               elseif Distance < 500 and Distance > 300  then
+                                                   Speed = 650
+                                               elseif Distance < 1000 then
+                                                   Speed = 350
+                                               elseif Distance >= 1000 then
+                                                   Speed = 250
+                                               end
+                                               tping = game:GetService("TweenService"):Create(
+                                                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                                               TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+                                               {CFrame = P1 * CFrame.new(0,test,0) * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
+                                               tping:Play()
+                                           end
+                                           end)
+                                            end
 
  spawn(function()
     local LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
