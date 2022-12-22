@@ -244,25 +244,20 @@ function Safe()
                                        end
     return false
 						                end
-local test = 500
 function TP(P1)
  pcall(function()
 if Safe() then    
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
     if Distance <= 300 then
     Speed = math.huge
-    test = 0
     -- elseif Distance < 500 and Distance > 250 then
     -- Speed = 400
     elseif Distance < 500 and Distance > 300  then
         Speed = 650
-        test = 500
     elseif Distance < 1000 then
         Speed = 350
-        test = 500
     elseif Distance >= 1000 then
         Speed = 250
-        test = 500
     end
     tping = game:GetService("TweenService"):Create(
      game.Players.LocalPlayer.Character.HumanoidRootPart,
