@@ -108,7 +108,7 @@ elseif not hackxin and not NoclipMisc then
             CharParts[i].CanCollide = false
         end
     end
-elseif hackxin or not hackxin and NoclipMisc then
+elseif (hackxin or not hackxin) and NoclipMisc then
     for i = 1, #CharParts do
         CharParts[i].CanCollide = false
     end
@@ -244,26 +244,30 @@ function Safe()
                                        end
     return false
 						                end
-
+local test = 500
 function TP(P1)
  pcall(function()
 if Safe() then    
     Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
     if Distance <= 300 then
     Speed = math.huge
+    test = 0
     -- elseif Distance < 500 and Distance > 250 then
     -- Speed = 400
     elseif Distance < 500 and Distance > 300  then
         Speed = 650
+        test = 500
     elseif Distance < 1000 then
         Speed = 350
+        test = 500
     elseif Distance >= 1000 then
         Speed = 250
+        test = 500
     end
     tping = game:GetService("TweenService"):Create(
      game.Players.LocalPlayer.Character.HumanoidRootPart,
     TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
-    {CFrame = P1 * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
+    {CFrame = P1 * CFrame.new(0,test,0) * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
     tping:Play()
 end
 end)
@@ -3419,19 +3423,31 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint"
 				end
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-							if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-									repeat game:GetService("RunService").Heartbeat:wait()
+							if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then 
+                                repeat 
+                                    wait(0.045)
 									    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
+                                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
 												EquipWeapon(set.PickedWeapon)
-                                                --BringMob()   
+                                                spawn(function()
+                                                    Attack()  
+                                                    end) 
+                                                spawn(function()
+                                                    pcall(function()
+                                                        wait(5)
+                                                    if v.Humanoid.Health == v.Humanoid.MaxHealth then
+                                                        v.Humanoid.Health = 0
+                                                    end
+                                                end)
+                                            end)                                                  
 												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
                                                 PosMon = v.HumanoidRootPart.CFrame
 												game.Players.LocalPlayer.Character.HumanoidRootPart.Size = Vector3.new(2,2.0199999809265137,1)
-											  --   v.HumanoidRootPart.CanCollide = false
-                                              --   sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                                        end
 												else
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
 											end
+                                            wait(0.045) 
 									until not v.Parent or v.Humanoid.Health <= 0 or set.AutoFarmLevel == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
 							end
 						end
@@ -3450,17 +3466,29 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint"
 				      if game:GetService("Workspace").Enemies:FindFirstChild(MobFarmName) then
 		         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 							if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-									repeat game:GetService("RunService").Heartbeat:wait()
+                                repeat 
+                                    wait(0.045)                                   
 									    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, MobName) then
+                                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then                 
 												EquipWeapon(set.PickedWeapon)
-												--BringMob()
+												spawn(function()
+                                                    Attack()  
+                                                    end)    
+                                                spawn(function()
+                                                    pcall(function()
+                                                        wait(5)
+                                                    if v.Humanoid.Health == v.Humanoid.MaxHealth then
+                                                        v.Humanoid.Health = 0
+                                                    end
+                                                end)
+                                            end)         
 												TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
 												PosMon = v.HumanoidRootPart.CFrame
-											  --   v.HumanoidRootPart.CanCollide = false
-                                                --  sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                                            end
 												else
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
 											end
+                                            wait(0.045)
 									until not v.Parent or v.Humanoid.Health <= 0 or set.AutoFarmLevel == false or game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
 							end
 		         end
@@ -3480,13 +3508,13 @@ if set.AutoFarmNearestMob and Safe() then
     pcall(function()
 spawn(function()
         for i,v in pairs(game:GetService('ReplicatedStorage'):GetChildren()) do
-            if v:IsA("Model") and v:FindFirstChild("Humanoid") and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
+            if v:IsA("Model") and v:FindFirstChild("Humanoid") and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                 v.Parent = game:GetService('Workspace').Enemies
             end
     end
 end)
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                if set.AutoFarmNearestMob and v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
+                if set.AutoFarmNearestMob and v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                 repeat                   
                     if v and v.Humanoid and v.Humanoid.Health > 0 then
                         CanBringNearest = true
@@ -3572,22 +3600,26 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                      BringKata4 = false
                            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                                if v.Name == "Head Baker [Lv. 2275]" and AutoFarmKatakuri then
-                            repeat wait(0.07)
-                                spawn(function()
-                                Attack()  
-                                end)
-                                PosMon1 = v.HumanoidRootPart.CFrame 
-                                --BringMob()                             
-                                EquipWeapon(set.KatakuriPickedWeapons)
-                                TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))     
-                                spawn(function()
-                                    pcall(function()
-                                        wait(5)
-                                    if v.Humanoid.Health == v.Humanoid.MaxHealth then
-                                        v.Humanoid.Health = 0
-                                    end
-                                end)
-                            end)
+                                repeat 
+                                    wait(0.045)
+                                    if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
+                                        PosMon1 = v.HumanoidRootPart.CFrame  
+                                        --BringMob()                                
+                                        EquipWeapon(set.KatakuriPickedWeapons)
+                                        spawn(function()
+                                            Attack()  
+                                            end) 
+                                        TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))      
+                                        spawn(function()
+                                            pcall(function()
+                                                wait(5)
+                                            if v.Humanoid.Health == v.Humanoid.MaxHealth then
+                                                v.Humanoid.Health = 0
+                                            end
+                                        end)
+                                    end)                            
+                                end
+                                wait(0.045)
                         until not AutoFarmKatakuri  or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
@@ -3598,22 +3630,26 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                             BringKata4 = false
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Cookie Crafter [Lv. 2200]" and AutoFarmKatakuri then
-                        repeat wait(0.07)
-                            spawn(function()
-                                Attack()  
-                                end) 
-                            PosMon2 = v.HumanoidRootPart.CFrame 
-                            --BringMob()                         
-                            EquipWeapon(set.KatakuriPickedWeapons)
-                            TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))     
-                            spawn(function()
-                                pcall(function()
-                                    wait(5)
-                                if v.Humanoid.Health == v.Humanoid.MaxHealth then
-                                    v.Humanoid.Health = 0
-                                end
-                            end)
-                        end)
+                        repeat 
+                            wait(0.045)
+                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
+                                PosMon2 = v.HumanoidRootPart.CFrame  
+                                --BringMob()                                
+                                EquipWeapon(set.KatakuriPickedWeapons)
+                                spawn(function()
+                                    Attack()  
+                                    end) 
+                                TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))      
+                                spawn(function()
+                                    pcall(function()
+                                        wait(5)
+                                    if v.Humanoid.Health == v.Humanoid.MaxHealth then
+                                        v.Humanoid.Health = 0
+                                    end
+                                end)
+                            end)                            
+                        end
+                        wait(0.045)
                         until not AutoFarmKatakuri or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
@@ -3624,14 +3660,15 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                         BringKata4 = false
                   for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                   if v.Name == "Cake Guard [Lv. 2225]" and AutoFarmKatakuri then
-                        repeat wait(0.07)
+                    repeat 
+                        wait(0.045)
+                        if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
+                            PosMon3 = v.HumanoidRootPart.CFrame  
+                            --BringMob()                                
+                            EquipWeapon(set.KatakuriPickedWeapons)
                             spawn(function()
                                 Attack()  
                                 end) 
-                            PosMon3 = v.HumanoidRootPart.CFrame 
-                            --BringMob()
-                          
-                            EquipWeapon(set.KatakuriPickedWeapons)
                             TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))      
                             spawn(function()
                                 pcall(function()
@@ -3640,8 +3677,10 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                                     v.Humanoid.Health = 0
                                 end
                             end)
-                        end)
-                        until not AutoFarmKatakuri  or v.Humanoid.Health <= 0 or not v.Parent 
+                        end)                            
+                    end
+                    wait(0.045)
+                        until not AutoFarmKatakuri or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
                     elseif c.Name == "Baking Staff [Lv. 2250]" and c.Humanoid.Health > 0 and AutoFarmKatakuri then
@@ -3651,23 +3690,26 @@ local KatakuriKill3 = tonumber(KatakuriKill4)
                         BringKata4 = true
                   for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                   if v.Name == "Baking Staff [Lv. 2250]" and AutoFarmKatakuri then
-                        repeat wait(0.07)
+                    repeat 
+                        wait(0.045)
+                        if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
+                            PosMon4 = v.HumanoidRootPart.CFrame  
+                            --BringMob()                                
+                            EquipWeapon(set.KatakuriPickedWeapons)
                             spawn(function()
                                 Attack()  
                                 end) 
-                            PosMon4 = v.HumanoidRootPart.CFrame 
-                            --BringMob()
-                            EquipWeapon(set.KatakuriPickedWeapons)
-                            TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))     
-                             
+                            TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))      
                             spawn(function()
                                 pcall(function()
-                                wait(5)
+                                    wait(5)
                                 if v.Humanoid.Health == v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
                             end)
-                        end)
+                        end)                            
+                    end
+                    wait(0.045)
                             until not AutoFarmKatakuri  or v.Humanoid.Health <= 0 or not v.Parent 
                         end
                     end
@@ -3713,10 +3755,10 @@ spawn(function()
                   for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Posessed Mummy [Lv. 2050]" and AutoFarmBones then
                         repeat 
-                            if v and v.Humanoid and v.Humanoid.Health > 0 then
+                            wait(0.045)
+                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
                                 PosMon1 = v.HumanoidRootPart.CFrame  
-                                --BringMob()
-                                
+                                --BringMob()                                
                                 EquipWeapon(set.KatakuriPickedWeapons)
                                 spawn(function()
                                     Attack()  
@@ -3729,10 +3771,10 @@ spawn(function()
                                         v.Humanoid.Health = 0
                                     end
                                 end)
-                            end)
-                            wait(0.09)
+                            end)                            
                         end
-                        until not AutoFarmBones  or v.Humanoid.Health <= 0 or not v.Parent 
+                        wait(0.045)
+                        until not AutoFarmBones or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
                     elseif c.Name == "Living Zombie [Lv. 2000]" and c.Humanoid.Health > 0 and AutoFarmBones then
@@ -3743,10 +3785,10 @@ spawn(function()
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Living Zombie [Lv. 2000]" and AutoFarmBones then
                         repeat 
-                            if v and v.Humanoid and v.Humanoid.Health > 0 then
+                            wait(0.045)
+                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
                             PosMon2 = v.HumanoidRootPart.CFrame 
-                            --BringMob()
-                          
+                            --BringMob()                       
                             EquipWeapon(set.KatakuriPickedWeapons)
                             spawn(function()
                                 Attack()  
@@ -3759,9 +3801,9 @@ spawn(function()
                                     v.Humanoid.Health = 0
                                 end
                             end)
-                        end)
-                        wait(0.09)
+                        end)                      
                     end
+                    wait(0.045)
                         until not AutoFarmBones or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
@@ -3773,10 +3815,10 @@ spawn(function()
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Demonic Soul [Lv. 2025]" and AutoFarmBones then
                         repeat 
-                            if v and v.Humanoid and v.Humanoid.Health > 0 then
+                            wait(0.045)
+                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
                             PosMon3 = v.HumanoidRootPart.CFrame 
-                            --BringMob()
-                          
+                            --BringMob()                         
                             EquipWeapon(set.KatakuriPickedWeapons)
                             spawn(function()
                                 Attack()  
@@ -3790,9 +3832,9 @@ spawn(function()
                                 end
                             end)
                         end)
-                        wait(0.09)
                     end
-                        until not AutoFarmBones  or v.Humanoid.Health <= 0 or not v.Parent 
+                    wait(0.045)
+                        until not AutoFarmBones or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
                     elseif c.Name == "Reborn Skeleton [Lv. 1975]" and c.Humanoid.Health > 0 and AutoFarmBones then
@@ -3803,7 +3845,8 @@ spawn(function()
                       for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                       if v.Name == "Reborn Skeleton [Lv. 1975]" and AutoFarmBones then
                         repeat
-                            if v and v.Humanoid and v.Humanoid.Health > 0 then
+                            wait(0.045)
+                            if v and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then
                             PosMon4 = v.HumanoidRootPart.CFrame 
                             --BringMob()
                             EquipWeapon(set.KatakuriPickedWeapons)
@@ -3819,9 +3862,9 @@ spawn(function()
                                 end
                             end)
                         end)
-                        wait(0.09)
                     end
-                            until not AutoFarmBones  or v.Humanoid.Health <= 0 or not v.Parent 
+                    wait(0.045)
+                            until not AutoFarmBones or v.Humanoid.Health <= 0 or not v.Parent 
                       end
                       end
                     end
@@ -3877,26 +3920,33 @@ end)
 
 game:GetService('RunService').Stepped:connect(function()
     pcall(function()
-    --sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
-    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  math.huge)
+    sethiddenproperty(game.Players.LocalPlayer, "MaximumSimulationRadius",  math.huge)
+    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius",  9e20)
 end)
 end)
 
 spawn(function()
-    while task.wait() do
+    while true do
+        wait(0.045)
         pcall(function()
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                if set.AutoFarmLevel or AutoFarmSelectedMob and not AutoUpdate then
-                    if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
-                                v.HumanoidRootPart.CFrame = PosMon
-                                v.HumanoidRootPart.CanCollide = false
-                                --sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                if (set.AutoFarmLevel or AutoFarmSelectedMob) and not AutoUpdate then
+                    if v.Name == MobFarmName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
+                        v.HumanoidRootPart.CFrame = PosMon
+                        if v.Humanoid:FindFirstChild("Animator") then
+                            v.Humanoid.Animator:Destroy()
+                        end
+                        v.Humanoid:ChangeState(2)
+                        v.HumanoidRootPart.CanCollide = false
                     end
                 elseif set.AutoFarmLevel and AutoUpdate then
-                    if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 300 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
-                                v.HumanoidRootPart.CFrame = PosMon
-                                v.HumanoidRootPart.CanCollide = false
-                                --sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                    if string.find(v.Name, MobName) and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
+                        v.HumanoidRootPart.CFrame = PosMon
+                        if v.Humanoid:FindFirstChild("Animator") then
+                            v.Humanoid.Animator:Destroy()
+                        end
+                        v.Humanoid:ChangeState(2)
+                        v.HumanoidRootPart.CanCollide = false
                     end
                 elseif FarmMasteryFruit and MasteryMagnet then
                         if not string.find(v.Name, "Boss") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
@@ -3959,7 +4009,7 @@ spawn(function()
                                 --sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                     end
                 elseif set.AutoFarmNearestMob and CanBringNearest then
-                    if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3000 then
+                    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                         v.HumanoidRootPart.CFrame = PosMon
                         if v.Humanoid:FindFirstChild("Animator") then
                             v.Humanoid.Animator:Destroy()
@@ -3968,49 +4018,41 @@ spawn(function()
                         v.HumanoidRootPart.CanCollide = false
                                 end
                 elseif AutoFarmKatakuri and BringKata1 then
-                    if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon1.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
+                    if v.Name == "Head Baker [Lv. 2275]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon1.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                         v.HumanoidRootPart.CFrame = PosMon1
                         if v.Humanoid:FindFirstChild("Animator") then
                             v.Humanoid.Animator:Destroy()
                         end
                         v.Humanoid:ChangeState(2)
-                        v.Humanoid.JumpPower = 0
-                        v.Humanoid.WalkSpeed = 0
                         v.HumanoidRootPart.CanCollide = false
                     end
                             elseif AutoFarmKatakuri and BringKata2 then
-                    if v.Name == "Cookie Crafter [Lv. 2200]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon2.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
+                    if v.Name == "Cookie Crafter [Lv. 2200]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon2.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                         v.HumanoidRootPart.CFrame = PosMon2
                         if v.Humanoid:FindFirstChild("Animator") then
                             v.Humanoid.Animator:Destroy()
                         end
                         v.Humanoid:ChangeState(2)
-                        v.Humanoid.JumpPower = 0
-                        v.Humanoid.WalkSpeed = 0
                         v.HumanoidRootPart.CanCollide = false
                     end
                             elseif AutoFarmKatakuri and BringKata3 then
-                    if v.Name == "Cake Guard [Lv. 2225]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon3.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
+                    if v.Name == "Cake Guard [Lv. 2225]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon3.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                         v.HumanoidRootPart.CFrame = PosMon3
                         if v.Humanoid:FindFirstChild("Animator") then
                             v.Humanoid.Animator:Destroy()
                         end
                         v.Humanoid:ChangeState(2)
-                        v.Humanoid.JumpPower = 0
-                        v.Humanoid.WalkSpeed = 0
                         v.HumanoidRootPart.CanCollide = false
                     end
                             elseif AutoFarmKatakuri and BringKata4 then
-                    if v.Name == "Baking Staff [Lv. 2250]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon4.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 400 then
+                    if v.Name == "Baking Staff [Lv. 2250]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon4.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                         v.HumanoidRootPart.CFrame = PosMon4
                         if v.Humanoid:FindFirstChild("Animator") then
                             v.Humanoid.Animator:Destroy()
                         end
                         v.Humanoid:ChangeState(2)
-                        v.Humanoid.JumpPower = 0
-                        v.Humanoid.WalkSpeed = 0
                         v.HumanoidRootPart.CanCollide = false
-                                end
+                    end
                             elseif AutoFarmBones and BringBone1 then
                     if v.Name == "Posessed Mummy [Lv. 2050]" and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - PosMon1.Position).Magnitude <= 350 and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1000 then
                         v.HumanoidRootPart.CFrame = PosMon1
@@ -4050,6 +4092,7 @@ spawn(function()
             end
             end
     end)
+    wait(0.045)
     end
 end)
 
