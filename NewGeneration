@@ -248,17 +248,17 @@ function Safe()
                                             pcall(function()
                                            if Safe() then    
                                                Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                                               if Distance <= 300 then
-                                               Speed = math.huge
-                                               -- elseif Distance < 500 and Distance > 250 then
-                                               -- Speed = 400
-                                               elseif Distance < 500 and Distance > 300  then
-                                                   Speed = 650
-                                               elseif Distance < 1000 then
-                                                   Speed = 350
-                                               elseif Distance >= 1000 then
-                                                   Speed = 250
-                                               end
+                                               if Distance < 350 then
+                                                Speed = 9e20
+                                            elseif Distance < 400 then
+                                                Speed = 450
+                                            elseif Distance < 600 then
+                                                Speed = 750
+                                            elseif Distance < 1000 then
+                                                Speed = 350
+                                            elseif Distance >= 1000 then
+                                                Speed = 300
+                                            end
                                                tping = game:GetService("TweenService"):Create(
                                                 game.Players.LocalPlayer.Character.HumanoidRootPart,
                                                TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
@@ -3922,7 +3922,7 @@ end)
 
 spawn(function()
     while true do
-        wait(0.045)
+        wait()
         pcall(function()
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if (set.AutoFarmLevel or AutoFarmSelectedMob) and not AutoUpdate then
@@ -4087,7 +4087,7 @@ spawn(function()
             end
             end
     end)
-    wait(0.045)
+    wait()
     end
 end)
 
