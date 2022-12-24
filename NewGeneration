@@ -1,3 +1,4 @@
+game:GetService("ReplicatedFirst"):RemoveDefaultLoadingScreen()
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players
 repeat wait() until game.Players.LocalPlayer
@@ -1969,6 +1970,7 @@ spawn(function()
         end
     end
 end)
+FruitCap = game.Players.LocalPlayer.Data.FruitCap.Value
 
 spawn(function()
 	pcall(function()
@@ -3922,7 +3924,7 @@ end)
 
 spawn(function()
     while true do
-        wait()
+        wait(0.045)
         pcall(function()
             for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if (set.AutoFarmLevel or AutoFarmSelectedMob) and not AutoUpdate then
@@ -4087,7 +4089,7 @@ spawn(function()
             end
             end
     end)
-    wait()
+    wait(0.045)
     end
 end)
 
