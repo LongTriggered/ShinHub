@@ -695,8 +695,6 @@ for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                               game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
                               TP(v.HumanoidRootPart.CFrame * CFrame.new(0,set.Y,0))
                               PosMon = v.HumanoidRootPart.CFrame
-                               v.HumanoidRootPart.CanCollide = false
-                               sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                   until not v.Parent or v.Humanoid.Health <= 0 or AutoFarmSelectedMob == false or not game:GetService("Workspace").Enemies:FindFirstChild(v.Name)
           end
 end
