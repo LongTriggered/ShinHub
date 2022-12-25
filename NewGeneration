@@ -245,29 +245,27 @@ function Safe()
                                        end
     return false
 						                end
-                                        function TP(P1)
-                                            pcall(function()
-                                           if Safe() then    
-                                               Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                                               if Distance < 350 then
-                                                Speed = 9e20
-                                            elseif Distance < 400 then
-                                                Speed = 450
-                                            elseif Distance < 600 then
-                                                Speed = 750
-                                            elseif Distance < 1000 then
-                                                Speed = 350
-                                            elseif Distance >= 1000 then
-                                                Speed = 300
-                                            end
-                                               tping = game:GetService("TweenService"):Create(
-                                                game.Players.LocalPlayer.Character.HumanoidRootPart,
-                                               TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
-                                               {CFrame = P1 * CFrame.new(0,test,0) * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
-                                               tping:Play()
-                                           end
-                                           end)
-                                            end
+function TP(P1)
+    pcall(function()
+    if Safe() then    
+    Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance <= 300 then
+        Speed = 9e20
+                                           -- elseif Distance < 500 and Distance > 250 then
+                                               -- Speed = 400
+    elseif Distance < 1000 then
+        Speed = 325
+    elseif Distance >= 1000 then
+        Speed = 300
+        end
+        tping = game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P1 * CFrame.new(0,test,0) * CFrame.Angles(math.rad(-100),0,math.rad(-100))})
+        tping:Play()
+        end
+        end)
+        end
 
  spawn(function()
     local LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
@@ -1720,7 +1718,6 @@ spawn(function()
                 if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
                     pcall(function()
                         repeat wait(.1)
-                            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
                             v.Humanoid.Health = 0
                             v.HumanoidRootPart.CanCollide = false
                             v.HumanoidRootPart.Transparency = 0.8
@@ -1817,7 +1814,6 @@ spawn(function()
 									TP(v.HumanoidRootPart.CFrame * CFrame.new(0,50,30))
 									v.HumanoidRootPart.CanCollide = false
                                     v.Humanoid.PlatformStand = true
-                                    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 									game:GetService("VirtualUser"):CaptureController()
 									game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 								until not v.Parent or v.Humanoid.Health == 0 or AutoFarmLaw == false
