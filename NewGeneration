@@ -44,7 +44,7 @@ game.NetworkClient.ChildRemoved:Connect(function()
     game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
  end)
 ]]
-local LevelMax = 2400
+local LevelMax = 2450
 local SaveSettingName = "ShinHubData.txt"
     local DefaultSettings = {
         Marine = true,
